@@ -10,6 +10,7 @@ public class DaoManagerFactoryImpl implements DaoManagerFactory {
 
     private  DaoManagerFactoryImpl(){}
 
+    /*thread safe singleton*/
     private static class LazyInstanceHolder{
         private static final DaoManagerFactory INSTANCE=new DaoManagerFactoryImpl();
     }

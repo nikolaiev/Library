@@ -35,6 +35,7 @@ public class DaoManagerImpl implements DaoManager {
         return this.connection;
     }
 
+
     public Object transaction(DaoCommand command)  {
         try{
             Object returnValue = command.execute(this);

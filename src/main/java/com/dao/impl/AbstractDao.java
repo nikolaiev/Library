@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by vlad on 17.03.17.
  */
-public abstract class AbstractDao <T> implements GenericDao<T> {
+public abstract class AbstractDao {
     static final String LOG_MESSAGE_DB_ERROR_WHILE_INSERTING = "Database error while inserting entity ";
     static final String LOG_MESSAGE_DB_ERROR_WHILE_UPDATING = "Database error while updating entity ";
     static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_ALL = "Database error while getting all ";
@@ -35,11 +35,12 @@ public abstract class AbstractDao <T> implements GenericDao<T> {
     private static final String DELETE_SQL_FORMAT = "DELETE FROM %s WHERE id=?";
 
 
-    private final Connection connection;
+    final Connection connection;
 
     public AbstractDao (Connection connection){
         this.connection=connection;
     }
+
     /**
      * Provides check if the list has only one element
      *

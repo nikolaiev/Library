@@ -10,15 +10,15 @@ import java.util.Optional;
  * Created by vlad on 17.03.17.
  */
 public interface GenericDao <T>{
-    T create() throws SQLException;
+    //T create();
 
-    T insert(T obj) throws SQLException;
+    T insert(T obj);
 
-    void update(T obj) throws SQLException;
+    void update(T obj);
 
-    List<T> getAll() throws SQLException;
+    List<T> getAll();
 
-    Optional<T> getById(int key) throws SQLException;
+    Optional<T> getById(int key);
 
-    void removeById(int key) throws SQLException;
+    void removeById(int key);
 }

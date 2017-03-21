@@ -11,38 +11,38 @@ import java.util.Optional;
 /**
  * Created by vlad on 20.03.17.
  */
-public class PublisherDaoImpl extends AbstractDao<Publisher> implements PublisherDao {
+public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     public PublisherDaoImpl(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Publisher create() throws SQLException {
+    public Publisher create(){
         return null;
     }
 
     @Override
-    public Publisher insert(Publisher obj) throws SQLException {
+    public Publisher insert(Publisher obj){
         return null;
     }
 
     @Override
-    public void update(Publisher obj) throws SQLException {
+    public void update(Publisher obj) {
 
     }
 
     @Override
-    public List<Publisher> getAll() throws SQLException {
+    public List<Publisher> getAll() {
         return null;
     }
 
     @Override
-    public Optional<Publisher> getById(int key) throws SQLException {
+    public Optional<Publisher> getById(int key) {
         return null;
     }
 
     @Override
-    public void removeById(int key) throws SQLException {
+    public void removeById(int key) {
 
     }
 

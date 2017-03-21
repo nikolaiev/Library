@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by vlad on 17.03.17.
  */
-public interface BookDao {
+public interface BookDao extends GenericDao<Book>{
     int getCountAvailable();
     List<Book> getBooksByAuthor(Author author);
 

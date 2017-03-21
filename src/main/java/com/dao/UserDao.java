@@ -9,6 +9,6 @@ import java.util.Optional;
 /**
  * Created by vlad on 20.03.17.
  */
-public interface UserDao {
+public interface UserDao extends GenericDao<User>{
     Optional<User> getUserByLogin(String login);
 }

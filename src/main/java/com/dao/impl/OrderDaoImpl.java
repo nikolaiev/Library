@@ -12,39 +12,39 @@ import java.util.Optional;
 /**
  * Created by vlad on 20.03.17.
  */
-public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
+public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     public OrderDaoImpl(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Order create() throws SQLException {
+    public Order create(){
         return null;
     }
 
     @Override
-    public Order insert(Order obj) throws SQLException {
+    public Order insert(Order obj) {
         return null;
     }
 
     @Override
-    public void update(Order obj) throws SQLException {
+    public void update(Order obj) {
 
     }
 
     @Override
-    public List<Order> getAll() throws SQLException {
+    public List<Order> getAll(){
         return null;
     }
 
     @Override
-    public Optional<Order> getById(int key) throws SQLException {
+    public Optional<Order> getById(int key){
         return null;
     }
 
     @Override
-    public void removeById(int key) throws SQLException {
+    public void removeById(int key) {
 
     }
 

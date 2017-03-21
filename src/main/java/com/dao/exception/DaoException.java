@@ -9,11 +9,13 @@ import java.sql.SQLException;
  */
 public class DaoException extends ApplicationException {
 
+    public static final String DAO_ERROR = "error.dao";
+
     /**
      * Creates instance with default message key for view
      */
     public DaoException(){
-        super(DaoErrorMessageKey.DAO_ERROR);
+        super(DAO_ERROR);
     }
 
     /**
@@ -22,7 +24,7 @@ public class DaoException extends ApplicationException {
      * @param cause throwable instance
      */
     public DaoException(Exception cause) {
-        super(DaoErrorMessageKey.DAO_ERROR, cause);
+        super(DAO_ERROR, cause);
     }
 
     @Override

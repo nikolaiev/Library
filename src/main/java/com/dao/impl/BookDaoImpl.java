@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Created by vlad on 17.03.17.
  */
-public class BookDaoImpl extends  AbstractDao<Book> implements BookDao {
+public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     public BookDaoImpl(Connection connection) {
         super(connection);
@@ -30,32 +30,32 @@ public class BookDaoImpl extends  AbstractDao<Book> implements BookDao {
     }
 
     @Override
-    public Book create() throws SQLException {
+    public Book create(){
         return null;
     }
 
     @Override
-    public Book insert(Book obj) throws SQLException {
+    public Book insert(Book obj) {
         return null;
     }
 
     @Override
-    public void update(Book obj) throws SQLException {
+    public void update(Book obj){
 
     }
 
     @Override
-    public List<Book> getAll() throws SQLException {
+    public List<Book> getAll() {
         return null;
     }
 
     @Override
-    public Optional<Book> getById(int key) throws SQLException {
+    public Optional<Book> getById(int key) {
         return null;
     }
 
     @Override
-    public void removeById(int key) throws SQLException {
+    public void removeById(int key)  {
 
     }
 }

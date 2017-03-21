@@ -7,6 +7,6 @@ import java.util.Optional;
 /**
  * Created by vlad on 20.03.17.
  */
-public interface AuthorDao {
+public interface AuthorDao extends  GenericDao<Author>{
     Optional<Author> getAuthorByName(String name);
 }

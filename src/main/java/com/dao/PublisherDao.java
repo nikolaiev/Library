@@ -7,6 +7,6 @@ import java.util.Optional;
 /**
  * Created by vlad on 20.03.17.
  */
-public interface PublisherDao {
+public interface PublisherDao extends GenericDao<Publisher>{
     Optional<Publisher> getPublisherByTitle(String title);
 }
