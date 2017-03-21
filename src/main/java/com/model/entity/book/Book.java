@@ -1,18 +1,121 @@
 package com.model.entity.book;
 
 import com.model.entity.Identified;
+import com.model.entity.user.User;
+
+import java.time.LocalDate;
 
 /**
  * Created by vlad on 16.03.17.
  */
 public class Book implements Identified {
+    private int id;
+    private String title;
+    private Author author;
+    private BookGenre genre;
+    private BookLanguage language;
+    private Publisher publisher;
+    private LocalDate date;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public BookGenre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(BookGenre genre) {
+        this.genre = genre;
+    }
+
+    public BookLanguage getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(BookLanguage language) {
+        this.language = language;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public void setId(int id) {
+        this.id=id;
+    }
 
+    public static class Builder{
+        Book book=new Book();
+
+        public Builder setId(int id){
+            book.setId(id);
+            return this;
+        }
+
+        public Builder setTitle(String title){
+            book.setTitle(title);
+            return this;
+        }
+
+        public Builder setAuthor(Author author){
+            book.setAuthor(author);
+            return this;
+        }
+
+        public Builder setGenre(BookGenre genre){
+            book.setGenre(genre);
+            return this;
+        }
+
+        public Builder setLanguage(BookLanguage language){
+            book.setLanguage(language);
+            return this;
+        }
+
+        public Builder setPublisher(Publisher publisher){
+            book.setPublisher(publisher);
+            return this;
+        }
+
+        public Builder setDate(LocalDate date){
+            book.setDate(date);
+            return this;
+        }
+
+        public Book build(){
+            //TODO check values
+            return book;
+        }
     }
 }

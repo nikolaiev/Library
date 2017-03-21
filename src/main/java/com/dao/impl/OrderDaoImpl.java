@@ -5,6 +5,7 @@ import com.model.entity.order.Order;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,5 +46,10 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     @Override
     public void removeById(int key) throws SQLException {
 
+    }
+
+    @Override
+    public List<Order> getOrdersByDate(Date date) {
+        return null;
     }
 }

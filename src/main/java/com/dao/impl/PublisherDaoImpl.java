@@ -45,4 +45,9 @@ public class PublisherDaoImpl extends AbstractDao<Publisher> implements Publishe
     public void removeById(int key) throws SQLException {
 
     }
+
+    @Override
+    public Optional<Publisher> getPublisherByTitle(String title) {
+        return null;
+    }
 }

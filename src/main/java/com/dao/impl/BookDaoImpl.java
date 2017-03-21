@@ -1,6 +1,7 @@
 package com.dao.impl;
 
 import com.dao.BookDao;
+import com.model.entity.book.Author;
 import com.model.entity.book.Book;
 
 import java.sql.Connection;
@@ -21,6 +22,11 @@ public class BookDaoImpl extends  AbstractDao<Book> implements BookDao {
     @Override
     public int getCountAvailable() {
         return 0;
+    }
+
+    @Override
+    public List<Book> getBooksByAuthor(Author author) {
+        return null;
     }
 
     @Override

@@ -18,7 +18,6 @@ public interface GenericDao <T>{
 
     List<T> getAll() throws SQLException;
 
-    //Optional<T> getById(int key) throws SQLException;
     Optional<T> getById(int key) throws SQLException;
 
     void removeById(int key) throws SQLException;

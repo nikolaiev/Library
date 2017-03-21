@@ -46,4 +46,9 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public void removeById(int key) throws SQLException {
 
     }
+
+    @Override
+    public Optional<User> getUserByLogin(String login) {
+        return null;
+    }
 }

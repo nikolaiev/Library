@@ -52,12 +52,8 @@ public class DaoManagerImpl implements DaoManager {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                return null;
-            }
-
         }
-
+        return null;
     }
 
     public Object executeAndClose(DaoCommand command) {
@@ -73,11 +69,7 @@ public class DaoManagerImpl implements DaoManager {
     }
 
     public Object transactionAndClose(DaoCommand command){
-        return executeAndClose(new DaoCommand(){
-            public Object execute(DaoManager manager){
-                return manager.transaction(command);
-            }
-        });
+        return executeAndClose(daoManager -> daoManager.transaction(command));
     }
 
     @Override
