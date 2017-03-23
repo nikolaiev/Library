@@ -4,6 +4,7 @@ import com.model.entity.Identified;
 import com.model.entity.book.Book;
 import com.model.entity.user.User;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -13,13 +14,10 @@ import java.util.List;
 public class Order implements Identified{
     private int id;
     private User user;
-    private List<Book> books;
+    private Book book;
     private OrderStatus status;
     private OrderType type;
-    /*
-    * Timestamp with timezone
-    * */
-    private OffsetDateTime orderDateTime;
+    private LocalDate orderDateTime;
 
     public User getUser() {
         return user;
@@ -29,12 +27,12 @@ public class Order implements Identified{
         this.user = user;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public OrderStatus getStatus() {
@@ -53,11 +51,11 @@ public class Order implements Identified{
         this.type = type;
     }
 
-    public OffsetDateTime getOrderDateTime() {
+    public LocalDate getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(OffsetDateTime orderDateTime) {
+    public void setOrderDateTime(LocalDate orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
 
@@ -79,8 +77,8 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setBooks(List<Book> books){
-            order.setBooks(books);
+        public Builder setBook(Book book){
+            order.setBook(book);
             return this;
         }
 
@@ -99,7 +97,7 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setOrderDateTime(OffsetDateTime dateTime){
+        public Builder setOrderDateTime(LocalDate dateTime){
             order.setOrderDateTime(dateTime);
             return this;
         }

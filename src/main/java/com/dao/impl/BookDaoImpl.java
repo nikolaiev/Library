@@ -60,12 +60,12 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     private static final String TITLE_FIELD_PUBLISHER="publisher_title";
 
 
-    private static final String ID_FIELD_BOOK="id";
-    private static final String LANG_FIELD_BOOK="id";
-    private static final String GENRE_FIELD_BOOK="id";
-    private static final String TITLE_FIELD_BOOL="title";
-    private static final String PUBLISH_DATE_FIELD_BOOK="pdate";
-    private static final String TABLE="book";
+    public static final String ID_FIELD_BOOK="id";
+    public static final String LANG_FIELD_BOOK="lang";
+    public static final String GENRE_FIELD_BOOK="genre";
+    public static final String TITLE_FIELD_BOOL="title";
+    public static final String PUBLISH_DATE_FIELD_BOOK="pdate";
+    public static final String TABLE="book";
 
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD ="Database error while getting simple field";
 

@@ -18,7 +18,7 @@ public interface GenericDao <T>{
 
     List<T> getAll();
 
-    Optional<T> getById(int key);
+    Optional<T> getById(int id);
 
-    void removeById(int key);
+    void removeById(int id);
 }

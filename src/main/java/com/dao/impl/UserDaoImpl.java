@@ -20,7 +20,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_USER_BY_ID=SELECT_ALL+" WHERE id =?";
 
-    private static final String DELETE_USER_BY_ID="DELETE FROM public.\"user\" WHERE id=?";
 
     private static final String UPDATE_USER_BY_ID="UPDATE public.\"user\" " +
             "   SET name=?, soname=?, login=?, pass=?, role=?" +
@@ -30,12 +29,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             "(name, soname, login, pass, role)\n" +
             "    VALUES (?, ?, ?, ?, ?);";
 
-    private static final String ID_FIELD="id";
-    private static final String LOGIN_FIELD="login";
-    private static final String NAME_FIELD="name";
-    private static final String SONAME_FIELD="soname";
-    private static final String PASSWORD_FIELD="pass";
-    private static final String ROLE_FIELD="role";
+    public static final String ID_FIELD_USER ="id";
+    public static final String LOGIN_FIELD_USER ="login";
+    public static final String NAME_FIELD_USER ="name";
+    public static final String SONAME_FIELD_USER ="soname";
+    public static final String PASSWORD_FIELD_USER ="pass";
+    public static final String ROLE_FIELD_USER ="role";
     private static final String TABLE="public.\"user\"";
 
     public UserDaoImpl(Connection connection) {
@@ -121,12 +120,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         List<User> userList=new ArrayList<>();
         while(resultSet.next()){
             User user=new User.Builder()
-                    .setId(resultSet.getInt(ID_FIELD))
-                    .setLogin(resultSet.getString(LOGIN_FIELD))
-                    .setName(resultSet.getString(NAME_FIELD))
-                    .setSoname(resultSet.getString(SONAME_FIELD))
-                    .setPassword(resultSet.getString(PASSWORD_FIELD))
-                    .setRole(UserRole.valueOf(resultSet.getString(ROLE_FIELD)))
+                    .setId(resultSet.getInt(ID_FIELD_USER))
+                    .setLogin(resultSet.getString(LOGIN_FIELD_USER))
+                    .setName(resultSet.getString(NAME_FIELD_USER))
+                    .setSoname(resultSet.getString(SONAME_FIELD_USER))
+                    .setPassword(resultSet.getString(PASSWORD_FIELD_USER))
+                    .setRole(UserRole.valueOf(resultSet.getString(ROLE_FIELD_USER)))
                     .build();
 
             userList.add(user);
