@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.OrderDao;
 import com.dao.exception.DaoException;
@@ -8,7 +8,6 @@ import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -16,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static com.dao.impl.BookDaoImpl.*;
-import static com.dao.impl.UserDaoImpl.*;
 
 /**
  * Created by vlad on 20.03.17.
@@ -57,16 +53,28 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String CREATE_DATE_FIELD_ORDER ="cdate";
     private static final String TABLE="public.\"order\"";
 
-    public OrderDaoImpl(Connection connection) {
-        super(connection);
+    private static class InstanceHolder{
+        private static OrderDaoImpl INSTANCE=new OrderDaoImpl();
     }
+
+    public static OrderDao getInstance(Connection connection){
+        /*set ThreadLocal variable*/
+        InstanceHolder.INSTANCE.connection.set(connection);
+        return InstanceHolder.INSTANCE;
+    }
+
+    /*public OrderDaoImpl(Connection connection) {
+        super(connection);
+    }*/
+
+    private OrderDaoImpl(){}
 
 
     @Override
     public Order insert(Order order) {
         checkForNull(order);
         checkIsUnsaved(order);
-        try(PreparedStatement statement=connection.prepareStatement(INSERT_ORDER,
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_ORDER,
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1,order.getUser().getId());
             statement.setInt(2,order.getBook().getId());
@@ -86,7 +94,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     public void update(Order order) {
         checkForNull(order);
         checkIsSaved(order);
-        try(PreparedStatement statement=connection.prepareStatement(UPDATE_ORDER_BY_ID)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_ORDER_BY_ID)) {
             statement.setInt(1,order.getUser().getId());
             statement.setInt(2,order.getBook().getId());
             statement.setString(3,order.getStatus().toString());
@@ -103,7 +111,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public List<Order> getAll(){
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL)) {
             return parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException(e)
@@ -113,7 +121,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Optional<Order> getById(int id){
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ORDER_BY_ID)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ORDER_BY_ID)) {
             statement.setInt(1,id);
             List<Order> orderList=parseResultSet(statement.executeQuery());
             checkSingleResult(orderList);
@@ -150,22 +158,22 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     resultSet.getString(TITLE_FIELD_PUBLISHER));
 
             Book book=new Book.Builder()
-                    .setId(resultSet.getInt(ID_FIELD_BOOK))
+                    .setId(resultSet.getInt(BookDaoImpl.ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(resultSet.getObject(PUBLISH_DATE_FIELD_BOOK, LocalDate.class))
-                    .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
-                    .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
-                    .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))
+                    .setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDate.class))
+                    .setGenre(BookGenre.valueOf(resultSet.getString(BookDaoImpl.GENRE_FIELD_BOOK)))
+                    .setTitle(resultSet.getString(BookDaoImpl.TITLE_FIELD_BOOL))
+                    .setLanguage(BookLanguage.valueOf(resultSet.getString(BookDaoImpl.LANG_FIELD_BOOK)))
                     .build();
 
             User user =new User.Builder()
                     .setId(resultSet.getInt(ID_FIELD_USER_ORDER))
-                    .setRole(UserRole.valueOf(resultSet.getString(ROLE_FIELD_USER)))
-                    .setName(resultSet.getString(NAME_FIELD_USER))
-                    .setSoname(resultSet.getString(SONAME_FIELD_USER))
-                    .setLogin(resultSet.getString(LOGIN_FIELD_USER))
-                    .setPassword(resultSet.getString(PASSWORD_FIELD_USER))
+                    .setRole(UserRole.valueOf(resultSet.getString(UserDaoImpl.ROLE_FIELD_USER)))
+                    .setName(resultSet.getString(UserDaoImpl.NAME_FIELD_USER))
+                    .setSoname(resultSet.getString(UserDaoImpl.SONAME_FIELD_USER))
+                    .setLogin(resultSet.getString(UserDaoImpl.LOGIN_FIELD_USER))
+                    .setPassword(resultSet.getString(UserDaoImpl.PASSWORD_FIELD_USER))
                     .build();
 
             Order order=new Order.Builder()

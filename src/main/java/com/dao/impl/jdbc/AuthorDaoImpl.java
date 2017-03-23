@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.AuthorDao;
 import com.dao.exception.DaoException;
@@ -36,13 +36,26 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
     private static final String SONAME_FIELD="soname";
     private static final String TABLE="author";
 
-    public AuthorDaoImpl(Connection connection) {
+    private static class InstanceHolder{
+        private static AuthorDaoImpl INSTANCE=new AuthorDaoImpl();
+    }
+
+    public static AuthorDao getInstance(Connection connection){
+        /*set ThreadLocal variable*/
+        InstanceHolder.INSTANCE.connection.set(connection);
+        return InstanceHolder.INSTANCE;
+    }
+
+    /*public AuthorDaoImpl(Connection connection) {
         super(connection);
     }
+    */
+
+    private AuthorDaoImpl(){}
 
     @Override
     public List<Author> getAll()  {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL);
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL);
             ResultSet resultSet=statement.executeQuery()){
                 return parseResultSet(resultSet);
         }
@@ -54,7 +67,7 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
 
     @Override
     public Optional<Author> getById(int id)  {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_AUTHOR_BY_ID)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_AUTHOR_BY_ID)){
             statement.setInt(1,id);
             try (ResultSet resultSet=statement.executeQuery()){
                 List<Author> list=parseResultSet(resultSet);
@@ -73,7 +86,7 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
     @Override
     public Optional<Author> getAuthorByName(String name) {
 
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_AUTHOR_BY_NAME)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_AUTHOR_BY_NAME)){
             statement.setString(1,name);
             try (ResultSet resultSet=statement.executeQuery()){
                 List<Author> list=parseResultSet(resultSet);
@@ -94,7 +107,7 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         checkForNull(author);
         checkIsUnsaved(author);
 
-        try(PreparedStatement statement=connection.prepareStatement(INSERT_AUTHOR,
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_AUTHOR,
                 Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1,author.getName());
             statement.setString(2,author.getSoname());
@@ -114,7 +127,7 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         checkForNull(author);
         checkIsSaved(author);
 
-        try(PreparedStatement statement=connection.prepareStatement(UPDATE_AUTHOR_BY_ID)){
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_AUTHOR_BY_ID)){
             statement.setString(1,author.getName());
             statement.setString(2,author.getSoname());
             statement.setInt(3,author.getId());

@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.GenericDao;
 import com.dao.exception.DaoException;
@@ -34,12 +34,12 @@ public abstract class AbstractDao {
 
     private static final String DELETE_SQL_FORMAT = "DELETE FROM %s WHERE id=?";
 
+    /*Thread local variable to store connection inside simple thread*/
+    final ThreadLocal<Connection> connection=new ThreadLocal<>();
 
-    final Connection connection;
-
-    public AbstractDao (Connection connection){
-        this.connection=connection;
-    }
+    /*public AbstractDao (Connection connection){
+        this.connection.set(connection);
+    }*/
 
     /**
      * Provides check if the list has only one element
@@ -90,7 +90,7 @@ public abstract class AbstractDao {
     void deleteById(String table, int id) {
 
         try (PreparedStatement statement =
-                     connection.prepareStatement(
+                     connection.get().prepareStatement(
                              String.format(DELETE_SQL_FORMAT, table))) {
 
             statement.setInt(1, id);

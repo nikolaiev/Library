@@ -44,5 +44,34 @@ public class Author implements Identified{
     public void setSoname(String soname) {
         this.soname = soname;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Author author = (Author) o;
+
+        if (id != author.id) return false;
+        if (name != null ? !name.equals(author.name) : author.name != null) return false;
+        return soname != null ? soname.equals(author.soname) : author.soname == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (soname != null ? soname.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", soname='" + soname + '\'' +
+                '}';
+    }
 }
 

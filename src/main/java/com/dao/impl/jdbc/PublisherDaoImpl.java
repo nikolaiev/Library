@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.PublisherDao;
 import com.dao.exception.DaoException;
@@ -36,9 +36,21 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     private static final String TITLE_FIELD="title";
     private static final String TABLE="publisher";
 
-    public PublisherDaoImpl(Connection connection) {
-        super(connection);
+    private static class InstanceHolder{
+        private static PublisherDaoImpl INSTANCE=new PublisherDaoImpl();
     }
+
+    public static PublisherDao getInstance(Connection connection){
+        /*set ThreadLocal variable*/
+        InstanceHolder.INSTANCE.connection.set(connection);
+        return InstanceHolder.INSTANCE;
+    }
+
+    /*public PublisherDaoImpl(Connection connection) {
+        super(connection);
+    }*/
+
+    private PublisherDaoImpl(){}
 
     /*@Override
     public Publisher create(){
@@ -50,7 +62,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     public Publisher insert(Publisher obj){
         checkForNull(obj);
         checkIsUnsaved(obj);
-        try(PreparedStatement statement=connection.prepareStatement(INSERT_PUBLISHER)){
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_PUBLISHER)){
             statement.setString(1,obj.getTitle());
             int id=executeInsertStatement(statement);
             obj.setId(id);
@@ -68,7 +80,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     public void update(Publisher obj) {
         checkForNull(obj);
         checkIsSaved(obj);
-        try(PreparedStatement statement =connection.prepareStatement(UPDATE_PUBLISHER_BY_ID)){
+        try(PreparedStatement statement =connection.get().prepareStatement(UPDATE_PUBLISHER_BY_ID)){
             statement.setString(1,obj.getTitle());
             statement.setInt(2,obj.getId());
             statement.executeUpdate();
@@ -81,7 +93,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
 
     @Override
     public List<Publisher> getAll() {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL);
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL);
             ResultSet resultSet=statement.executeQuery()){
             return parseResultSet(resultSet);
 
@@ -94,7 +106,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
 
     @Override
     public Optional<Publisher> getById(int id) {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_PUBLISHER_BY_ID)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_PUBLISHER_BY_ID)){
             statement.setInt(1,id);
 
             try(ResultSet resultSet = statement.executeQuery()) {

@@ -1,32 +1,36 @@
 package com.dao.impl.jdbc;
 
 import com.dao.*;
-import com.dao.impl.*;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
  * Created by vlad on 21.03.17.
  */
-public class DaoManagerImpl implements DaoManager {
+public class TransactionManagerImpl implements TransactionManager {
 
-    private DataSource dataSource;
+    //private DataSource dataSource;
     private Connection connection;
+    private DaoFactory daoFactory;
 
-    public DaoManagerImpl(DataSource dataSource) {
+    /*public TransactionManagerImpl(DataSource dataSource) {
         this.dataSource =dataSource;
+    }*/
+
+    public TransactionManagerImpl(Connection connection, DaoFactory daoFactory) {
+        this.connection = connection;
+        this.daoFactory = daoFactory;
     }
 
     protected Connection getConnection(){
-        if(this.connection == null){
+        /*if(this.connection == null){
             try {
                 this.connection = dataSource.getConnection();
             } catch (SQLException e) {
                 return null;
             }
-        }
+        }*/
         return this.connection;
     }
 
@@ -78,26 +82,26 @@ public class DaoManagerImpl implements DaoManager {
 
     @Override
     public BookDao getBookDao() {
-        return new BookDaoImpl(this.connection);
+        return daoFactory.getBookDao(this.connection);
     }
 
     @Override
     public AuthorDao getAuthorDao() {
-        return new AuthorDaoImpl(this.connection);
+        return daoFactory.getAuthorDao(this.connection);
     }
 
     @Override
     public OrderDao getOrderDao() {
-        return new OrderDaoImpl(this.connection);
+        return daoFactory.getOrderDao(this.connection);
     }
 
     @Override
     public PublisherDao getPublisherDao() {
-        return new PublisherDaoImpl(this.connection);
+        return daoFactory.getPublisherDao(this.connection);
     }
 
     @Override
     public UserDao getUserDao() {
-        return new UserDaoImpl(this.connection);
+        return daoFactory.getUserDao(this.connection);
     }
 }

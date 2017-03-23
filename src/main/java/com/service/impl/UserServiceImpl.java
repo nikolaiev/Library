@@ -1,8 +1,7 @@
 package com.service.impl;
 
-import com.dao.DaoManager;
-import com.dao.DaoManagerFactory;
-import com.dao.impl.jdbc.DaoManagerFactoryImpl;
+import com.dao.TransactionManager;
+import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
 import com.service.UserService;
@@ -13,7 +12,7 @@ import com.service.UserService;
 public class UserServiceImpl implements UserService{
     @Override
     public User createNewUser(String login, String password, String name, String soname) {
-        DaoManager manager= DaoManagerFactoryImpl.getInstance().getDaoManager();
+        TransactionManager manager= TransactionManagerFactoryImpl.getInstance().getTransactionManager();
 
         return (User) manager.transaction(daoManager->
             daoManager.getUserDao().insert(new User.Builder()

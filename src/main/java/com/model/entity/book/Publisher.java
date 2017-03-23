@@ -31,4 +31,12 @@ public class Publisher  implements Identified{
     public void setId(int id) {
         this.id=id;
     }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

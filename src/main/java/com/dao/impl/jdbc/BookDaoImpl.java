@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.BookDao;
 import com.dao.exception.DaoException;
@@ -69,16 +69,28 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD ="Database error while getting simple field";
 
-    public BookDaoImpl(Connection connection) {
-        super(connection);
+    private static class InstanceHolder{
+        private static BookDaoImpl INSTANCE=new BookDaoImpl();
     }
+
+    public static BookDao getInstance(Connection connection){
+        /*set ThreadLocal variable*/
+        InstanceHolder.INSTANCE.connection.set(connection);
+        return InstanceHolder.INSTANCE;
+    }
+
+    /*public BookDaoImpl(Connection connection) {
+        super(connection);
+    }*/
+
+    private BookDaoImpl(){}
 
 
     @Override
     public int getCountAvailable(int bookId){
         int count=0;
 
-        try(PreparedStatement statement=connection.prepareStatement(GET_BOOKS_EXEMPLARS_AMOUNT)){
+        try(PreparedStatement statement=connection.get().prepareStatement(GET_BOOKS_EXEMPLARS_AMOUNT)){
             statement.setInt(1,bookId);
             ResultSet resultSet=statement.executeQuery();
             if(resultSet.next()){
@@ -96,7 +108,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public List<Book> getBooksByAuthor(Author author) {
         checkForNull(author);
         checkIsSaved(author);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_AUTHOR)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR)){
             statement.setInt(1,author.getId());
 
             return  parseResultSet(statement.executeQuery());
@@ -109,7 +121,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public List<Book> getBooksByLang(BookLanguage language) {
         checkForNull(language);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_LANG)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_LANG)){
             statement.setString(1,language.toString());
 
             return  parseResultSet(statement.executeQuery());
@@ -122,7 +134,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public List<Book> getBooksByGenre(BookGenre genre) {
         checkForNull(genre);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_GENRE)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_GENRE)){
             statement.setString(1,genre.toString());
 
             return  parseResultSet(statement.executeQuery());
@@ -136,7 +148,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public List<Book> getBooksByPublisher(Publisher publisher) {
         checkForNull(publisher);
         checkIsSaved(publisher);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_PUBLISHER)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_PUBLISHER)){
             statement.setInt(1,publisher.getId());
 
             return  parseResultSet(statement.executeQuery());
@@ -149,7 +161,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public List<Book> getBooksByTitle(String title) {
         checkForNull(title);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_TITLE)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_TITLE)){
             statement.setString(1,title);
 
             return  parseResultSet(statement.executeQuery());
@@ -164,7 +176,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         checkForNull(author);
         checkForNull(language);
         checkIsSaved(author);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_AUTHOR_LANG)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR_LANG)){
             statement.setInt(1,author.getId());
             statement.setString(2,language.toString());
 
@@ -179,7 +191,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public List<Book> getBooksByGenreLang(BookGenre genre, BookLanguage language) {
         checkForNull(genre);
         checkForNull(language);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_GENRE_LANG)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_GENRE_LANG)){
             statement.setString(1,genre.toString());
             statement.setString(2,language.toString());
 
@@ -196,7 +208,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         checkForNull(language);
         checkForNull(author);
         checkIsSaved(author);
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL_BY_AUTHOR_GENRE_LANG)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR_GENRE_LANG)){
             statement.setInt(1,author.getId());
             statement.setString(2,genre.toString());
             statement.setString(3,language.toString());
@@ -212,7 +224,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public Book insert(Book book) {
         checkForNull(book);
         checkIsUnsaved(book);
-        try(PreparedStatement statement=connection.prepareStatement(INSERT_BOOK,
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_BOOK,
                 Statement.RETURN_GENERATED_KEYS)) {
             //  aid, pid, genre, lang, pdate, title
             statement.setInt(1,book.getAuthor().getId());
@@ -236,7 +248,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public void update(Book book) {
         checkForNull(book);
         checkIsSaved(book);
-        try(PreparedStatement statement=connection.prepareStatement(UPDATE_BOOK_BY_ID)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_BOOK_BY_ID)) {
             //aid=?, pid=?, genre=?, lang=?, pdate=?, title=? " +
             //" WHERE id=?
             statement.setInt(1,book.getAuthor().getId());
@@ -257,7 +269,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public List<Book> getAll() {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL)){
             return  parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException(e)
@@ -267,7 +279,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public Optional<Book> getById(int key) {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_BOOK_BY_ID)){
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_BOOK_BY_ID)){
             statement.setInt(1,key);
 
             List<Book> bookList=parseResultSet(statement.executeQuery());

@@ -1,4 +1,4 @@
-package com.dao.impl;
+package com.dao.impl.jdbc;
 
 import com.dao.UserDao;
 import com.dao.exception.DaoException;
@@ -37,15 +37,27 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public static final String ROLE_FIELD_USER ="role";
     private static final String TABLE="public.\"user\"";
 
-    public UserDaoImpl(Connection connection) {
-        super(connection);
+    private static class InstanceHolder{
+        private static UserDaoImpl INSTANCE=new UserDaoImpl();
     }
+
+    public static UserDao getInstance(Connection connection){
+        /*set ThreadLocal variable*/
+        InstanceHolder.INSTANCE.connection.set(connection);
+        return InstanceHolder.INSTANCE;
+    }
+
+    /*public UserDaoImpl(Connection connection) {
+        super(connection);
+    }*/
+
+    private UserDaoImpl(){}
 
     @Override
     public User insert(User user){
         checkForNull(user);
         checkIsUnsaved(user);
-        try(PreparedStatement statement=connection.prepareStatement(INSERT_USER,
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_USER,
                 Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1,user.getName());
             statement.setString(2,user.getSoname());
@@ -64,7 +76,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public void update(User user) {
         checkForNull(user);
         checkIsSaved(user);
-        try(PreparedStatement statement=connection.prepareStatement(UPDATE_USER_BY_ID)){
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_USER_BY_ID)){
             statement.setString(1,user.getName());
             statement.setString(2,user.getSoname());
             statement.setString(3,user.getPassword());
@@ -78,7 +90,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL)) {
             ResultSet resultSet=statement.executeQuery();
             return parseResultSet(resultSet);
         } catch (SQLException e) {
@@ -90,7 +102,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public Optional<User> getById(int id){
 
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_USER_BY_ID)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_USER_BY_ID)) {
             statement.setInt(1,id);
             ResultSet resultSet=statement.executeQuery();
             List<User> userList=parseResultSet(resultSet);
