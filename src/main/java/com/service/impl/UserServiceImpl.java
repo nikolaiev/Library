@@ -12,12 +12,13 @@ import com.service.UserService;
  */
 public class UserServiceImpl implements UserService{
     @Override
-    public User createNewUser(String login, String password, String fullName) {
+    public User createNewUser(String login, String password, String name, String soname) {
         DaoManager manager= DaoManagerFactoryImpl.getInstance().getDaoManager();
 
         return (User) manager.transaction(daoManager->
             daoManager.getUserDao().insert(new User.Builder()
-                    .setFullName(fullName)
+                    .setName(name)
+                    .setSoname(soname)
                     .setLogin(login)
                     .setPassword(password)
                     .setRole(UserRole.USER)

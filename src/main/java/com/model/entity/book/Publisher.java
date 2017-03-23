@@ -9,7 +9,8 @@ public class Publisher  implements Identified{
     private int id;
     private String title;
 
-    public Publisher(String title) {
+    public Publisher(int id, String title) {
+        this.id = id;
         this.title = title;
     }
 

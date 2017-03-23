@@ -13,15 +13,29 @@ import java.util.Optional;
  * Created by vlad on 20.03.17.
  */
 public class OrderDaoImpl extends AbstractDao implements OrderDao {
+    private static final String SELECT_ALL="SELECT id, uid, bid, status, type, cdate" +
+            "  FROM public.\"order\";";
+
+    private static final String SELECT_ORDER_BY_ID=SELECT_ALL+" WHERE id =?";
+
+    private static final String DELETE_ORDER_BY_ID="DELETE FROM public.\"order\" WHERE id=?";
+
+    private static final String UPDATE_ORDER_BY_ID="UPDATE public.\"order\" " +
+            "   SET uid=?, bid=?, status=?, type=?, cdate=?" +
+            " WHERE id=?";
+
+    private static final String INSERT_ORDER="INSERT INTO public.\"order\"" +
+            " (uid, bid, status, type, cdate)\n" +
+            "    VALUES (?, ?, ?, ?, ?);";
+
+    private static final String ID_FIELD="id";
+    private static final String USER_ID_FIELD="uid";
+    private static final String TABLE="public.\"order\"";
 
     public OrderDaoImpl(Connection connection) {
         super(connection);
     }
 
-    @Override
-    public Order create(){
-        return null;
-    }
 
     @Override
     public Order insert(Order obj) {

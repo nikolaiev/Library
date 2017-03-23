@@ -38,10 +38,12 @@ public class DaoManagerImpl implements DaoManager {
 
     public Object transaction(DaoCommand command)  {
         try{
+            getTxConnection();
             Object returnValue = command.execute(this);
             getConnection().commit();
             return returnValue;
         } catch(Exception e){
+            e.printStackTrace();
             try {
                 getConnection().rollback();
             } catch (SQLException e1) {
@@ -59,6 +61,7 @@ public class DaoManagerImpl implements DaoManager {
 
     public Object executeAndClose(DaoCommand command) {
         try{
+            getConnection();
             return command.execute(this);
         } finally {
             try {

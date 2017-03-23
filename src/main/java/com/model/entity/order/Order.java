@@ -1,16 +1,19 @@
 package com.model.entity.order;
 
 import com.model.entity.Identified;
+import com.model.entity.book.Book;
+import com.model.entity.user.User;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Created by vlad on 20.03.17.
  */
 public class Order implements Identified{
     private int id;
-    private int userId;
-    private int bookId;
+    private User user;
+    private List<Book> books;
     private OrderStatus status;
     private OrderType type;
     /*
@@ -18,21 +21,20 @@ public class Order implements Identified{
     * */
     private OffsetDateTime orderDateTime;
 
-
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getBookId() {
-        return bookId;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public OrderStatus getStatus() {
@@ -77,13 +79,13 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setBookId(int id){
-            order.setBookId(id);
+        public Builder setBooks(List<Book> books){
+            order.setBooks(books);
             return this;
         }
 
-        public Builder setUserId(int id){
-            order.setUserId(id);
+        public Builder setUser(User user){
+            order.setUser(user);
             return this;
         }
 

@@ -6,7 +6,6 @@ import com.model.entity.book.Author;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,8 @@ import java.util.Optional;
  * Created by vlad on 20.03.17.
  */
 public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
-
+    private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME ="Database error while getting by name ";
+    
     private static final String SELECT_ALL="SELECT id, name, soname" +
             "  FROM public.author";
     private static final String SELECT_AUTHOR_BY_ID=SELECT_ALL+" WHERE id =?";
@@ -42,10 +42,9 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
 
     @Override
     public List<Author> getAll()  {
-        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL)){
-            try (ResultSet resultSet=statement.executeQuery()){
+        try(PreparedStatement statement=connection.prepareStatement(SELECT_ALL);
+            ResultSet resultSet=statement.executeQuery()){
                 return parseResultSet(resultSet);
-            }
         }
         catch (SQLException e){
             throw new DaoException(e)
@@ -86,17 +85,9 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         }
         catch (SQLException e){
             throw new DaoException(e)
-                    //TODO change error message
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_ID + name);
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME + name);
         }
     }
-
-/*
-    @Override
-    public Author create(){
-        return null;
-    }
-*/
 
     @Override
     public Author insert(Author author){
@@ -109,13 +100,13 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
             statement.setString(2,author.getSoname());
             int id=executeInsertStatement(statement);
             author.setId(id);
-
-            return author;
         }
         catch (SQLException e){
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_INSERTING+author.toString());
         }
+
+        return author;
     }
 
     @Override

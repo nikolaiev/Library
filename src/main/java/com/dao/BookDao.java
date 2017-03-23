@@ -1,7 +1,6 @@
 package com.dao;
 
-import com.model.entity.book.Author;
-import com.model.entity.book.Book;
+import com.model.entity.book.*;
 
 import java.util.List;
 
@@ -9,7 +8,14 @@ import java.util.List;
  * Created by vlad on 17.03.17.
  */
 public interface BookDao extends GenericDao<Book>{
-    int getCountAvailable();
+    int getCountAvailable(int bookId);
     List<Book> getBooksByAuthor(Author author);
+    List<Book> getBooksByLang(BookLanguage language);
+    List<Book> getBooksByGenre(BookGenre genre);
+    List<Book> getBooksByPublisher(Publisher publisher);
+    List<Book> getBooksByTitle(String title);
+    List<Book> getBooksByAuthorLang(Author author,BookLanguage language);
+    List<Book> getBooksByGenreLang(BookGenre genre,BookLanguage language);
+    List<Book> getBooksByAuthorGenreLang(Author author,BookGenre genre,BookLanguage language);
 
 }

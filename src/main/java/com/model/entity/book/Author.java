@@ -16,6 +16,11 @@ public class Author implements Identified{
         this.soname = soname;
     }
 
+    public Author(String name, String soname) {
+        this.name = name;
+        this.soname = soname;
+    }
+
     public int getId() {
         return id;
     }

@@ -10,7 +10,8 @@ public class User implements Identified{
     private int id;
     private String login;
     private String password;
-    private String fullName;
+    private String name;
+    private String soname;
     private UserRole role;
 
     public String getLogin() {
@@ -29,12 +30,20 @@ public class User implements Identified{
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSoname() {
+        return soname;
+    }
+
+    public void setSoname(String soname) {
+        this.soname = soname;
     }
 
     public UserRole getRole() {
@@ -63,8 +72,13 @@ public class User implements Identified{
             return this;
         }
 
-        public Builder setFullName(String fullName){
-            user.setFullName(fullName);
+        public Builder setName(String name){
+            user.setName(name);
+            return this;
+        }
+
+        public Builder setSoname(String soname){
+            user.setSoname(soname);
             return this;
         }
 
