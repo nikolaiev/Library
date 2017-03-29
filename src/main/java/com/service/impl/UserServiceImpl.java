@@ -1,27 +1,16 @@
 package com.service.impl;
 
-import com.dao.TransactionManager;
-import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
 import com.model.entity.user.User;
-import com.model.entity.user.UserRole;
 import com.service.UserService;
+import com.service.impl.wrapper.SerializableTransactionWrapper;
 
 /**
  * Created by vlad on 21.03.17.
  */
-public class UserServiceImpl implements UserService{
-    @Override
-    public User createNewUser(String login, String password, String name, String soname) {
-        TransactionManager manager= TransactionManagerFactoryImpl.getInstance().createTransactionManager();
+public class UserServiceImpl extends GenericService implements UserService {
 
-        return (User) manager.transaction(daoManager->не
-                    daoManager.getUserDao().insert(new User.Builder()
-                            .setName(name)
-                            .setSoname(soname)
-                            .setLogin(login)
-                            .setPassword(password)
-                            .setRole(UserRole.USER)
-                            .build())
-        );
+    @Override
+    public User createNewUser(SerializableTransactionWrapper<User> wrapper) {
+        return executeInSerializableWrapper(wrapper);
     }
 }

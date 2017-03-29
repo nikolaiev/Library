@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class AuthorDaoImplTest {
 
 
-    TransactionManager daoManager;
+   /* TransactionManager daoManager;
     Author author;
     @Before
     public void setUp() throws Exception {
@@ -33,20 +33,12 @@ public class AuthorDaoImplTest {
 
     }
 
-    /*@Test
-    public void getAll() throws Exception {
-        List<Author> authorList=(List<Author>)daoManager.transaction((manager)->
-                manager.getAuthorDao().getAll()
-        );
-
-    }*/
-
     @Test
     public void getById() throws Exception {
 
         Author newAuthor=new Author("TestName","TestSoname");
 
-        /*auto updates newAuthor*/
+        /*auto updates newAuthor* /
         daoManager.transaction((manager)->
                 manager.getAuthorDao().insert(newAuthor)
         );
@@ -100,7 +92,7 @@ public class AuthorDaoImplTest {
 
         assertEquals(author2.get().getName(),author.getName());
 
-        /*rolling back*/
+        rolling back
         author.setName(name);
         daoManager.transaction((manager)-> {
                     manager.getAuthorDao().update(author);
@@ -120,7 +112,7 @@ public class AuthorDaoImplTest {
 
         Author newAuthor=new Author("TestName","TestSoname");
 
-        /*auto updates newAuthor*/
+        /*auto updates newAuthor* /
         daoManager.transaction((manager)->
                 manager.getAuthorDao().insert(newAuthor)
         );
@@ -146,5 +138,5 @@ public class AuthorDaoImplTest {
 
 
         assertEquals(lastAuthorCount,initialAuthorCount);
-    }
+    }*/
 }
