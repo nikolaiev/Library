@@ -120,51 +120,5 @@ public class TransactionManagerImpl implements TransactionManager {
         return this.connection;
     }
 
-    protected Connection getTxConnection() throws SQLException {
-        getConnection().setAutoCommit(false);
-        return this.connection;
-    }
-
-
-    public Object transaction(DaoCommand command)  {
-        try{
-            getTxConnection();
-            Object returnValue = command.execute(this);
-            getConnection().commit();
-            return returnValue;
-        } catch(Exception e){
-            e.printStackTrace();
-            try {
-                getConnection().rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        } finally {
-            try {
-                getConnection().setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public Object executeAndClose(DaoCommand command) {
-        try{
-            getConnection();
-            return command.execute(this);
-        } finally {
-            try {
-                getConnection().close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Object transactionAndClose(DaoCommand command){
-        return executeAndClose(daoManager -> daoManager.transaction(command));
-    }
-
 }
 
