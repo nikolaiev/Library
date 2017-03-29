@@ -22,7 +22,7 @@ public class AuthorDaoImplTest {
     Author author;
     @Before
     public void setUp() throws Exception {
-        daoManager= TransactionManagerFactoryImpl.getInstance().getTransactionManager();
+        daoManager= TransactionManagerFactoryImpl.getInstance().createTransactionManager();
         author= ((Optional<Author>) daoManager.transaction((manager)->
            manager.getAuthorDao().getById(8)
         )).get();

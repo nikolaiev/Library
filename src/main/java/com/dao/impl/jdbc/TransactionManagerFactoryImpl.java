@@ -30,7 +30,7 @@ public class TransactionManagerFactoryImpl implements TransactionManagerFactory 
     }
 
     @Override
-    public TransactionManager getTransactionManager() {
+    public TransactionManager createTransactionManager() {
         Connection connection;
         try {
             connection=dataSource.getConnection();
