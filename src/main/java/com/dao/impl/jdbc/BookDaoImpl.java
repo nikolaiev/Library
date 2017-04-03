@@ -6,6 +6,7 @@ import com.model.entity.book.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     private static final String SELECT_ALL="SELECT id,  author_id, publisher_id, title, genre, " +
             "lang, pdate, publisher_title, " +
             "       author_name, author_soname" +
-            "  FROM public.book_full_view;";
+            "  FROM public.book_full_view ";
 
     private static final String SELECT_ALL_BY_AUTHOR=SELECT_ALL+" WHERE author_id=?;";
 
@@ -35,7 +36,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String SELECT_BOOK_BY_ID=SELECT_ALL+" WHERE id =?";
 
-    private static final String SELECT_ALL_BY_TITLE =SELECT_ALL+" WHERE title title like '%?%'";
+    private static final String SELECT_ALL_BY_TITLE =SELECT_ALL+" WHERE title like '%'||?||'%'";
 
     private static final String SELECT_ALL_BY_AUTHOR_LANG =SELECT_ALL+" WHERE author_id=? and lang=?";
 
@@ -315,7 +316,10 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(resultSet.getObject(PUBLISH_DATE_FIELD_BOOK, LocalDate.class))
+                    //.setDate(resultSet.getObject(PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
+                    //TODO переделать
+                    .setDate(((Timestamp)resultSet.getObject(PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime())
+                    //.setDate(resultSet.getObject(7, LocalDateTime.class))
                     .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))

@@ -9,8 +9,19 @@
 <html>
 <head>
     <title>Login page</title>
+    <!--link href="../../css/myCss.css" rel="stylesheet" type="text/css"-->
 </head>
 <body>
+
+<div class="login-form">
+    <form action="" method="get">
+        <label>e-mail : <input type="email"></label>
+        <br>
+        <label>password : <input type="password"></label>
+        <br>
+        <input type="submit" value="log in">
+    </form>
+</div>
 
 </body>
 </html>

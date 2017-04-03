@@ -4,6 +4,7 @@ import com.model.entity.Identified;
 import com.model.entity.user.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by vlad on 16.03.17.
@@ -15,13 +16,13 @@ public class Book implements Identified {
     private BookGenre genre;
     private BookLanguage language;
     private Publisher publisher;
-    private LocalDate date;
+    private LocalDateTime date;
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -121,7 +122,7 @@ public class Book implements Identified {
             return this;
         }
 
-        public Builder setDate(LocalDate date){
+        public Builder setDate(LocalDateTime date){
             book.setDate(date);
             return this;
         }

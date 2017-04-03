@@ -1,17 +1,19 @@
 package com.controller;
 
+import com.controller.commands.Command;
+import com.controller.commands.CommandHolder;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by vlad on 30.03.17.
  */
 public class FrontController extends HttpServlet {
+    private static CommandHolder commandHolder;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -19,7 +21,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init(){
-
+        commandHolder=new CommandHolder();
     }
 
     /**
@@ -37,9 +39,12 @@ public class FrontController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url=request.getMethod()+":"+request.getRequestURI();
+        Command command=commandHolder.getCommand(url);
+        String view=command.execute(request,response);
 
+        request.getRequestDispatcher(view).forward(request,response);
         //response.sendRedirect("/");
-        //request.getRequestDispatcher("/WEB-INF/view/errorPage.jsp").forward(request,response);
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        //request.getRequestDispatcher("WEB-INF/view/loginPage.jsp").forward(request,response);
     }
 }

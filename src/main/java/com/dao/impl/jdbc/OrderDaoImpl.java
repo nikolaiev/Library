@@ -11,6 +11,7 @@ import com.model.entity.user.UserRole;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -161,7 +162,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .setId(resultSet.getInt(BookDaoImpl.ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDate.class))
+                    .setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
                     .setGenre(BookGenre.valueOf(resultSet.getString(BookDaoImpl.GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(BookDaoImpl.TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(BookDaoImpl.LANG_FIELD_BOOK)))
