@@ -14,6 +14,18 @@ import java.util.List;
  * Created by vlad on 30.03.17.
  */
 public class BookServiceImpl extends GenericService implements BookService {
+
+    private static class InstanceHolder{
+        private static BookServiceImpl INSTANCE=new BookServiceImpl();
+
+    }
+
+    public static BookService getInstance(){
+        return InstanceHolder.INSTANCE;
+    }
+
+    private BookServiceImpl(){}
+
     @Override
     public List<Book> getAllBooks() {
 
@@ -21,6 +33,12 @@ public class BookServiceImpl extends GenericService implements BookService {
             transactionManager.getBookDao().getAll()
         );
 
+    }
+
+    @Override
+    public List<Book> getBooks(int limit, int offset) {
+        return  executeInNonTransactionalWrapper((transactionManager ->
+        transactionManager.getBookDao().getAllLimitOffset(limit,offset)));
     }
 
     @Override

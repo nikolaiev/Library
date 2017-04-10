@@ -10,5 +10,5 @@ import java.net.HttpRetryException;
  */
 @FunctionalInterface
 public interface Command {
-    String execute(HttpServletRequest request, HttpServletResponse response) ;
+    String execute(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

@@ -11,6 +11,7 @@
     <title>Home page</title>
 </head>
 <body>
-    HomaPage!
+    HomePage!
+    <a href="/books">go to books</a>
 </body>
 </html>

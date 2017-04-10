@@ -26,6 +26,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             "       author_name, author_soname" +
             "  FROM public.book_full_view ";
 
+    private static final String SELECT_LIMIT_OFFSET=SELECT_ALL+" limit ? offset ?";
+
     private static final String SELECT_ALL_BY_AUTHOR=SELECT_ALL+" WHERE author_id=?;";
 
     private static final String SELECT_ALL_BY_LANG=SELECT_ALL+" WHERE lang=?;";
@@ -46,6 +48,14 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String UPDATE_BOOK_BY_ID="UPDATE public.book " +
             "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? " +
+            " WHERE id=?";
+
+    private static final String UPDATE_GRANTED_BOOK="UPDATE public.book " +
+            "   SET count_in_use=count_in_use+1 " +
+            " WHERE id=?";
+
+    private static final String UPDATE_RETURNED_BOOK="UPDATE public.book " +
+            "   SET count_in_use=count_in_use-1 " +
             " WHERE id=?";
 
     private static final String INSERT_BOOK="INSERT INTO public.book(" +
@@ -103,6 +113,30 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         }
 
         return count;
+    }
+
+    @Override
+    public void grantBook(int bookId) {
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_GRANTED_BOOK)){
+            statement.setInt(1,bookId);
+
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+        }
+    }
+
+    @Override
+    public void returnBook(Book book) {
+        checkForNull(book);
+        checkIsSaved(book);
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_RETURNED_BOOK)){
+            statement.setInt(1,book.getId());
+
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+        }
     }
 
     @Override
@@ -214,6 +248,19 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setString(2,genre.toString());
             statement.setString(3,language.toString());
 
+            return  parseResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+        }
+    }
+
+    @Override
+    public List<Book> getAllLimitOffset(int limit, int offset) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_LIMIT_OFFSET)){
+            statement.setInt(1,limit);
+            statement.setInt(2,offset);
+            System.out.println(statement);
             return  parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException(e)

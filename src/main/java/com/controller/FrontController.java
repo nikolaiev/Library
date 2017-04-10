@@ -43,8 +43,7 @@ public class FrontController extends HttpServlet {
         Command command=commandHolder.getCommand(url);
         String view=command.execute(request,response);
 
-        request.getRequestDispatcher(view).forward(request,response);
-        //response.sendRedirect("/");
-        //request.getRequestDispatcher("WEB-INF/view/loginPage.jsp").forward(request,response);
+        if(!view.equals("REDIRECTED"))
+            request.getRequestDispatcher(view).forward(request,response);
     }
 }

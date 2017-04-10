@@ -13,26 +13,26 @@ import java.util.List;
  */
 public class Order implements Identified{
     private int id;
-    private User user;
-    private Book book;
+    private int userId;
+    private int bookId;
     private OrderStatus status;
     private OrderType type;
     private LocalDate orderDateTime;
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Book getBook() {
-        return book;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public OrderStatus getStatus() {
@@ -77,13 +77,13 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setBook(Book book){
-            order.setBook(book);
+        public Builder setBookId(int bookId){
+            order.setBookId(bookId);
             return this;
         }
 
-        public Builder setUser(User user){
-            order.setUser(user);
+        public Builder setUserId(int userId){
+            order.setUserId(userId);
             return this;
         }
 

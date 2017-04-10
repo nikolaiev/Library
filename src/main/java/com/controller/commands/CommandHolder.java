@@ -1,9 +1,13 @@
 package com.controller.commands;
 
-import com.controller.commands.common.FindBookCommand;
+import com.controller.commands.admin.author.AdminAddAuthorCommand;
+import com.controller.commands.admin.book.AdminAddBookCommand;
+import com.controller.commands.admin.publisher.AdminAddPublisherCommand;
+import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
+import com.controller.commands.user.*;
 import com.controller.commands.common.GoHomeCommand;
 import com.controller.commands.common.GoInvalidUrlCommand;
-import com.controller.commands.common.LogoutCommand;
+import com.controller.commands.login.LogoutCommand;
 import com.controller.commands.login.LoginCommand;
 import com.controller.commands.login.LoginSubmitCommand;
 
@@ -23,20 +27,29 @@ public class CommandHolder {
     {
         INVALID_URL_COMMAND =new GoInvalidUrlCommand();
         commands=new HashMap<>();
+
+        /*COMMON COMMANDS*/
         /*login logout commands*/
         commands.put(GET_PATH+"/login",new LoginCommand());
         commands.put(POST_PATH+"/login",new LoginSubmitCommand());
         commands.put(GET_PATH+"/logout",new LogoutCommand());
 
+        /*USER COMMAND*/
         /*home command*/
-        commands.put(GET_PATH+"/home",new GoHomeCommand());
-        //commands.put(GET_PATH+"/",new GoHomeCommand());
-
+        commands.put(GET_PATH+"/user/home",new GoHomeCommand());
         /*book commands*/
-        commands.put(GET_PATH+"/books",new FindBookCommand());
+        commands.put(GET_PATH+"/user/books",new FindBookCommand());
+        //commands.put(GET_PATH+"/orderBook",new OrderBookCommand());
 
-        /*order command*/
-        //commands.put(GET_PATH)
+        commands.put(GET_PATH+"/user/process",new ProcessOrderListCommand());
+        commands.put(GET_PATH+"/user/orders",new ShowOrderListCommand());
+        commands.put(POST_PATH+"/user/books/addToOrderList",new AddBookToOrderListCommand());
+
+        /*ADMIN COMMANDS*/
+        commands.put(GET_PATH+"/admin/addBook",new AdminAddBookCommand());
+        commands.put(GET_PATH+"/admin/authors",new AdminAddAuthorCommand());
+        commands.put(GET_PATH+"/admin/addPublisher",new AdminAddPublisherCommand());
+        commands.put(GET_PATH+"/admin/changeOrderStatus",new AdminChangeOrderStatusCommand());
     }
 
     public CommandHolder(){}

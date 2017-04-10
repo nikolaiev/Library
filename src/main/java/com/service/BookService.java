@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface BookService {
     List<Book> getAllBooks();
+    List<Book> getBooks(int limit,int offset);
     List<Book> getBooksByTitle(String title);
     List<Book> getBooksByAuthor(String author);
     List<Book> getBooksByPublisher(String publisher);

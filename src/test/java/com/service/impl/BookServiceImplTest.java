@@ -17,7 +17,7 @@ public class BookServiceImplTest {
 
     @Before
     public void init(){
-        service=new BookServiceImpl();
+        service= BookServiceImpl.getInstance();
     }
 
     @Test

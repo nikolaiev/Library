@@ -12,4 +12,5 @@ import java.util.List;
 public interface OrderDao extends GenericDao<Order> {
     //TODO order has offsetDateTime! check it!!
     List<Order> getOrdersByDate(Date date);
+    void updateOrderStatus(Order order);
 }

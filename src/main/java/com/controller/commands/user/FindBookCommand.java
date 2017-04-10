@@ -1,4 +1,4 @@
-package com.controller.commands.common;
+package com.controller.commands.user;
 
 import com.controller.commands.Command;
 import com.model.entity.book.Book;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -22,9 +23,25 @@ public class FindBookCommand implements Command {
         Optional<String> author = Optional.ofNullable(request.getParameter("author"));
         Optional<String> publisher= Optional.ofNullable(request.getParameter("publisher"));
 
-        BookService bookService=new BookServiceImpl();
-        List<Book> books= bookService.getBooksByTitle(title.get());
+        int limit= getLimitFromRequest(request);
+        int offset= getOffsetFromRequest(request,limit);
+
+        BookService bookService=BookServiceImpl.getInstance();
+        //TODO rewrite to more specific search;
+        List<Book> books= bookService.getBooks(limit,offset);
+
+
         request.setAttribute("books",books);
         return "WEB-INF/view/user/booksPage.jsp";
+    }
+
+    private int getOffsetFromRequest(HttpServletRequest request,int limit) {
+        String res=request.getParameter("page");
+        return res==null?0:(Integer.parseInt(res)-1)*limit;
+    }
+
+    private int getLimitFromRequest(HttpServletRequest request) {
+        String res=request.getParameter("limit");
+        return res==null?20:Integer.parseInt(res);
     }
 }

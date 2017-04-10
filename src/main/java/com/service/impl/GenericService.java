@@ -1,8 +1,6 @@
 package com.service.impl;
 
-import com.service.impl.wrapper.NoTransactionalWrapper;
-import com.service.impl.wrapper.SerializableTransactionWrapper;
-import com.service.impl.wrapper.TransactionalWrapper;
+import com.service.impl.wrapper.*;
 
 /**
  * Created by vlad on 30.03.17.
@@ -22,4 +20,13 @@ abstract class GenericService {
     <T> T executeInSerializableWrapper(SerializableTransactionWrapper<T> wrapper){
         return wrapper.execute();
     }
+
+    void executeInSerializableVoidWrapper(SerializableTransactionVoidWrapper wrapper){
+        wrapper.execute();
+    }
+
+    void executeInTransactionalVoidWrapper(TransactionalVoidWrapper wrapper){
+        wrapper.execute();
+    }
+
 }

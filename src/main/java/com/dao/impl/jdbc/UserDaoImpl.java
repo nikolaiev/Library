@@ -20,6 +20,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     private static final String SELECT_USER_BY_ID=SELECT_ALL+" WHERE id =?";
 
+    private static final String SELECT_USER_BY_LOGIN=SELECT_ALL+" WHERE login like '%'||?||'%'";
+
 
     private static final String UPDATE_USER_BY_ID="UPDATE public.\"user\" " +
             "   SET name=?, soname=?, login=?, pass=?, role=?" +
@@ -125,7 +127,18 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public Optional<User> getUserByLogin(String login) {
-        return null;
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_USER_BY_LOGIN)) {
+            statement.setString(1,login);
+            ResultSet resultSet=statement.executeQuery();
+            List<User> users=parseResultSet(resultSet);
+            return users.size()==0
+                    ? Optional.empty()
+                    :Optional.of(users.get(0));
+
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_ALL);
+        }
     }
 
     private List<User> parseResultSet(ResultSet resultSet) throws SQLException {

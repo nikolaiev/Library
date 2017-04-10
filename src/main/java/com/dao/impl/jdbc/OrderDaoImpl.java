@@ -31,6 +31,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String UPDATE_ORDER_BY_ID="UPDATE public.\"order\" " +
             "   SET uid=?, bid=?, status=?, type=?, cdate=?" +
             " WHERE id=?";
+    private static final String UPDATE_ORDER_STATUS_BY_ID="UPDATE public.\"order\" " +
+            "   SET status=?" +
+            " WHERE id=?";
 
     private static final String INSERT_ORDER="INSERT INTO public.\"order\"" +
             " (uid, bid, status, type)\n" +
@@ -77,8 +80,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         checkIsUnsaved(order);
         try(PreparedStatement statement=connection.get().prepareStatement(INSERT_ORDER,
                 Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1,order.getUser().getId());
-            statement.setInt(2,order.getBook().getId());
+            statement.setInt(1,order.getUserId());
+            statement.setInt(2,order.getBookId());
             statement.setString(3,order.getStatus().toString());
             statement.setString(4,order.getType().toString());
             executeInsertStatement(statement);
@@ -96,12 +99,28 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         checkForNull(order);
         checkIsSaved(order);
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_ORDER_BY_ID)) {
-            statement.setInt(1,order.getUser().getId());
-            statement.setInt(2,order.getBook().getId());
+            statement.setInt(1,order.getUserId());
+            statement.setInt(2,order.getBookId());
             statement.setString(3,order.getStatus().toString());
             statement.setString(4,order.getType().toString());
             statement.setObject(5,order.getOrderDateTime());
             statement.setInt(6,order.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_UPDATING);
+        }
+    }
+
+    @Override
+    public void updateOrderStatus(Order order){
+        checkForNull(order);
+        checkIsSaved(order);
+
+        try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_ORDER_STATUS_BY_ID)) {
+            statement.setString(1,order.getStatus().toString());
+            statement.setInt(2,order.getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -149,6 +168,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     private List<Order> parseResultSet(ResultSet resultSet) throws SQLException {
+        //TODO here is BIG ERROR
         List<Order> orderList=new ArrayList<>();
         while (resultSet.next()){
             Author author=new Author(resultSet.getInt(ID_FIELD_AUTHOR),
@@ -178,8 +198,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .build();
 
             Order order=new Order.Builder()
-                    .setUser(user)
-                    .setBook(book)
+                    .setUserId(user.getId())
+                    .setBookId(book.getId())
                     .setId(resultSet.getInt(ID_FIELD_ORDER))
                     .setStatus(OrderStatus.valueOf(resultSet.getString(STATUS_FIELD_ORDER)))
                     .setType(OrderType.valueOf(resultSet.getString(TYPE_FIELD_ORDER)))

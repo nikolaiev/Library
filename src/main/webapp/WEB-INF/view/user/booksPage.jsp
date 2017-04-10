@@ -11,11 +11,49 @@
 <html>
 <head>
     <title>Books</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
     Books list
-    <c:forEach items="${books}" var="item">
-        ${item}<br>
+    <br>
+    <table>
+    <c:forEach items="${books}" var="book">
+        <tr>
+
+            <td><c:out value="${book.id}"/></td>
+            <td><c:out value="${book.author.soname}"/></td>
+            <td><c:out value="${book.genre}"/></td>
+            <td>
+                <button id="<c:out value="${book.id}"/>" class="buy-button">
+                    add to card!
+                </button>
+            </td>
+
+        </tr>
     </c:forEach>
+    </table>
+
+
+
+
 </body>
+<script>
+    var buyButtons=$('.buy-button');
+    for(let i=0;i<buyButtons.length;i++){
+        let but=buyButtons[i].id;
+        $('#'+but).click(()=>{
+            $.ajax({
+                type: "POST",
+                url: "/user/books/addToOrderList",
+                data: {id:but},
+                success: function(){console.log('Book was successfuly added')}
+            });
+        })
+    }
+
+
+</script>
 </html>

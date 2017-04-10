@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface BookDao extends GenericDao<Book>{
     int getCountAvailable(int bookId);
+    void grantBook(int bookId);
+    void returnBook(Book book);
     List<Book> getBooksByAuthor(Author author);
     List<Book> getBooksByLang(BookLanguage language);
     List<Book> getBooksByGenre(BookGenre genre);
@@ -18,4 +20,5 @@ public interface BookDao extends GenericDao<Book>{
     List<Book> getBooksByGenreLang(BookGenre genre,BookLanguage language);
     List<Book> getBooksByAuthorGenreLang(Author author,BookGenre genre,BookLanguage language);
 
+    List<Book> getAllLimitOffset(int limit,int offset);
 }
