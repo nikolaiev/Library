@@ -24,7 +24,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String SELECT_ALL="SELECT ord_id, uid, bid, type, status, cdate, name, soname, login, pass, \n" +
             "       role, author_id, publisher_id, genre, lang, pdate, publisher_title, \n" +
             "       author_name, author_soname, title, count\n" +
-            "  FROM public.order_full_view;";
+            "  FROM public.order_full_view ";
 
     private static final String SELECT_ORDER_BY_ID=SELECT_ALL+" WHERE ord_id =?";
 
@@ -47,6 +47,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     /*publisher fields*/
     private static final String ID_FIELD_PUBLISHER="publisher_id";
     private static final String TITLE_FIELD_PUBLISHER="publisher_title";
+
+    /*book fields*/
+    private static final String ID_FIELD_BOOK="bid";
 
     /*user fields*/
     private static final String ID_FIELD_USER_ORDER="uid";
@@ -80,8 +83,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         checkIsUnsaved(order);
         try(PreparedStatement statement=connection.get().prepareStatement(INSERT_ORDER,
                 Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1,order.getUserId());
-            statement.setInt(2,order.getBookId());
+            statement.setInt(1,order.getUser().getId());
+            statement.setInt(2,order.getBook().getId());
             statement.setString(3,order.getStatus().toString());
             statement.setString(4,order.getType().toString());
             executeInsertStatement(statement);
@@ -99,8 +102,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         checkForNull(order);
         checkIsSaved(order);
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_ORDER_BY_ID)) {
-            statement.setInt(1,order.getUserId());
-            statement.setInt(2,order.getBookId());
+            statement.setInt(1,order.getUser().getId());
+            statement.setInt(2,order.getBook().getId());
             statement.setString(3,order.getStatus().toString());
             statement.setString(4,order.getType().toString());
             statement.setObject(5,order.getOrderDateTime());
@@ -168,7 +171,6 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     private List<Order> parseResultSet(ResultSet resultSet) throws SQLException {
-        //TODO here is BIG ERROR
         List<Order> orderList=new ArrayList<>();
         while (resultSet.next()){
             Author author=new Author(resultSet.getInt(ID_FIELD_AUTHOR),
@@ -179,10 +181,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     resultSet.getString(TITLE_FIELD_PUBLISHER));
 
             Book book=new Book.Builder()
-                    .setId(resultSet.getInt(BookDaoImpl.ID_FIELD_BOOK))
+                    .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
+                    //.setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
+                    .setDate(((Timestamp)resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime())
+
                     .setGenre(BookGenre.valueOf(resultSet.getString(BookDaoImpl.GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(BookDaoImpl.TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(BookDaoImpl.LANG_FIELD_BOOK)))
@@ -198,12 +202,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .build();
 
             Order order=new Order.Builder()
-                    .setUserId(user.getId())
-                    .setBookId(book.getId())
+                    .setUser(user)
+                    .setBook(book)
                     .setId(resultSet.getInt(ID_FIELD_ORDER))
                     .setStatus(OrderStatus.valueOf(resultSet.getString(STATUS_FIELD_ORDER)))
                     .setType(OrderType.valueOf(resultSet.getString(TYPE_FIELD_ORDER)))
-                    .setOrderDateTime(resultSet.getObject(CREATE_DATE_FIELD_ORDER,LocalDate.class))
+                    //.setOrderDateTime(resultSet.getObject(CREATE_DATE_FIELD_ORDER,LocalDate.class))
+                    .setOrderDateTime(((Timestamp)resultSet.getObject(CREATE_DATE_FIELD_ORDER)).toLocalDateTime())
                     .build();
 
             orderList.add(order);

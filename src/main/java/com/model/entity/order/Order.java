@@ -5,6 +5,7 @@ import com.model.entity.book.Book;
 import com.model.entity.user.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -13,26 +14,26 @@ import java.util.List;
  */
 public class Order implements Identified{
     private int id;
-    private int userId;
-    private int bookId;
+    private User user;
+    private Book book;
     private OrderStatus status;
     private OrderType type;
-    private LocalDate orderDateTime;
+    private LocalDateTime orderDateTime;
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public OrderStatus getStatus() {
@@ -51,11 +52,11 @@ public class Order implements Identified{
         this.type = type;
     }
 
-    public LocalDate getOrderDateTime() {
+    public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(LocalDate orderDateTime) {
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
 
@@ -77,13 +78,13 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setBookId(int bookId){
-            order.setBookId(bookId);
+        public Builder setBook(Book book){
+            order.setBook(book);
             return this;
         }
 
-        public Builder setUserId(int userId){
-            order.setUserId(userId);
+        public Builder setUser(User user){
+            order.setUser(user);
             return this;
         }
 
@@ -97,7 +98,7 @@ public class Order implements Identified{
             return this;
         }
 
-        public Builder setOrderDateTime(LocalDate dateTime){
+        public Builder setOrderDateTime(LocalDateTime dateTime){
             order.setOrderDateTime(dateTime);
             return this;
         }

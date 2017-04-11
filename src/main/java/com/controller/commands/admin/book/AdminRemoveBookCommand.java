@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by vlad on 03.04.17.
+ * Post command from CRUD
+ * Created by vlad on 10.04.17.
  */
-public class AdminAddBookCommand extends CommandWrapper implements Command {
+public class AdminRemoveBookCommand extends CommandWrapper implements Command {
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //TODO add book to bd
-        //return request.getContextPath()+"/WEB-INF/view/admin/bookPage.jsp";
+        //TODO remove book from DB
         return "/admin/books";
     }
 }

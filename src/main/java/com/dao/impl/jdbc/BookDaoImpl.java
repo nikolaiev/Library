@@ -119,6 +119,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public void grantBook(int bookId) {
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_GRANTED_BOOK)){
             statement.setInt(1,bookId);
+            statement.execute();
 
         } catch (SQLException e) {
             throw new DaoException(e)
@@ -132,6 +133,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         checkIsSaved(book);
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_RETURNED_BOOK)){
             statement.setInt(1,book.getId());
+            statement.execute();
 
         } catch (SQLException e) {
             throw new DaoException(e)

@@ -18,8 +18,8 @@ public class GoInvalidUrlCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.sendRedirect(request.getContextPath() + "/home");
+        request.setAttribute("error",REQUESTED_UNSUPPORTED_URI);
+        response.sendRedirect(request.getContextPath() + "/login");
         return "REDIRECTED";
     }
 }

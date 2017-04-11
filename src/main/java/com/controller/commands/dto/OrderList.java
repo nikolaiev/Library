@@ -30,4 +30,12 @@ public class OrderList {
     public void removeBookFromList(Integer bookId) {
         books.remove(bookId);
     }
+
+    public void markBookAsGranted(Integer bookId) {
+        books.put(bookId,null);
+    }
+
+    public void removeGrantedBooksFromList() {
+        while(books.values().remove(null));
+    }
 }

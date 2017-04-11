@@ -15,15 +15,11 @@ public class ShowOrderListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         OrderList orderList=(OrderList) request.getSession().getAttribute("orderList");
-        if(orderList!=null) {
+        if(orderList!=null)
             request.setAttribute("books",
-                    orderList.getBooks());
+                orderList.getBooks());
 
-            return request.getContextPath()+"/WEB-INF/view/user/orderListPage.jsp";
-        }
+        return request.getContextPath()+"/WEB-INF/view/user/orderListPage.jsp";
 
-        response.sendRedirect("/books");
-
-        return "REDIRECTED";
     }
 }

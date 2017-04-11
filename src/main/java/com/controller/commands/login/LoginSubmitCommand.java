@@ -23,8 +23,8 @@ public class LoginSubmitCommand implements Command{
     UserService service=new UserServiceImpl();
     Map<UserRole,String> defaultLoggedInPage=new HashMap<>();
     {
-        defaultLoggedInPage.put(UserRole.ADMIN,"/admin/changeOrderStatus");
-        defaultLoggedInPage.put(UserRole.ADMIN,"/home");
+        defaultLoggedInPage.put(UserRole.ADMIN,"/admin/books");
+        defaultLoggedInPage.put(UserRole.USER,"/user/home");
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,7 +42,6 @@ public class LoginSubmitCommand implements Command{
         }
 
         if(isUserLoggedIn(request)){
-            //TODO write code
             UserRole role=(UserRole)request.getSession().getAttribute("userRole");
             return defaultLoggedInPage.get(role);
         }

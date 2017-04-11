@@ -15,17 +15,13 @@
 Books list
 <br>
 <table>
-    <c:forEach items="${books}" var="book">
+    <c:forEach items="${books}" var="order">
+        <c:out value="${order}"/>
         <tr>
 
-            <td><c:out value="${book.key}"/></td>
-            <td><c:out value="${book.value}"/></td>
+            <td><c:out value="${order.key}"/></td>
+            <td><c:out value="${order.value}"/></td>
 
-            <td>
-                <button id="<c:out value="${book.key}"/>" class="remove-button">
-                    remove from card!
-                </button>
-            </td>
 
         </tr>
     </c:forEach>

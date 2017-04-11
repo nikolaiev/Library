@@ -44,10 +44,10 @@
     var buyButtons=$('.buy-button');
     for(let i=0;i<buyButtons.length;i++){
         let but=buyButtons[i].id;
-        $('#'+but).click(()=>{
+        $(buyButtons[i]).click(()=>{
             $.ajax({
                 type: "POST",
-                url: "/user/books/addToOrderList",
+                url: "/user/books/add",
                 data: {id:but},
                 success: function(){console.log('Book was successfuly added')}
             });

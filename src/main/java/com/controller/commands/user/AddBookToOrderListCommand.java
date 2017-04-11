@@ -1,6 +1,7 @@
 package com.controller.commands.user;
 
 import com.controller.commands.Command;
+import com.controller.commands.CommandWrapper;
 import com.controller.commands.dto.OrderList;
 import com.model.entity.order.OrderType;
 import com.model.entity.user.User;
@@ -13,9 +14,9 @@ import java.io.IOException;
 /**
  * Created by vlad on 10.04.17.
  */
-public class AddBookToOrderListCommand implements Command {
+public class AddBookToOrderListCommand extends CommandWrapper implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session =request.getSession();
         OrderList orderList=(OrderList)session.getAttribute("orderList");
 

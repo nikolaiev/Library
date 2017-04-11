@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: vlad
@@ -11,6 +12,8 @@
     <title>Title</title>
 </head>
 <body>
-    It's FUCKING WORKING!
+    It's WORKING!
+    <br>
+    <c:out value="${requestScope.error}"/>
 </body>
 </html>

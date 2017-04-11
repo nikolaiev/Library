@@ -12,6 +12,6 @@
 </head>
 <body>
     HomePage!
-    <a href="/books">go to books</a>
+    <a href="/user/books">go to books</a>
 </body>
 </html>
