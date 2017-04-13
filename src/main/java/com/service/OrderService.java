@@ -1,6 +1,6 @@
 package com.service;
 
-import com.controller.commands.dto.OrderList;
+import com.controller.commands.dto.OrderItemList;
 import com.model.entity.order.Order;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface OrderService {
     //void createOrder(User user, Book book, OrderType orderType);
 
-    void createOrders(OrderList books, int userId);
+    void createOrders(OrderItemList books, int userId);
     List<Order> getAllOrders();
     void updateOrderStatus(Order order);
 

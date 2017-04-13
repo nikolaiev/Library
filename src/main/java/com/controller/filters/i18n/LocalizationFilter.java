@@ -1,4 +1,4 @@
-package com.controller.i18n;
+package com.controller.filters.i18n;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Created by vlad on 09.04.17.
  */
-public class CharacterEncodingFilter implements Filter {
+public class LocalizationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

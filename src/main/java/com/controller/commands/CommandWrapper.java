@@ -1,6 +1,7 @@
 package com.controller.commands;
 
 import com.dao.exception.DaoException;
+import com.exception.ApplicationException;
 import com.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +21,20 @@ public abstract class CommandWrapper implements Command {
             String view = processExecute(request,response);
             return  view;
         }
-        catch (DaoException e){
-            //TODO handle
+        catch (ApplicationException e) {
+            processApplicationException(e, request);
         }
-        catch (ServiceException e){
-            //TODO handle
+        catch (Exception e) {
+            processException(request, e);
         }
-        return null;
+        return request.getContextPath()+"/WEB-INF/view/errorPage.jsp";
+    }
+
+    private void processException(HttpServletRequest request, Exception e) {
+        //TODO implement
+    }
+
+    private void processApplicationException(ApplicationException e, HttpServletRequest request) {
+        //TODO implement
     }
 }

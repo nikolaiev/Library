@@ -12,7 +12,6 @@ import com.controller.commands.admin.publisher.AdminAddPublisherCommand;
 import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
-import com.controller.commands.common.ForbiddenCommand;
 import com.controller.commands.user.*;
 import com.controller.commands.common.GoHomeCommand;
 import com.controller.commands.common.GoInvalidUrlCommand;
@@ -42,7 +41,6 @@ public class CommandHolder {
         commands.put(GET_PATH+"/login",new LoginCommand());
         commands.put(POST_PATH+"/login",new LoginSubmitCommand());
         commands.put(GET_PATH+"/logout",new LogoutCommand());
-        commands.put(GET_PATH+"/forbidden",new ForbiddenCommand());
 
         /*USER COMMAND*/
         /*home command*/
@@ -51,7 +49,10 @@ public class CommandHolder {
         commands.put(GET_PATH+"/user/books",new FindBookCommand());
         commands.put(GET_PATH+"/user/process",new ProcessOrderListCommand());
         commands.put(GET_PATH+"/user/orders",new ShowOrderListCommand());
+        commands.put(GET_PATH+"/user/profile",new ProfileCommand());
+
         commands.put(POST_PATH+"/user/books/add",new AddBookToOrderListCommand());
+        commands.put(POST_PATH+"/user/books/remove",new RemoveBookFromOrderListCommand());
 
         /*ADMIN COMMANDS*/
         commands.put(GET_PATH+"/admin/books",new AdminBookCommand());

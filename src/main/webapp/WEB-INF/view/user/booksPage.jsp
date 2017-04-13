@@ -11,21 +11,30 @@
 <html>
 <head>
     <title>Books</title>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
+
+    <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alertify.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
+
+
 </head>
-<body>
+
+<jsp:include page="/WEB-INF/view/fragments/header.jsp" />
     Books list
     <br>
     <table>
     <c:forEach items="${books}" var="book">
         <tr>
 
+            <td><img class="order-image" src='${pageContext.request.contextPath}<c:out value="${book.image}"/>' /></td>
             <td><c:out value="${book.id}"/></td>
             <td><c:out value="${book.author.soname}"/></td>
             <td><c:out value="${book.genre}"/></td>
+
             <td>
                 <button id="<c:out value="${book.id}"/>" class="buy-button">
                     add to card!
@@ -37,9 +46,8 @@
     </table>
 
 
+<jsp:include page="/WEB-INF/view/fragments/footer.jsp" />
 
-
-</body>
 <script>
     var buyButtons=$('.buy-button');
     for(let i=0;i<buyButtons.length;i++){
@@ -49,11 +57,13 @@
                 type: "POST",
                 url: "/user/books/add",
                 data: {id:but},
-                success: function(){console.log('Book was successfuly added')}
+                //TODO make some DOM operations!!!
+                success: function(){
+                    $(buyButtons[i]).attr("disabled",true);
+                    alertify.success('Book was successfuly added');
+
+                }
             });
         })
     }
-
-
 </script>
-</html>

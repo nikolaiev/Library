@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-    It's WORKING!
+<h3>YOU CAN'T BE HERE!</h3>
     <br>
     <c:out value="${requestScope.error}"/>
 </body>

@@ -9,9 +9,14 @@
 <html>
 <head>
     <title>Home page</title>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
+
 </head>
-<body>
-    HomePage!
-    <a href="/user/books">go to books</a>
-</body>
-</html>
+
+<jsp:include page="/WEB-INF/view/fragments/header.jsp" />
+<p>
+    Home page!
+    You can order books here. Enjoy!
+</p>
+<jsp:include page="/WEB-INF/view/fragments/footer.jsp" />
+

@@ -16,9 +16,12 @@ import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 /**
+ * This class responsible fro GET command
+ * Returns book catalog jsp
  * Created by vlad on 03.04.17.
  */
 public class FindBookCommand extends CommandWrapper implements Command {
+    //TODO make all filters work
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Optional<String> title = Optional.ofNullable(request.getParameter("title"));
@@ -37,11 +40,22 @@ public class FindBookCommand extends CommandWrapper implements Command {
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
     }
 
+    /**
+     * Returns offset for book search
+     * @param request requestObject
+     * @param limit limit for book search
+     * @return offset for book search
+     */
     private int getOffsetFromRequest(HttpServletRequest request,int limit) {
         String res=request.getParameter("page");
         return res==null?0:(Integer.parseInt(res)-1)*limit;
     }
 
+    /**
+     * Returns limit for book search
+     * @param request requestObject
+     * @return limit for book search
+     */
     private int getLimitFromRequest(HttpServletRequest request) {
         String res=request.getParameter("limit");
         return res==null?20:Integer.parseInt(res);

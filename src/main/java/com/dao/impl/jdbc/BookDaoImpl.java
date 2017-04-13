@@ -23,7 +23,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String SELECT_ALL="SELECT id,  author_id, publisher_id, title, genre, " +
             "lang, pdate, publisher_title, " +
-            "       author_name, author_soname" +
+            "       author_name, author_soname, image" +
             "  FROM public.book_full_view ";
 
     private static final String SELECT_LIMIT_OFFSET=SELECT_ALL+" limit ? offset ?";
@@ -47,7 +47,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     private static final String SELECT_ALL_BY_AUTHOR_GENRE_LANG =SELECT_ALL+" WHERE author_id=? and genre=? and lang=?";
 
     private static final String UPDATE_BOOK_BY_ID="UPDATE public.book " +
-            "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? " +
+            "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=?" +
             " WHERE id=?";
 
     private static final String UPDATE_GRANTED_BOOK="UPDATE public.book " +
@@ -59,8 +59,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             " WHERE id=?";
 
     private static final String INSERT_BOOK="INSERT INTO public.book(" +
-            "            aid, pid, genre, lang, pdate, title)" +
-            "    VALUES (?, ?, ?, ?, ?, ?);";
+            "            aid, pid, genre, lang, pdate, title,image)" +
+            "    VALUES (?, ?, ?, ?, ?, ?,?);";
 
 
     private static final String ID_FIELD_AUTHOR="author_id";
@@ -76,6 +76,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public static final String GENRE_FIELD_BOOK="genre";
     public static final String TITLE_FIELD_BOOL="title";
     public static final String PUBLISH_DATE_FIELD_BOOK="pdate";
+    public static final String IMAGE_PATH_FIELD_BOOK="image";
+
     public static final String TABLE="book";
 
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD ="Database error while getting simple field";
@@ -276,13 +278,14 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         checkIsUnsaved(book);
         try(PreparedStatement statement=connection.get().prepareStatement(INSERT_BOOK,
                 Statement.RETURN_GENERATED_KEYS)) {
-            //  aid, pid, genre, lang, pdate, title
+            //  aid, pid, genre, lang, pdate, title, image
             statement.setInt(1,book.getAuthor().getId());
             statement.setInt(2,book.getPublisher().getId());
             statement.setString(3,book.getGenre().toString());
             statement.setString(4,book.getLanguage().toString());
             statement.setObject(5,book.getDate());
             statement.setString(6,book.getTitle());
+            statement.setString(7,book.getImage());
 
             executeInsertStatement(statement);
 
@@ -307,7 +310,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setString(4,book.getLanguage().toString());
             statement.setObject(5,book.getDate());
             statement.setString(6,book.getTitle());
-            statement.setInt(7,book.getId());
+            statement.setString(7,book.getImage());
+            statement.setInt(8,book.getId());
 
             statement.executeUpdate();
 
@@ -372,6 +376,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))
+                    .setImage(resultSet.getString(IMAGE_PATH_FIELD_BOOK))
                     .build();
             bookList.add(book);
         }

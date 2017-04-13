@@ -8,9 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
 </head>
 <body>
+    <ul>
+        <li><a href="/user/home">Home</a></li>
+        <li><a href="/user/books">Books</a></li>
+        <li><a href="/user/orders">Orders</a></li>
+        <li><a href="/user/profile">Profile</a></li>
+        <li style="float: right"><a href="/logout">Logout</a></li>
+    </ul>
 
-</body>
-</html>

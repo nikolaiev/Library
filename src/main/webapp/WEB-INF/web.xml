@@ -8,11 +8,10 @@
         <servlet-name>mainController</servlet-name>
         <servlet-class>com.controller.FrontController</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>mainController</servlet-name>
         <url-pattern>/home/*</url-pattern>
-        <url-pattern>/forbidden</url-pattern>
         <url-pattern>/admin/*</url-pattern>
         <url-pattern>/user/*</url-pattern>
         <url-pattern>/login/*</url-pattern>
@@ -21,10 +20,22 @@
     </servlet-mapping>
 
     <!--Filters configuration-->
+    <filter>
+        <filter-name>default</filter-name>
+        <filter-class>com.controller.filters.resource.DefaultFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>default</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.png</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>auth</filter-name>
-        <filter-class>com.controller.security.AuthFilter</filter-class>
+        <filter-class>com.controller.filters.security.AuthFilter</filter-class>
     </filter>
 
     <filter-mapping>

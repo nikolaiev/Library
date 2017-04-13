@@ -1,16 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vlad
-  Date: 30.03.17
-  Time: 2:12
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page errorPage="/WEB-INF/view/errorPage.jsp" %>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                <div align="center">
+                    <!--fmt:message key="title"/--> - 2017
+                </div>
+                <hr>
+            </div>
+            <br>
+        </div>
+    </body>
 </html>

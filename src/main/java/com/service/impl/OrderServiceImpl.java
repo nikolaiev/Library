@@ -1,6 +1,8 @@
 package com.service.impl;
 
-import com.controller.commands.dto.OrderList;
+import com.controller.commands.dto.OrderItem;
+import com.controller.commands.dto.OrderItemList;
+import com.dao.exception.DaoException;
 import com.exception.ApplicationException;
 import com.model.entity.book.Book;
 import com.model.entity.order.Order;
@@ -39,24 +41,30 @@ public class OrderServiceImpl extends GenericService implements OrderService {
         });
     }
 
+    /**
+     * Creates orders from user OrderItemList session object
+     * @param orderItemList user OrderItemListObject
+     * @param userId    userId
+     */
     @Override
-    public void createOrders(OrderList orderList, int userId) {
-        Map<Integer,OrderType> books=orderList.getBooks();
-        Set<Integer> keys=books.keySet();
+    public void createOrders(OrderItemList orderItemList, int userId) {
+        Map<Integer,OrderItem> bookOrders= orderItemList.getBookOrders();
+        Set<Integer> keys=bookOrders.keySet();
 
-        for(Integer bookId :keys){
-            OrderType orderType=books.get(bookId);
+        for(Integer bookId :keys) {
+            OrderType orderType = bookOrders.get(bookId).getOrderType();
+
             try {
                 createOrder(userId, bookId, orderType);
-                orderList.markBookAsGranted(bookId);
+                orderItemList.setOrderStatus(bookId, OrderStatus.GRANTED);
             }
-            catch (ApplicationException e){
-                //TODO logger
+            /*if all specific book's exemplars are in use*/
+            catch (DaoException e) {
+                orderItemList.setOrderStatus(bookId, OrderStatus.REJECTED);
             }
-
         }
-
-        orderList.removeGrantedBooksFromList();
+        /*clear session orderList object*/
+        orderItemList.removeGrantedBooksFromList();
     }
 
     @Override

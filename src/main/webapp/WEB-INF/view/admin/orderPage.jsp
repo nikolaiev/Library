@@ -14,6 +14,15 @@
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
+    <!--alertify script-->
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/alertifyjs/1.9.0/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/themes/default.min.css"/>
+
 </head>
 <body>
 Books list
@@ -35,15 +44,16 @@ Books list
 </body>
 <script>
 
-    var buyButtons=$('.return-button');
-    for(let i=0;i<buyButtons.length;i++){
-        let but=buyButtons[i].id;
-        $(buyButtons[i]).click(()=>{
+    var returnButtons=$('.return-button');
+    for(let i=0; i<returnButtons.length; i++){
+        let but=returnButtons[i].id;
+        $(returnButtons[i]).click(()=>{
 
             $.ajax({
                 type: "POST",
                 url: "/admin/orders/update",
-                data: {id:but}
+                data: {id:but},
+                success:()=>{alertify.success('Status changed')}
             });
         })
     }

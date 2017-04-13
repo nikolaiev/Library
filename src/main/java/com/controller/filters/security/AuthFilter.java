@@ -1,7 +1,6 @@
-package com.controller.security;
+package com.controller.filters.security;
 
 import com.model.entity.user.UserRole;
-import com.sun.deploy.net.HttpRequest;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +25,10 @@ public class AuthFilter implements Filter {
         String uri = httpRequest.getRequestURI();
 
         if(!isAuthorizedForUri(role,uri)){
-            //TODO переделать
+            //TODO fix
             httpRequest.setAttribute("error",FORBIDDEN_URL_REQUESTED);
             httpRequest.getRequestDispatcher("/forbidden").forward(servletRequest,servletResponse);
+            //httpRequest.getRequestDispatcher(httpRequest.getContextPath()+"/WEB-INF/view/errorPage.jsp").forward(servletRequest,servletResponse);
             return;
         }
 
@@ -47,18 +47,17 @@ public class AuthFilter implements Filter {
     }
 
     private boolean checkUnauthorizedUri(String uri) {
+
         return uri.startsWith("/login");
     }
 
     private boolean checkUserUri(String uri) {
         return uri.startsWith("/user/")
-                ||uri.startsWith("/forbidden")
                 ||uri.startsWith("/logout");
     }
 
     private boolean checkAdminUri(String uri) {
         return  uri.startsWith("/admin/")
-                ||uri.startsWith("/forbidden")
                 ||uri.startsWith("/logout");
     }
 

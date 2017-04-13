@@ -17,6 +17,15 @@ public class Book implements Identified {
     private BookLanguage language;
     private Publisher publisher;
     private LocalDateTime date;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public LocalDateTime getDate() {
         return date;
@@ -86,6 +95,7 @@ public class Book implements Identified {
                 ", language=" + language +
                 ", publisher=" + publisher +
                 ", date=" + date +
+                ", image='" + image + '\'' +
                 '}';
     }
 
@@ -124,6 +134,11 @@ public class Book implements Identified {
 
         public Builder setDate(LocalDateTime date){
             book.setDate(date);
+            return this;
+        }
+
+        public Builder setImage(String image){
+            book.setImage(image);
             return this;
         }
 

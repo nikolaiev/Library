@@ -1,21 +1,23 @@
-package com.controller.i18n;
+package com.controller.filters.resource;
 
 import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * Created by vlad on 09.04.17.
+ * Created by vlad on 12.04.17.
  */
-public class LocalizationFilter implements Filter {
+public class DefaultFilter  implements Filter{
+    private RequestDispatcher defaultRequestDispatcher;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        defaultRequestDispatcher=filterConfig.getServletContext()
+                .getNamedDispatcher("default");
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        //TODO implement
-        filterChain.doFilter(servletRequest,servletResponse);
+        defaultRequestDispatcher.forward(servletRequest,servletResponse);
     }
 
     @Override
