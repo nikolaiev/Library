@@ -17,10 +17,16 @@
         <url-pattern>/login/*</url-pattern>
         <url-pattern>/logout/*</url-pattern>
         <url-pattern>/books/*</url-pattern>
+
+        <url-pattern>/static/*.js</url-pattern>
+        <url-pattern>/static/*.css</url-pattern>
+        <url-pattern>/static/*.jpg</url-pattern>
+        <url-pattern>/static/*.png</url-pattern>
+
     </servlet-mapping>
 
     <!--Filters configuration-->
-    <filter>
+    <!--filter>
         <filter-name>default</filter-name>
         <filter-class>com.controller.filters.resource.DefaultFilter</filter-class>
     </filter>
@@ -31,7 +37,7 @@
         <url-pattern>*.css</url-pattern>
         <url-pattern>*.jpg</url-pattern>
         <url-pattern>*.png</url-pattern>
-    </filter-mapping>
+    </filter-mapping-->
 
     <filter>
         <filter-name>auth</filter-name>

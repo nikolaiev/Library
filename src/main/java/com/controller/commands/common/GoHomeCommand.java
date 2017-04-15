@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 public class GoHomeCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
         return request.getContextPath()+"/WEB-INF/view/homePage.jsp";
     }
 }

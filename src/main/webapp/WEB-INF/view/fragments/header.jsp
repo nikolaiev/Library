@@ -14,8 +14,8 @@
     <ul>
         <li><a href="/user/home">Home</a></li>
         <li><a href="/user/books">Books</a></li>
-        <li><a href="/user/orders">Orders</a></li>
         <li><a href="/user/profile">Profile</a></li>
         <li style="float: right"><a href="/logout">Logout</a></li>
+        <li style="float: right"><a href="/user/orders">Orders</a></li>
     </ul>
 

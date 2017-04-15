@@ -2,6 +2,7 @@ package com.service.impl;
 
 import com.controller.commands.dto.OrderItem;
 import com.controller.commands.dto.OrderItemList;
+import com.dao.BookDao;
 import com.dao.exception.DaoException;
 import com.exception.ApplicationException;
 import com.model.entity.book.Book;
@@ -10,6 +11,7 @@ import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 import com.model.entity.user.User;
 import com.service.OrderService;
+import com.service.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
@@ -21,23 +23,26 @@ import java.util.Set;
  */
 public class OrderServiceImpl extends GenericService implements OrderService {
 
+    private boolean createOrder(int userId, int bookId, OrderType orderType) {
+        return executeInSerializableWrapper((daoManager)->{
 
+            BookDao bookDao=daoManager.getBookDao();
 
-    private void createOrder(int userId, int bookId, OrderType orderType) {
-        executeInTransactionalVoidWrapper((daoManager)->{
+            if(bookDao.getCountAvailable(bookId)>0){
+                bookDao.grantBook(bookId);
+                Book book=new Book.Builder().setId(bookId).build();
+                User user=new User.Builder().setId(userId).build();
 
-            daoManager.getBookDao().grantBook(bookId);
-
-            Book book=new Book.Builder().setId(bookId).build();
-            User user=new User.Builder().setId(userId).build();
-
-            Order order=new Order.Builder()
-                    .setBook(book)
-                    .setType(orderType)
-                    .setUser(user)
-                    .setStatus(OrderStatus.GRANTED)
-                    .build();
-           daoManager.getOrderDao().insert(order);
+                Order order=new Order.Builder()
+                        .setBook(book)
+                        .setType(orderType)
+                        .setUser(user)
+                        .setStatus(OrderStatus.GRANTED)
+                        .build();
+                daoManager.getOrderDao().insert(order);
+                return true;
+            }
+            return false;
         });
     }
 
@@ -54,12 +59,10 @@ public class OrderServiceImpl extends GenericService implements OrderService {
         for(Integer bookId :keys) {
             OrderType orderType = bookOrders.get(bookId).getOrderType();
 
-            try {
-                createOrder(userId, bookId, orderType);
+            if(createOrder(userId, bookId, orderType)) {
                 orderItemList.setOrderStatus(bookId, OrderStatus.GRANTED);
             }
-            /*if all specific book's exemplars are in use*/
-            catch (DaoException e) {
+            else {
                 orderItemList.setOrderStatus(bookId, OrderStatus.REJECTED);
             }
         }
@@ -77,7 +80,7 @@ public class OrderServiceImpl extends GenericService implements OrderService {
     @Override
     public void updateOrderStatus(Order order) {
         executeInTransactionalVoidWrapper((daoManager)-> {
-            daoManager.getBookDao().returnBook(order.getBook());
+            daoManager.getBookDao().returnBook(order.getBook().getId());
             daoManager.getOrderDao().updateOrderStatus(order);
         });
     }

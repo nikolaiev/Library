@@ -8,17 +8,11 @@ import java.util.List;
  * Created by vlad on 17.03.17.
  */
 public interface BookDao extends GenericDao<Book>{
+
     int getCountAvailable(int bookId);
     void grantBook(int bookId);
-    void returnBook(Book book);
-    List<Book> getBooksByAuthor(Author author);
-    List<Book> getBooksByLang(BookLanguage language);
-    List<Book> getBooksByGenre(BookGenre genre);
-    List<Book> getBooksByPublisher(Publisher publisher);
-    List<Book> getBooksByTitle(String title);
-    List<Book> getBooksByAuthorLang(Author author,BookLanguage language);
-    List<Book> getBooksByGenreLang(BookGenre genre,BookLanguage language);
-    List<Book> getBooksByAuthorGenreLang(Author author,BookGenre genre,BookLanguage language);
+    void returnBook(int bookId);
 
+    List<Book> getBooksByTitleLimitOffset(String title,int limit,int offset);
     List<Book> getAllLimitOffset(int limit,int offset);
 }

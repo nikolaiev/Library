@@ -4,6 +4,7 @@ import com.model.entity.user.UserRole;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -20,15 +21,21 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest=(HttpServletRequest)servletRequest;
+
         HttpSession session=httpRequest.getSession();
         UserRole role=(UserRole) session.getAttribute("userRole");
         String uri = httpRequest.getRequestURI();
 
         if(!isAuthorizedForUri(role,uri)){
-            //TODO fix
-            httpRequest.setAttribute("error",FORBIDDEN_URL_REQUESTED);
-            httpRequest.getRequestDispatcher("/forbidden").forward(servletRequest,servletResponse);
-            //httpRequest.getRequestDispatcher(httpRequest.getContextPath()+"/WEB-INF/view/errorPage.jsp").forward(servletRequest,servletResponse);
+            if(role==null){
+                HttpServletResponse httpResponse=(HttpServletResponse)servletResponse;
+                httpResponse.sendRedirect("/login");
+            }
+            else {
+                httpRequest.setAttribute("error",FORBIDDEN_URL_REQUESTED);
+                httpRequest.getRequestDispatcher(httpRequest.getContextPath() + "/WEB-INF/view/errorPage.jsp")
+                        .forward(servletRequest, servletResponse);
+            }
             return;
         }
 
@@ -42,23 +49,23 @@ public class AuthFilter implements Filter {
         else if(role==UserRole.USER){
             return checkUserUri(uri);
         }
-
         return checkUnauthorizedUri(uri);
     }
 
     private boolean checkUnauthorizedUri(String uri) {
-
         return uri.startsWith("/login");
     }
 
     private boolean checkUserUri(String uri) {
         return uri.startsWith("/user/")
-                ||uri.startsWith("/logout");
+                ||uri.startsWith("/logout")
+                ||uri.startsWith("/static");
     }
 
     private boolean checkAdminUri(String uri) {
         return  uri.startsWith("/admin/")
-                ||uri.startsWith("/logout");
+                ||uri.startsWith("/logout")
+                ||uri.startsWith("/static");
     }
 
     @Override

@@ -32,9 +32,11 @@ public abstract class CommandWrapper implements Command {
 
     private void processException(HttpServletRequest request, Exception e) {
         //TODO implement
+        request.setAttribute("error",e);
     }
 
     private void processApplicationException(ApplicationException e, HttpServletRequest request) {
         //TODO implement
+        request.setAttribute("error",e);
     }
 }

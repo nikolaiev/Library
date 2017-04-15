@@ -4,9 +4,8 @@ import com.dao.BookDao;
 import com.dao.exception.DaoException;
 import com.model.entity.book.*;
 
+import javax.swing.text.html.Option;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,32 +18,31 @@ import java.util.Optional;
 //TODO check if we need PrepareStatement in select All!
 public class BookDaoImpl extends  AbstractDao implements BookDao{
 
-    private static final String GET_BOOKS_EXEMPLARS_AMOUNT="SELECT count FROM book WHERE id=?";
+    private static final String GET_BOOKS_AVAIlABLE_AMOUNT =
+            "SELECT count-count_in_use as count FROM book WHERE id=?";
 
     private static final String SELECT_ALL="SELECT id,  author_id, publisher_id, title, genre, " +
             "lang, pdate, publisher_title, " +
             "       author_name, author_soname, image" +
             "  FROM public.book_full_view ";
 
-    private static final String SELECT_LIMIT_OFFSET=SELECT_ALL+" limit ? offset ?";
+    private static final String LIMIT_OFFSET=" limit ? offset ?";
 
-    private static final String SELECT_ALL_BY_AUTHOR=SELECT_ALL+" WHERE author_id=?;";
-
-    private static final String SELECT_ALL_BY_LANG=SELECT_ALL+" WHERE lang=?;";
-
-    private static final String SELECT_ALL_BY_GENRE=SELECT_ALL+" WHERE genre=?;";
-
-    private static final String SELECT_ALL_BY_PUBLISHER=SELECT_ALL+" WHERE publisher_id=?;";
+    private static final String SELECT_LIMIT_OFFSET=SELECT_ALL+LIMIT_OFFSET;
 
     private static final String SELECT_BOOK_BY_ID=SELECT_ALL+" WHERE id =?";
 
-    private static final String SELECT_ALL_BY_TITLE =SELECT_ALL+" WHERE title like '%'||?||'%'";
+    private static final String BY_AUTHOR_FILTER=" author_id=? ";
 
-    private static final String SELECT_ALL_BY_AUTHOR_LANG =SELECT_ALL+" WHERE author_id=? and lang=?";
+    private static final String BY_LANG_FILTER=" lang=? ";
 
-    private static final String SELECT_ALL_BY_GENRE_LANG =SELECT_ALL+" WHERE genre=? and lang=?";
+    private static final String BY_GENRE_FILTER=" genre=? ";
 
-    private static final String SELECT_ALL_BY_AUTHOR_GENRE_LANG =SELECT_ALL+" WHERE author_id=? and genre=? and lang=?";
+    private static final String BY_PUBLISHER_FILTER=" publisher_id=? ";
+
+    private static final String BY_TITLE_FILTER=" title like '%'||?||'%' ";
+
+
 
     private static final String UPDATE_BOOK_BY_ID="UPDATE public.book " +
             "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=?" +
@@ -79,8 +77,11 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public static final String IMAGE_PATH_FIELD_BOOK="image";
 
     public static final String TABLE="book";
+    public static final String WHERE=" WHERE ";
+    public static final String AND=" AND ";
 
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD ="Database error while getting simple field";
+    private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW ="Database error while getting filtered row";
 
     private static class InstanceHolder{
         private static BookDaoImpl INSTANCE=new BookDaoImpl();
@@ -92,10 +93,6 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         return InstanceHolder.INSTANCE;
     }
 
-    /*public BookDaoImpl(Connection connection) {
-        super(connection);
-    }*/
-
     private BookDaoImpl(){}
 
 
@@ -103,7 +100,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public int getCountAvailable(int bookId){
         int count=0;
 
-        try(PreparedStatement statement=connection.get().prepareStatement(GET_BOOKS_EXEMPLARS_AMOUNT)){
+        try(PreparedStatement statement=connection.get().prepareStatement(GET_BOOKS_AVAIlABLE_AMOUNT)){
             statement.setInt(1,bookId);
             ResultSet resultSet=statement.executeQuery();
             if(resultSet.next()){
@@ -130,11 +127,9 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     }
 
     @Override
-    public void returnBook(Book book) {
-        checkForNull(book);
-        checkIsSaved(book);
+    public void returnBook(int bookId) {
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_RETURNED_BOOK)){
-            statement.setInt(1,book.getId());
+            statement.setInt(1,bookId);
             statement.execute();
 
         } catch (SQLException e) {
@@ -144,118 +139,18 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     }
 
     @Override
-    public List<Book> getBooksByAuthor(Author author) {
-        checkForNull(author);
-        checkIsSaved(author);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR)){
-            statement.setInt(1,author.getId());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByLang(BookLanguage language) {
-        checkForNull(language);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_LANG)){
-            statement.setString(1,language.toString());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByGenre(BookGenre genre) {
-        checkForNull(genre);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_GENRE)){
-            statement.setString(1,genre.toString());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByPublisher(Publisher publisher) {
-        checkForNull(publisher);
-        checkIsSaved(publisher);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_PUBLISHER)){
-            statement.setInt(1,publisher.getId());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByTitle(String title) {
-        checkForNull(title);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_TITLE)){
+    public List<Book> getBooksByTitleLimitOffset(String title,int limit,int offset) {
+        try (PreparedStatement statement=connection.get()
+                .prepareStatement(SELECT_ALL+WHERE+BY_TITLE_FILTER+LIMIT_OFFSET)){
             statement.setString(1,title);
+            statement.setInt(2,limit);
+            statement.setInt(3,offset);
 
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+            return parseResultSet(statement.executeQuery());
         }
-    }
-
-    @Override
-    public List<Book> getBooksByAuthorLang(Author author, BookLanguage language) {
-        checkForNull(author);
-        checkForNull(language);
-        checkIsSaved(author);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR_LANG)){
-            statement.setInt(1,author.getId());
-            statement.setString(2,language.toString());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
+        catch (SQLException e){
             throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByGenreLang(BookGenre genre, BookLanguage language) {
-        checkForNull(genre);
-        checkForNull(language);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_GENRE_LANG)){
-            statement.setString(1,genre.toString());
-            statement.setString(2,language.toString());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
-        }
-    }
-
-    @Override
-    public List<Book> getBooksByAuthorGenreLang(Author author, BookGenre genre, BookLanguage language) {
-        checkForNull(genre);
-        checkForNull(language);
-        checkForNull(author);
-        checkIsSaved(author);
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL_BY_AUTHOR_GENRE_LANG)){
-            statement.setInt(1,author.getId());
-            statement.setString(2,genre.toString());
-            statement.setString(3,language.toString());
-
-            return  parseResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
         }
     }
 

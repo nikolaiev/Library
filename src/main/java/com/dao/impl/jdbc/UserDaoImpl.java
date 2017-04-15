@@ -49,10 +49,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         return InstanceHolder.INSTANCE;
     }
 
-    /*public UserDaoImpl(Connection connection) {
-        super(connection);
-    }*/
-
     private UserDaoImpl(){}
 
     @Override

@@ -18,8 +18,7 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
     private static final String SELECT_ALL="SELECT id, name, soname" +
             "  FROM public.author";
     private static final String SELECT_AUTHOR_BY_ID=SELECT_ALL+" WHERE id =?";
-    private static final String SELECT_AUTHOR_BY_NAME=SELECT_ALL+" WHERE name =?";
-    private static final String SELECT_AUTHOR_BY_SONAME=SELECT_ALL+" WHERE soname =?";
+    private static final String SELECT_AUTHOR_BY_NAME=SELECT_ALL+" WHERE name LIKE '%'||?||'%'";
 
     private static final String DELETE_AUTHOR_BY_ID="DELETE FROM author WHERE id=?";
 
@@ -36,6 +35,20 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
     private static final String SONAME_FIELD="soname";
     private static final String TABLE="author";
 
+    @Override
+    public List<Author> getAuthorsByName(String name) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_AUTHOR_BY_NAME)){
+            statement.setString(1,name);
+            try (ResultSet resultSet=statement.executeQuery()){
+                return parseResultSet(resultSet);
+            }
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME + name);
+        }
+    }
+
     private static class InstanceHolder{
         private static AuthorDaoImpl INSTANCE=new AuthorDaoImpl();
     }
@@ -45,11 +58,6 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         InstanceHolder.INSTANCE.connection.set(connection);
         return InstanceHolder.INSTANCE;
     }
-
-    /*public AuthorDaoImpl(Connection connection) {
-        super(connection);
-    }
-    */
 
     private AuthorDaoImpl(){}
 
@@ -80,25 +88,6 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         catch (SQLException e){
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_ID + id);
-        }
-    }
-
-    @Override
-    public Optional<Author> getAuthorByName(String name) {
-
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_AUTHOR_BY_NAME)){
-            statement.setString(1,name);
-            try (ResultSet resultSet=statement.executeQuery()){
-                List<Author> list=parseResultSet(resultSet);
-                checkSingleResult(list);
-                return list.isEmpty() ?
-                        Optional.empty()
-                        : Optional.of(list.get(0));
-            }
-        }
-        catch (SQLException e){
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME + name);
         }
     }
 

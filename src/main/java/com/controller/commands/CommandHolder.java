@@ -41,6 +41,7 @@ public class CommandHolder {
         commands.put(GET_PATH+"/login",new LoginCommand());
         commands.put(POST_PATH+"/login",new LoginSubmitCommand());
         commands.put(GET_PATH+"/logout",new LogoutCommand());
+        commands.put(GET_PATH+"/forbidden",new GoInvalidUrlCommand());
 
         /*USER COMMAND*/
         /*home command*/

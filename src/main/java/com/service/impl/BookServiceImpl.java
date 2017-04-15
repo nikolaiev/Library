@@ -9,6 +9,7 @@ import com.model.entity.book.Book;
 import com.service.BookService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vlad on 30.03.17.
@@ -36,26 +37,16 @@ public class BookServiceImpl extends GenericService implements BookService {
     }
 
     @Override
-    public List<Book> getBooks(int limit, int offset) {
+    public List<Book> getAllBooks(int limit, int offset) {
         return  executeInNonTransactionalWrapper((transactionManager ->
         transactionManager.getBookDao().getAllLimitOffset(limit,offset)));
     }
 
     @Override
-    public List<Book> getBooksByTitle(String title) {
+    public List<Book> getBooksByTitle(String title,int limit,int offset) {
         return executeInNonTransactionalWrapper((transactionManager)->
-            transactionManager.getBookDao().getBooksByTitle(title)
+            transactionManager.getBookDao().getBooksByTitleLimitOffset(title,limit,offset)
         );
-    }
-
-    @Override
-    public List<Book> getBooksByAuthor(String author) {
-        return null;
-    }
-
-    @Override
-    public List<Book> getBooksByPublisher(String publisher) {
-        return null;
     }
 
 }

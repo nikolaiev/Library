@@ -14,6 +14,25 @@ import static org.junit.Assert.*;
  * Created by vlad on 10.04.17.
  */
 public class OrderDaoImplTest {
+    @Test
+    public void insert1() throws Exception {
+    }
+
+    @Test
+    public void update1() throws Exception {
+    }
+
+    @Test
+    public void updateOrderStatus1() throws Exception {
+    }
+
+    @Test
+    public void getAll1() throws Exception {
+    }
+
+    @Test
+    public void getById1() throws Exception {
+    }
 
     @Test
     public void getInstance() throws Exception {

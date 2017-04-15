@@ -70,12 +70,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return InstanceHolder.INSTANCE;
     }
 
-    /*public OrderDaoImpl(Connection connection) {
-        super(connection);
-    }*/
-
     private OrderDaoImpl(){}
-
 
     @Override
     public Order insert(Order order) {
@@ -161,7 +156,6 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public void removeById(int id) {
-        //TODO implement trigger!
         super.deleteById(TABLE,id);
     }
 

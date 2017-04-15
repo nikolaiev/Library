@@ -10,15 +10,9 @@ import java.util.Optional;
  * Created by vlad on 17.03.17.
  */
 public interface GenericDao <T>{
-    //T create();
-
     T insert(T obj);
-
     void update(T obj);
-
     List<T> getAll();
-
     Optional<T> getById(int id);
-
     void removeById(int id);
 }

@@ -130,7 +130,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     }
 
     @Override
-    public Optional<Publisher> getPublisherByTitle(String title) {
+    public List<Publisher> getPublishersByTitle(String title) {
         return null;
     }
 

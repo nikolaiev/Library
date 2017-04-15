@@ -10,7 +10,6 @@ import java.util.List;
  * Created by vlad on 20.03.17.
  */
 public interface OrderDao extends GenericDao<Order> {
-    //TODO order has offsetDateTime! check it!!
     List<Order> getOrdersByDate(Date date);
     void updateOrderStatus(Order order);
 }
