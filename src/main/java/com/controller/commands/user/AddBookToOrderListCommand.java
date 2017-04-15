@@ -32,7 +32,7 @@ public class AddBookToOrderListCommand extends CommandWrapper implements Command
         orderItemList.addBook(id,orderType);
 
         /*closing request*/
-        //response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write("Goods was added!");
 
         return "REDIRECTED";

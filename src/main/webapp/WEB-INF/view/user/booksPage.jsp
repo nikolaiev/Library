@@ -24,6 +24,16 @@
 </head>
 
 <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
+    <form method="get">
+        <input type="text" name="title" placeholder="book title" value="<c:out value="${param.title}"/>"/>
+        <input type="text" name="author_name" placeholder="author name" value="<c:out value="${param.author_name}"/>"/>
+        <input type="submit" value="filter"/>
+    </form>
+
+    <form method="get">
+        <input type="submit" value="clear filter">
+    </form>
+    <br>
     Books list
     <br>
     <table>
@@ -31,7 +41,8 @@
         <tr>
 
             <td><img class="order-image" src='${pageContext.request.contextPath}<c:out value="${book.image}"/>' /></td>
-            <td><c:out value="${book.id}"/></td>
+            <%--<td><c:out value="${book.id}"/></td>--%>
+            <td><c:out value="${book.title}"/></td>
             <td><c:out value="${book.author.soname}"/></td>
             <td><c:out value="${book.genre}"/></td>
 
@@ -60,8 +71,10 @@
                 //TODO make some DOM operations!!!
                 success: function(){
                     $(buyButtons[i]).attr("disabled",true);
-                    alertify.success('Book was successfuly added');
-
+                    alertify.success('Book was successfully added');
+                },
+                fail:function () {
+                    alertify.success('Some errors occurred');
                 }
             });
         })

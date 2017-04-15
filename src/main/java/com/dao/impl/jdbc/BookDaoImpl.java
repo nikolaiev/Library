@@ -14,8 +14,6 @@ import java.util.Optional;
  * Created by vlad on 17.03.17.
  */
 
-//TODO replace errors in DaoException!
-//TODO check if we need PrepareStatement in select All!
 public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String GET_BOOKS_AVAIlABLE_AMOUNT =
@@ -140,9 +138,33 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public List<Book> getBooksByTitleLimitOffset(String title,int limit,int offset) {
+        return getBookBySimpleStringFilter(title,BY_TITLE_FILTER,limit,offset);
+    }
+
+    @Override
+    public List<Book> getBooksByAuthorLimitOffset(int authorId, int limit, int offset) {
+        return getBookBySimpleIntFilter(authorId,BY_AUTHOR_FILTER,limit,offset);
+    }
+
+    @Override
+    public List<Book> getBooksByGenreLimitOffset(BookGenre genre, int limit, int offset) {
+        return getBookBySimpleStringFilter(genre,BY_GENRE_FILTER,limit,offset);
+    }
+
+    @Override
+    public List<Book> getBooksByPublisherLimitOffset(int publisherId, int limit, int offset) {
+        return getBookBySimpleIntFilter(publisherId,BY_PUBLISHER_FILTER,limit,offset);
+    }
+
+    @Override
+    public List<Book> getBooksByLanguageLimitOffset(BookLanguage language, int limit, int offset) {
+        return getBookBySimpleStringFilter(language,BY_LANG_FILTER,limit,offset);
+    }
+
+    private List<Book> getBookBySimpleIntFilter(int value,final String WHERE_CLOSE,int limit,int offset){
         try (PreparedStatement statement=connection.get()
-                .prepareStatement(SELECT_ALL+WHERE+BY_TITLE_FILTER+LIMIT_OFFSET)){
-            statement.setString(1,title);
+                .prepareStatement(SELECT_ALL+WHERE+WHERE_CLOSE+LIMIT_OFFSET)){
+            statement.setInt(1,value);
             statement.setInt(2,limit);
             statement.setInt(3,offset);
 
@@ -153,6 +175,22 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
         }
     }
+
+    private List<Book> getBookBySimpleStringFilter(Object value,final String WHERE_CLOSE,int limit,int offset){
+        try (PreparedStatement statement=connection.get()
+                .prepareStatement(SELECT_ALL+WHERE+WHERE_CLOSE+LIMIT_OFFSET)){
+            statement.setString(1,value.toString());
+            statement.setInt(2,limit);
+            statement.setInt(3,offset);
+
+            return parseResultSet(statement.executeQuery());
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
+        }
+    }
+
 
     @Override
     public List<Book> getAllLimitOffset(int limit, int offset) {
@@ -218,8 +256,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public List<Book> getAll() {
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL)){
-            return  parseResultSet(statement.executeQuery());
+        try(Statement statement=connection.get().createStatement()){
+            return  parseResultSet(statement.executeQuery(SELECT_ALL));
         } catch (SQLException e) {
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);

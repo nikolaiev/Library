@@ -49,4 +49,10 @@ public class BookServiceImpl extends GenericService implements BookService {
         );
     }
 
+    @Override
+    public List<Book> getBooksByParams(String title, String authorName, int limit, int offset) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+        transactionManager.getBookDao().getBooksByParamsLimitOffset(title,authorName,limit,offset));
+    }
+
 }

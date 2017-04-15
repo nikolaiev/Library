@@ -25,21 +25,17 @@ public class FindBookCommand extends CommandWrapper implements Command {
     //TODO make all filters work
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //wrap into Optional to reduce code uglity!
+
         Optional<String> title = Optional.ofNullable(request.getParameter("title"));
-        Optional<String> author = Optional.ofNullable(request.getParameter("author"));
-        Optional<String> publisher= Optional.ofNullable(request.getParameter("publisher"));
-        Optional<String> genre= Optional.ofNullable(request.getParameter("genre"));
 
         int limit= getLimitFromRequest(request);
         int offset= getOffsetFromRequest(request,limit);
 
 
         BookService bookService=BookServiceImpl.getInstance();
-        //TODO rewrite to more specific search;
 
-        List<Book> books= null;//bookService.getBooks(title,genre,author,publisher,limit,offset);
-
+        List<Book> books= title.map(bookTitle->bookService.getBooksByTitle(bookTitle,limit,offset))
+                .orElse(bookService.getAllBooks(limit,offset));
 
         request.setAttribute("books",books);
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";

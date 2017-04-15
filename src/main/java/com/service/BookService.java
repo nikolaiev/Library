@@ -12,4 +12,5 @@ public interface BookService {
     List<Book> getAllBooks();
     List<Book> getAllBooks(int limit,int offset);
     List<Book> getBooksByTitle(String title,int limit,int offset);
+    List<Book> getBooksByParams(String title,String authorName,int limit,int offset);
 }
