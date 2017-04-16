@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: vlad
@@ -12,5 +13,25 @@
 </head>
 
 <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
-    Here goes your profile data!!!
+
+
+Processed books' orders
+<br>
+<table>
+    <c:forEach items="${orders}" var="order">
+        <tr>
+            <td><c:out value="${id}"/></td>
+            <td><c:out value="${order.orderDateTime}"/></td>
+            <td><c:out value="${order.type}"/></td>
+            <td><c:out value="${order.status}"/></td>
+            <td><c:out value="${order.book.title}"/></td>
+            <td>
+                <button id="<c:out value="${bookId}"/>" class="remove-button">
+                    remove from profile story
+                </button>
+            </td>
+
+        </tr>
+    </c:forEach>
+</table>
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>

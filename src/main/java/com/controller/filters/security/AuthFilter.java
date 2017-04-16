@@ -29,7 +29,7 @@ public class AuthFilter implements Filter {
         if(!isAuthorizedForUri(role,uri)){
             if(role==null){
                 HttpServletResponse httpResponse=(HttpServletResponse)servletResponse;
-                httpResponse.sendRedirect("/login");
+                httpResponse.sendRedirect(httpRequest.getContextPath()+"/login");
             }
             else {
                 httpRequest.setAttribute("error",FORBIDDEN_URL_REQUESTED);

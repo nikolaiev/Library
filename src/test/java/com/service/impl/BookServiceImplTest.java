@@ -29,7 +29,7 @@ public class BookServiceImplTest {
 
     @Test
     public void getBooksByTitle() throws Exception {
-        List<Book> result=service.getBooksByTitle("8uper",20,0);
+        List<Book> result=service.getAllBooks(20,0);
         System.out.println(result.size());
         //System.out.println(result.get(0));
         assertNotNull(result);

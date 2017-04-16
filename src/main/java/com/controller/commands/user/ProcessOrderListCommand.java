@@ -25,7 +25,7 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
             orderService.createOrders(orderItemList, userId);
             //request.getSession().setAttribute("orderItemList",null);
         }
-        response.sendRedirect("/user/books");
+        response.sendRedirect("/user/orders");
         return "REDIRECTED";
     }
 

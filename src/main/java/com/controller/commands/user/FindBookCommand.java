@@ -2,10 +2,13 @@ package com.controller.commands.user;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
-import com.model.entity.book.Book;
-import com.model.entity.book.BookGenre;
+import com.model.entity.book.*;
+import com.service.AuthorService;
 import com.service.BookService;
+import com.service.PublisherService;
+import com.service.impl.AuthorServiceImpl;
 import com.service.impl.BookServiceImpl;
+import com.service.impl.PublisherServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,22 +25,41 @@ import static java.util.Optional.ofNullable;
  * Created by vlad on 03.04.17.
  */
 public class FindBookCommand extends CommandWrapper implements Command {
-    //TODO make all filters work
+
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        Optional<String> title = Optional.ofNullable(request.getParameter("title"));
+        Optional<String> author_id= Optional.ofNullable(request.getParameter("author_id"));
+        Optional<String> publisher_id= Optional.ofNullable(request.getParameter("publisher_id"));
+
+        Integer authorId = author_id.map(Integer::parseInt).orElse(null);
+        Integer publisherId = publisher_id.map(Integer::parseInt).orElse(null);
+
+        String title = request.getParameter("title");
+        BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
+        BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
 
         int limit= getLimitFromRequest(request);
         int offset= getOffsetFromRequest(request,limit);
 
-
+        /*services*/
         BookService bookService=BookServiceImpl.getInstance();
+        AuthorService authorService= AuthorServiceImpl.getInstance();
+        PublisherService publisherService= PublisherServiceImpl.getInstance();
 
-        List<Book> books= title.map(bookTitle->bookService.getBooksByTitle(bookTitle,limit,offset))
-                .orElse(bookService.getAllBooks(limit,offset));
+        /*get data for jsp*/
+        List<Book> books=bookService.getBooksByParams(title,authorId,genre,
+                language,publisherId,limit,offset);
+
+        List<Author> authors=authorService.getAll();
+        List<Publisher> publishers=publisherService.getAll();
 
         request.setAttribute("books",books);
+        request.setAttribute("authors",authors);
+        request.setAttribute("publishers",publishers);
+        request.setAttribute("languages",BookLanguage.values());
+        request.setAttribute("genres",BookGenre.values());
+
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
     }
 

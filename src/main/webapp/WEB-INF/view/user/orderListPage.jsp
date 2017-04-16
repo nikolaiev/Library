@@ -23,6 +23,8 @@
 <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
 Orders list
 <br>
+${bookOrders}
+asd
 <table>
     <c:forEach items="${bookOrders}" var="order">
         <c:set var="bookId" scope="request" value="${order.key}"/>
@@ -42,6 +44,15 @@ Orders list
     </c:forEach>
 </table>
 
+<br>
+<br>
+<br>
+<br>
+
+<form action="${pageContext.request.contextPath}/user/process" method="get">
+    <input type="submit" value="Process order list">
+</form>
+
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>
 <script>
     //TODO remove item from table
@@ -53,9 +64,12 @@ Orders list
                 type: "POST",
                 url: "/user/books/remove",
                 data: {id:but},
-                success: function(){
+                success: ()=>{
                     alertify.success('Book was successfuly removed');
                     $(removeButtons[i]).parent().parent().remove();
+                },
+                error:()=>{
+                    alertify.error("Book can'n be removed");
                 }
             });
         })

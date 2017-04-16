@@ -7,10 +7,11 @@ public enum OrderType {
     HOME,LIBRARY;
 
     public static OrderType getValueOrDefault(String orderType) {
-        if(orderType==null){
+        try{
+            return OrderType.valueOf(orderType);
+        }
+        catch (IllegalArgumentException|NullPointerException e){
             return HOME;
         }
-        else
-            return OrderType.valueOf(orderType);
     }
 }

@@ -18,6 +18,15 @@ public class Book implements Identified {
     private Publisher publisher;
     private LocalDateTime date;
     private String image;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public String getImage() {
         return image;
@@ -96,6 +105,7 @@ public class Book implements Identified {
                 ", publisher=" + publisher +
                 ", date=" + date +
                 ", image='" + image + '\'' +
+                ", count=" + count +
                 '}';
     }
 
@@ -134,6 +144,11 @@ public class Book implements Identified {
 
         public Builder setDate(LocalDateTime date){
             book.setDate(date);
+            return this;
+        }
+
+        public Builder setCount(int count){
+            book.setCount(count);
             return this;
         }
 

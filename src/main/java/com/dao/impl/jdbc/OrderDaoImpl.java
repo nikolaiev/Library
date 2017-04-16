@@ -27,6 +27,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             "  FROM public.order_full_view ";
 
     private static final String SELECT_ORDER_BY_ID=SELECT_ALL+" WHERE ord_id =?";
+    private static final String SELECT_ORDER_BY_USER_ID=SELECT_ALL+" WHERE uid =?";
 
     private static final String UPDATE_ORDER_BY_ID="UPDATE public.\"order\" " +
             "   SET uid=?, bid=?, status=?, type=?, cdate=?" +
@@ -38,6 +39,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String INSERT_ORDER="INSERT INTO public.\"order\"" +
             " (uid, bid, status, type)\n" +
             "    VALUES (?, ?, ?, ?);";
+
 
     /*author fields*/
     private static final String ID_FIELD_AUTHOR="author_id";
@@ -59,6 +61,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String TYPE_FIELD_ORDER ="type";
     private static final String CREATE_DATE_FIELD_ORDER ="cdate";
     private static final String TABLE="public.\"order\"";
+
+    /*order by*/
+    private static final String ORDER_BY_CDATE_DESC="ORDER BY cdate DESC";
 
     private static class InstanceHolder{
         private static OrderDaoImpl INSTANCE=new OrderDaoImpl();
@@ -128,8 +133,19 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     @Override
+    public List<Order> getOrdersByUserId(int userId) {
+        try (PreparedStatement statement=connection.get().prepareStatement(SELECT_ORDER_BY_USER_ID +ORDER_BY_CDATE_DESC)){
+            statement.setInt(1,userId);
+            return parseResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_ID);
+        }
+    }
+
+    @Override
     public List<Order> getAll(){
-        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL)) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_ALL+ORDER_BY_CDATE_DESC)) {
             return parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException(e)

@@ -4,6 +4,7 @@ import com.dao.exception.DaoException;
 import com.exception.ApplicationException;
 import com.service.exception.ServiceException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public abstract class CommandWrapper implements Command {
 
-    protected abstract String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    protected abstract String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -27,7 +28,16 @@ public abstract class CommandWrapper implements Command {
         catch (Exception e) {
             processException(request, e);
         }
-        return request.getContextPath()+"/WEB-INF/view/errorPage.jsp";
+
+        if(request.getMethod().equals("GET")) {
+            return request.getContextPath() + "/WEB-INF/view/errorPage.jsp";
+        }
+        else{
+            //TODO rewrite SHIT CODE
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write(request.getAttribute("error").toString());
+            return "REDIRECTED";
+        }
     }
 
     private void processException(HttpServletRequest request, Exception e) {

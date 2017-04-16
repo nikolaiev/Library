@@ -24,9 +24,9 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
         OrderService service= OrderServiceImpl.getInstance();
         Optional<Order> order=service.getOrderById(id);
 
-        order.ifPresent(order1 -> {
-            order1.setStatus(OrderStatus.RETURNED);
-            service.updateOrderStatus(order1);
+        order.ifPresent(ord -> {
+            ord.setStatus(OrderStatus.RETURNED);
+            service.updateOrderStatus(ord);
         });
 
 

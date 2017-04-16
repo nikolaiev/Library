@@ -6,6 +6,8 @@ import com.dao.TransactionManager;
 import com.dao.TransactionManagerFactory;
 import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
 import com.model.entity.book.Book;
+import com.model.entity.book.BookGenre;
+import com.model.entity.book.BookLanguage;
 import com.service.BookService;
 
 import java.util.List;
@@ -42,17 +44,22 @@ public class BookServiceImpl extends GenericService implements BookService {
         transactionManager.getBookDao().getAllLimitOffset(limit,offset)));
     }
 
+
     @Override
-    public List<Book> getBooksByTitle(String title,int limit,int offset) {
+    public List<Book> getBooksByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId,
+                                       int limit, int offset) {
         return executeInNonTransactionalWrapper((transactionManager)->
-            transactionManager.getBookDao().getBooksByTitleLimitOffset(title,limit,offset)
+                transactionManager.getBookDao()
+                        .getBooksByParams(title,authorId,genre,language,publisherId,limit,offset)
         );
     }
 
     @Override
-    public List<Book> getBooksByParams(String title, String authorName, int limit, int offset) {
+    public Book createBook(Book book) {
         return executeInNonTransactionalWrapper(transactionManager ->
-        transactionManager.getBookDao().getBooksByParamsLimitOffset(title,authorName,limit,offset));
+            transactionManager.getBookDao().insert(book)
+        );
     }
+
 
 }

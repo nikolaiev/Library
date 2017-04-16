@@ -92,6 +92,12 @@ public class OrderServiceImpl extends GenericService implements OrderService {
         );
     }
 
+    @Override
+    public List<Order> getOrdersByUserId(int userId) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+        transactionManager.getOrderDao().getOrdersByUserId(userId));
+    }
+
     private static class InstanceHolder{
         private static OrderServiceImpl INSTANCE=new OrderServiceImpl();
 

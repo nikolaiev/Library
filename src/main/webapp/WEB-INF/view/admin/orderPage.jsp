@@ -28,8 +28,6 @@
 Books list
 <br>
     <table>
-        <c:out value="${requestScope.orders}"/>
-
         <c:forEach items="${orders}" var="order">
             <tr>
 

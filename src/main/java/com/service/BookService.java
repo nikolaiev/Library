@@ -1,6 +1,8 @@
 package com.service;
 
 import com.model.entity.book.Book;
+import com.model.entity.book.BookGenre;
+import com.model.entity.book.BookLanguage;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,10 @@ import java.util.Optional;
 public interface BookService {
     List<Book> getAllBooks();
     List<Book> getAllBooks(int limit,int offset);
-    List<Book> getBooksByTitle(String title,int limit,int offset);
-    List<Book> getBooksByParams(String title,String authorName,int limit,int offset);
+
+    List<Book> getBooksByParams(String title, Integer authorId,
+                                BookGenre genre, BookLanguage language,
+                                Integer publisherId,
+                                int limit, int offset);
+    Book createBook(Book book);
 }

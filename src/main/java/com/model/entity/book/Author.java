@@ -21,6 +21,10 @@ public class Author implements Identified{
         this.soname = soname;
     }
 
+    public Author() {
+
+    }
+
     public int getId() {
         return id;
     }

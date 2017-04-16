@@ -4,11 +4,8 @@ import com.dao.BookDao;
 import com.dao.exception.DaoException;
 import com.model.entity.book.*;
 
-import javax.swing.text.html.Option;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by vlad on 17.03.17.
@@ -38,7 +35,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String BY_PUBLISHER_FILTER=" publisher_id=? ";
 
-    private static final String BY_TITLE_FILTER=" title like '%'||?||'%' ";
+    private static final String BY_TITLE_FILTER=" lower(title) like lower('%'||?||'%') ";
 
 
 
@@ -55,8 +52,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             " WHERE id=?";
 
     private static final String INSERT_BOOK="INSERT INTO public.book(" +
-            "            aid, pid, genre, lang, pdate, title,image)" +
-            "    VALUES (?, ?, ?, ?, ?, ?,?);";
+            "            aid, pid, genre, lang, pdate, title,image,count)" +
+            "    VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
 
     private static final String ID_FIELD_AUTHOR="author_id";
@@ -137,71 +134,26 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     }
 
     @Override
-    public List<Book> getBooksByTitleLimitOffset(String title,int limit,int offset) {
-        return getBookBySimpleStringFilter(title,BY_TITLE_FILTER,limit,offset);
-    }
-
-    @Override
-    public List<Book> getBooksByAuthorLimitOffset(int authorId, int limit, int offset) {
-        return getBookBySimpleIntFilter(authorId,BY_AUTHOR_FILTER,limit,offset);
-    }
-
-    @Override
-    public List<Book> getBooksByGenreLimitOffset(BookGenre genre, int limit, int offset) {
-        return getBookBySimpleStringFilter(genre,BY_GENRE_FILTER,limit,offset);
-    }
-
-    @Override
-    public List<Book> getBooksByPublisherLimitOffset(int publisherId, int limit, int offset) {
-        return getBookBySimpleIntFilter(publisherId,BY_PUBLISHER_FILTER,limit,offset);
-    }
-
-    @Override
-    public List<Book> getBooksByLanguageLimitOffset(BookLanguage language, int limit, int offset) {
-        return getBookBySimpleStringFilter(language,BY_LANG_FILTER,limit,offset);
-    }
-
-    private List<Book> getBookBySimpleIntFilter(int value,final String WHERE_CLOSE,int limit,int offset){
-        try (PreparedStatement statement=connection.get()
-                .prepareStatement(SELECT_ALL+WHERE+WHERE_CLOSE+LIMIT_OFFSET)){
-            statement.setInt(1,value);
-            statement.setInt(2,limit);
-            statement.setInt(3,offset);
-
-            return parseResultSet(statement.executeQuery());
-        }
-        catch (SQLException e){
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
-        }
-    }
-
-    private List<Book> getBookBySimpleStringFilter(Object value,final String WHERE_CLOSE,int limit,int offset){
-        try (PreparedStatement statement=connection.get()
-                .prepareStatement(SELECT_ALL+WHERE+WHERE_CLOSE+LIMIT_OFFSET)){
-            statement.setString(1,value.toString());
-            statement.setInt(2,limit);
-            statement.setInt(3,offset);
-
-            return parseResultSet(statement.executeQuery());
-        }
-        catch (SQLException e){
-            throw new DaoException(e)
-                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
-        }
-    }
-
-
-    @Override
     public List<Book> getAllLimitOffset(int limit, int offset) {
         try(PreparedStatement statement=connection.get().prepareStatement(SELECT_LIMIT_OFFSET)){
             statement.setInt(1,limit);
             statement.setInt(2,offset);
-            System.out.println(statement);
             return  parseResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_SIMPLE_FIELD);
+        }
+    }
+
+    @Override
+    public List<Book> getBooksByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId, int limit, int offset) {
+
+        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(title,authorId,genre,language,publisherId,limit,offset)){
+            return  parseResultSet(statement.executeQuery());
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
         }
     }
 
@@ -219,6 +171,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setObject(5,book.getDate());
             statement.setString(6,book.getTitle());
             statement.setString(7,book.getImage());
+            statement.setInt(8,book.getCount());
 
             executeInsertStatement(statement);
 
@@ -304,6 +257,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setPublisher(publisher)
                     //.setDate(resultSet.getObject(PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
                     //TODO переделать
+                    //TODO fix null pointer exception1!!1
                     .setDate(((Timestamp)resultSet.getObject(PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime())
                     //.setDate(resultSet.getObject(7, LocalDateTime.class))
                     .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
@@ -315,4 +269,80 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         }
         return  bookList;
     }
+
+    /**
+     * Inner helper class to build complex select query
+     */
+    class SelectQueryBuilder {
+        /*Map to hold parameters data
+        Integer - > order number in preparedStatement
+        Object -> data to set
+        */
+        HashMap<Integer,Object> params =new HashMap<>();
+
+        /*initial where close*/
+        StringBuilder whereQuery=new StringBuilder();
+
+        /*initial statement parameter index*/
+        Integer paramIndex=1;
+
+
+        PreparedStatement getQuery(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId, int limit, int offset) throws SQLException {
+
+            addFilterParam(title,BY_TITLE_FILTER);
+            addFilterParam(authorId,BY_AUTHOR_FILTER);
+            addFilterParam(genre,BY_GENRE_FILTER);
+            addFilterParam(language,BY_LANG_FILTER);
+            addFilterParam(publisherId,BY_PUBLISHER_FILTER);
+
+            return getPreparedStatement(limit,offset);
+        }
+
+        void addFilterParam(Object val,String whereClose){
+            if(val!=null && !val.equals("")){
+                //if at least one param was added
+                if(paramIndex!=1){
+                    whereQuery.append(AND);
+                }
+
+                whereQuery.append(whereClose);
+                params.put(paramIndex,val);
+                paramIndex++;
+            }
+        }
+
+        PreparedStatement getPreparedStatement(int limit,int offset) throws SQLException {
+            //if at least one param was added
+            if(paramIndex!=1){
+                //prepend
+                whereQuery.insert(0,WHERE);
+            }
+
+            final String RESULT_QUERY=SELECT_ALL + whereQuery.toString() + LIMIT_OFFSET;
+
+            PreparedStatement resultStatement=connection.get().prepareStatement(RESULT_QUERY);
+
+            /*set param values*/
+            for(Map.Entry<Integer,Object> entry:params.entrySet()){
+
+                Integer index=entry.getKey();
+                Object param=entry.getValue();
+
+                if(param instanceof String || param.getClass().isEnum()){
+                    resultStatement.setString(index,param.toString());
+                }
+                else{
+                    resultStatement.setInt(index,(Integer)param);
+                }
+            }
+
+            /*set limit offset*/
+            resultStatement.setInt(paramIndex++,limit);
+            resultStatement.setInt(paramIndex,offset);
+
+            return  resultStatement;
+        }
+    }
 }
+
+

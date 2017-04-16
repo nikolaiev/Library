@@ -14,6 +14,10 @@ public class Publisher  implements Identified{
         this.title = title;
     }
 
+    public Publisher() {
+
+    }
+
     public String getTitle() {
         return title;
     }

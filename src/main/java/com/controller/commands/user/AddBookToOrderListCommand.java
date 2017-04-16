@@ -27,7 +27,7 @@ public class AddBookToOrderListCommand extends CommandWrapper implements Command
         }
 
         Integer id=Integer.parseInt(request.getParameter("id"));
-        OrderType orderType=OrderType.getValueOrDefault(request.getParameter("orderType"));
+        OrderType orderType=OrderType.getValueOrDefault(request.getParameter("order_type"));
 
         orderItemList.addBook(id,orderType);
 
