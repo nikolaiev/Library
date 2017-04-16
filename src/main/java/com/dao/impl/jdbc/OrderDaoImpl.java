@@ -194,9 +194,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    //.setDate(resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
-                    .setDate(((Timestamp)resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime())
-
+                    .setDate(((Timestamp)resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime().toLocalDate())
                     .setGenre(BookGenre.valueOf(resultSet.getString(BookDaoImpl.GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(BookDaoImpl.TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(BookDaoImpl.LANG_FIELD_BOOK)))
@@ -217,7 +215,6 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .setId(resultSet.getInt(ID_FIELD_ORDER))
                     .setStatus(OrderStatus.valueOf(resultSet.getString(STATUS_FIELD_ORDER)))
                     .setType(OrderType.valueOf(resultSet.getString(TYPE_FIELD_ORDER)))
-                    //.setOrderDateTime(resultSet.getObject(CREATE_DATE_FIELD_ORDER,LocalDate.class))
                     .setOrderDateTime(((Timestamp)resultSet.getObject(CREATE_DATE_FIELD_ORDER)).toLocalDateTime())
                     .build();
 

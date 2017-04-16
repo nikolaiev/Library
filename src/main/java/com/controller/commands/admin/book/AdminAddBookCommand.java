@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,23 +30,24 @@ import java.util.UUID;
 public class AdminAddBookCommand extends CommandWrapper implements Command {
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        //TODO extract pdate and add to BUILDER!!!
+        /*multipart data processing*/
         Part filePart=request.getPart("book_image");
-
         String extension=getFileExtension(filePart);
         String uniqueName = UUID.randomUUID().toString().replace("-","_")+"."+extension;
         File file = new File(request.getServletContext().getInitParameter("upload.location")+uniqueName);
 
+        /*request params*/
         Integer authorId = Integer.parseInt(request.getParameter("author_id"));
         Integer publisherId = Integer.parseInt(request.getParameter("publisher_id"));
         Integer count = Integer.parseInt(request.getParameter("count"));
-
         String title = request.getParameter("title");
+        LocalDate publishDate = LocalDate.parse(request.getParameter("publish_date"));
         BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
         BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
 
         BookService service= BookServiceImpl.getInstance();
 
+        /*creating object to persist*/
         Author author=new Author();
         author.setId(authorId);
 
@@ -59,8 +62,8 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
                 .setPublisher(publisher)
                 .setTitle(title)
                 .setCount(count)
+                .setDate(publishDate)
                 .build();
-                //TODO .setDate
 
         service.createBook(book);
 
@@ -74,8 +77,6 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
                 fileOutputStream.write(buffer, 0, len);
             }
         }
-
-
 
         response.sendRedirect(request.getContextPath()+"/admin/books");
         return "REDIRECTED";

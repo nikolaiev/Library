@@ -24,7 +24,7 @@
         <br>
         <br>
         <%--TODO make required--%>
-        <input type="date" name="pday" min="1900-01-01"/>
+        <input type="date" name="publish_date" min="1900-01-01"/>
         <br>
         <br>
 

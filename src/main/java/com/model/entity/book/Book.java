@@ -16,7 +16,7 @@ public class Book implements Identified {
     private BookGenre genre;
     private BookLanguage language;
     private Publisher publisher;
-    private LocalDateTime date;
+    private LocalDate date;
     private String image;
     private int count;
 
@@ -36,11 +36,11 @@ public class Book implements Identified {
         this.image = image;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -142,7 +142,7 @@ public class Book implements Identified {
             return this;
         }
 
-        public Builder setDate(LocalDateTime date){
+        public Builder setDate(LocalDate date){
             book.setDate(date);
             return this;
         }

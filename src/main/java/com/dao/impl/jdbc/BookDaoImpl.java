@@ -5,6 +5,7 @@ import com.dao.exception.DaoException;
 import com.model.entity.book.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -255,11 +256,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    //.setDate(resultSet.getObject(PUBLISH_DATE_FIELD_BOOK, LocalDateTime.class))
-                    //TODO переделать
-                    //TODO fix null pointer exception1!!1
-                    .setDate(((Timestamp)resultSet.getObject(PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime())
-                    //.setDate(resultSet.getObject(7, LocalDateTime.class))
+                    .setDate(((Timestamp)resultSet.getObject(PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime().toLocalDate())
                     .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))
