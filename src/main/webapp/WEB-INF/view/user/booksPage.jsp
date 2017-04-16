@@ -87,7 +87,7 @@
     <c:forEach items="${books}" var="book">
         <tr>
 
-            <td><img class="order-image" src='${pageContext.request.contextPath}/<c:out value="${book.image}"/>' /></td>
+            <td><img class="order-image" src='${pageContext.request.contextPath}/static/<c:out value="${book.image}"/>' /></td>
             <%--<td><c:out value="${book.id}"/></td>--%>
             <td><c:out value="${book.title}"/></td>
             <td><c:out value="${book.author.soname}"/></td>

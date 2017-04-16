@@ -12,6 +12,7 @@ import com.controller.commands.admin.publisher.AdminAddPublisherCommand;
 import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
+import com.controller.commands.common.GetStaticFileCommand;
 import com.controller.commands.user.*;
 import com.controller.commands.common.GoHomeCommand;
 import com.controller.commands.common.GoInvalidUrlCommand;
@@ -42,6 +43,7 @@ public class CommandHolder {
         commands.put(POST_PATH+"/login",new LoginSubmitCommand());
         commands.put(GET_PATH+"/logout",new LogoutCommand());
         commands.put(GET_PATH+"/forbidden",new GoInvalidUrlCommand());
+        commands.put(GET_PATH+"/static",new GetStaticFileCommand());
 
         /*USER COMMAND*/
         /*home command*/
@@ -81,6 +83,10 @@ public class CommandHolder {
     public CommandHolder(){}
 
     public Command getCommand(String url){
+        //TODO rewrite SHIT CODE
+        if(url.startsWith(GET_PATH+"/static"))
+            return new GetStaticFileCommand();
+
         return commands.getOrDefault(url, INVALID_URL_COMMAND);
     }
 }

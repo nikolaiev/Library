@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
     <servlet>
         <servlet-name>mainController</servlet-name>
         <servlet-class>com.controller.FrontController</servlet-class>
@@ -24,7 +25,7 @@
         <url-pattern>/login/*</url-pattern>
         <url-pattern>/logout/*</url-pattern>
         <url-pattern>/books/*</url-pattern>
-
+        <url-pattern>/static/*</url-pattern>
 
     </servlet-mapping>
 
@@ -38,8 +39,6 @@
         <filter-name>default</filter-name>
         <url-pattern>*.js</url-pattern>
         <url-pattern>*.css</url-pattern>
-        <url-pattern>*.jpg</url-pattern>
-        <url-pattern>*.png</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -55,7 +54,7 @@
 
     <context-param>
         <param-name>upload.location</param-name>
-        <param-value>/usr/share/tomcat8/bin/library</param-value>
+        <param-value>/usr/share/tomcat8/bin/library/images/</param-value>
     </context-param>
 
 
