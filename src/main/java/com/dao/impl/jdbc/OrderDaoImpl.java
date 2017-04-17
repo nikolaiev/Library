@@ -194,7 +194,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(((Timestamp)resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK)).toLocalDateTime().toLocalDate())
+                    .setDate(((java.sql.Date)resultSet.getObject(BookDaoImpl.PUBLISH_DATE_FIELD_BOOK)).toLocalDate())
                     .setGenre(BookGenre.valueOf(resultSet.getString(BookDaoImpl.GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(BookDaoImpl.TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(BookDaoImpl.LANG_FIELD_BOOK)))

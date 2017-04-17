@@ -54,11 +54,17 @@ public class FindBookCommand extends CommandWrapper implements Command {
         List<Author> authors=authorService.getAll();
         List<Publisher> publishers=publisherService.getAll();
 
+        int bookCount=bookService.getBooksCountByParams(title,authorId,genre,
+                language,publisherId);
+
+        int totalPages=(int)Math.ceil((double) bookCount/limit);
+
         request.setAttribute("books",books);
         request.setAttribute("authors",authors);
         request.setAttribute("publishers",publishers);
         request.setAttribute("languages",BookLanguage.values());
         request.setAttribute("genres",BookGenre.values());
+        request.setAttribute("totalPages",totalPages);
 
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
     }

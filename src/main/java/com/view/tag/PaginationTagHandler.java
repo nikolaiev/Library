@@ -41,14 +41,15 @@ public class PaginationTagHandler extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException {
         //check pagination is necessary
-        if(totalPages==FIRST_PAGE_NUMBER){
+        if(totalPages==0||totalPages==FIRST_PAGE_NUMBER){
             return;
         }
 
         /*resolve currentPageNumber and GET params from request*/
         resolveRequestGetParams();
 
-        try (JspWriter out = getJspContext().getOut()){
+        try {
+            JspWriter out = getJspContext().getOut();
 
             boolean isCurrentPageLast= currentPageNumber == totalPages;
             boolean isCurrentPageFirst = currentPageNumber == FIRST_PAGE_NUMBER;
@@ -96,12 +97,14 @@ public class PaginationTagHandler extends SimpleTagSupport {
         out.write(constructLink(currentPageNumber - 1, "&laquo;"));
     }
 
-    private void printEndTag(JspWriter out) throws IOException {
-        out.print("</ul>");
+    private void printBeginTag(JspWriter out) throws IOException {
+        out.write("<div class='container'>" +
+                "<div class=\"col-centered center\">" +
+                "<ul class=\"pagination  \">");
     }
 
-    private void printBeginTag(JspWriter out) throws IOException {
-        out.write("<ul class=\"pagination\">");
+    private void printEndTag(JspWriter out) throws IOException {
+        out.print("</div></div></ul>");
     }
 
 

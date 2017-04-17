@@ -21,7 +21,7 @@ public class SelectQueryBuilderTest {
     @Test
     public void getQuery() throws Exception {
         BookDaoImpl.SelectQueryBuilder queryBuilder=bookDao.new SelectQueryBuilder();
-        PreparedStatement statement=queryBuilder.getQuery("book",null, BookGenre.ADVENTURES,null,1,10,20);
+        PreparedStatement statement=queryBuilder.getQuery("select *","book",null, BookGenre.ADVENTURES,null,1,10,20);
         assertNotNull(statement);
     }
 
@@ -31,14 +31,14 @@ public class SelectQueryBuilderTest {
         queryBuilder.addFilterParam("","param1=?");
         queryBuilder.addFilterParam("abs","param2=?");
         queryBuilder.addFilterParam(123,"param3=?");
-        PreparedStatement statement=queryBuilder.getPreparedStatement(10,20);
+        PreparedStatement statement=queryBuilder.getPreparedStatement("select *",10,20);
         assertNotNull(statement);
     }
 
     @Test
     public void getPreparedStatement() throws Exception {
         BookDaoImpl.SelectQueryBuilder queryBuilder=bookDao.new SelectQueryBuilder();
-        PreparedStatement statement=queryBuilder.getPreparedStatement(10,20);
+        PreparedStatement statement=queryBuilder.getPreparedStatement("select *",10,20);
         assertNotNull(statement);
     }
 

@@ -24,6 +24,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             "       author_name, author_soname, image" +
             "  FROM public.book_full_view ";
 
+    private static final String SELECT_COUNT="SELECT count(*) as count from \"book_full_view\" ";
+
     private static final String LIMIT_OFFSET=" limit ? offset ?";
 
     private static final String SELECT_LIMIT_OFFSET=SELECT_ALL+LIMIT_OFFSET;
@@ -73,6 +75,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public static final String TITLE_FIELD_BOOL="title";
     public static final String PUBLISH_DATE_FIELD_BOOK="pdate";
     public static final String IMAGE_PATH_FIELD_BOOK="image";
+    public static final String COUNT_FIELD="count";
 
     public static final String TABLE="book";
     public static final String WHERE=" WHERE ";
@@ -151,8 +154,23 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public List<Book> getBooksByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId, int limit, int offset) {
 
-        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(title,authorId,genre,language,publisherId,limit,offset)){
+        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(SELECT_ALL,title,authorId,genre,language,publisherId,limit,offset)){
             return  parseResultSet(statement.executeQuery());
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
+        }
+    }
+
+    @Override
+    public int getBooksCountByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId) {
+        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(SELECT_COUNT,title,
+                authorId,genre,language,publisherId,1,0)){
+
+            ResultSet resultSet=statement.executeQuery();
+
+            return getSimpleIntValueOrZero(COUNT_FIELD,resultSet);
         }
         catch (SQLException e){
             throw new DaoException(e)
@@ -176,7 +194,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setString(7,book.getImage());
             statement.setInt(8,book.getCount());
 
-            executeInsertStatement(statement);
+            int id=executeInsertStatement(statement);
+            book.setId(id);
 
         } catch (SQLException e) {
             throw new DaoException(e)
@@ -243,6 +262,14 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         super.deleteById(TABLE,key);
     }
 
+    private int getSimpleIntValueOrZero(final String FIELD_NAME, ResultSet resultSet) throws SQLException {
+        if(resultSet.next()){
+            return resultSet.getInt(FIELD_NAME);
+        }
+
+        return 0;
+    }
+
     private List<Book> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Book> bookList = new ArrayList<>();
 
@@ -286,7 +313,9 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         Integer paramIndex=1;
 
 
-        PreparedStatement getQuery(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId, int limit, int offset) throws SQLException {
+        PreparedStatement getQuery(String selectQuery,String title, Integer authorId,
+                                   BookGenre genre, BookLanguage language,
+                                   Integer publisherId, int limit, int offset) throws SQLException {
 
             addFilterParam(title,BY_TITLE_FILTER);
             addFilterParam(authorId,BY_AUTHOR_FILTER);
@@ -294,7 +323,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             addFilterParam(language,BY_LANG_FILTER);
             addFilterParam(publisherId,BY_PUBLISHER_FILTER);
 
-            return getPreparedStatement(limit,offset);
+            return getPreparedStatement(selectQuery,limit,offset);
         }
 
         void addFilterParam(Object val,String whereClose){
@@ -310,14 +339,14 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             }
         }
 
-        PreparedStatement getPreparedStatement(int limit,int offset) throws SQLException {
+        PreparedStatement getPreparedStatement(final String selectQuery,int limit,int offset) throws SQLException {
             //if at least one param was added
             if(paramIndex!=1){
                 //prepend
                 whereQuery.insert(0,WHERE);
             }
 
-            final String RESULT_QUERY=SELECT_ALL + whereQuery.toString() + LIMIT_OFFSET;
+            final String RESULT_QUERY= selectQuery + whereQuery.toString() + LIMIT_OFFSET;
 
             PreparedStatement resultStatement=connection.get().prepareStatement(RESULT_QUERY);
 

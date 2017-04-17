@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: vlad
@@ -27,6 +29,18 @@
         <li ><a href="/user/books">Books</a></li>
         <li ><a href="/user/profile">Profile</a></li>
         <li class="right" ><a href="/logout">Logout</a></li>
-        <li class="right" ><a href="/user/orders">Orders</a></li>
+        <li class="right" ><a href="/user/orders">
+            Orders
+            <div id="item-count-holder">
+
+                <c:set  scope="session" var="ordersSize" value="${fn:length(sessionScope.orderList.bookOrders)}"/>
+                <c:if test="${ordersSize !=0}">
+                    <span id="item-count">
+                        ${ordersSize}
+                    </span>
+                </c:if>
+            </div>
+        </a>
+        </li>
     </ul>
 

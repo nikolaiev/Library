@@ -29,3 +29,29 @@ ul.menu-list li a{
 ul.menu-list li a:hover:not(.active) {
     background-color: #111;
 }
+
+.top-buffer { margin-top:20px; }
+.left-buffer{ margin-left:20px; }
+
+
+.center{
+    text-align: center;
+}
+.right{
+    float: right;
+}
+
+.footer{
+    background-color: #333;
+    color: #ffffff;
+}
+
+#item-count-holder{
+    float:right;
+    margin-left: 5px;
+}
+#item-count{
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 5px;
+}

@@ -55,6 +55,14 @@ public class BookServiceImpl extends GenericService implements BookService {
     }
 
     @Override
+    public int getBooksCountByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+        transactionManager.getBookDao()
+                        .getBooksCountByParams(title,authorId,genre,language,publisherId)
+        );
+    }
+
+    @Override
     public Book createBook(Book book) {
         return executeInNonTransactionalWrapper(transactionManager ->
             transactionManager.getBookDao().insert(book)
