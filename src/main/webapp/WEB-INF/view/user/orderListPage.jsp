@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Oreder List page</title>
+    <title>Order list</title>
 
     <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
 
@@ -21,42 +21,73 @@
 </head>
 
 <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
-Orders list
-<br>
-${bookOrders}
-asd
-<table>
-    <c:forEach items="${bookOrders}" var="order">
-        <c:set var="bookId" scope="request" value="${order.key}"/>
-        <c:set var="orderItem" scope="request" value="${order.value}"/>
-        <tr>
 
-            <td><c:out value="${bookId}"/></td>
-            <td><c:out value="${orderItem.orderStatus}"/></td>
-            <td><c:out value="${orderItem.orderType}"/></td>
-            <td>
-                <button id="<c:out value="${bookId}"/>" class="remove-button">
-                    remove from card!
-                </button>
-            </td>
+<div class="container top-buffer">
+    <c:if test="${not empty bookOrders}">
+        <h2>Your orders</h2>
+        <p>The .table-hover class enables a hover state on table rows:</p>
+        <br>
 
-        </tr>
-    </c:forEach>
-</table>
 
-<br>
-<br>
-<br>
-<br>
+        <table class="table table-hover">
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Order type</th>
+                <th></th>
+            </tr>
 
-<form action="${pageContext.request.contextPath}/user/process" method="get">
-    <input type="submit" value="Process order list">
-</form>
+            <c:forEach items="${bookOrders}" var="order">
+                <c:set var="book" scope="page" value="${order.key}"/>
+                <c:set var="orderItem" scope="page" value="${order.value}"/>
+                <tr>
+
+                    <td>
+                        <a href="/user/book/<c:out value="${book.id}"/>" >
+                            <c:out value="${book.title}"/>
+                        </a>
+                    </td>
+
+                    <td><c:out value="${orderItem.orderStatus}"/></td>
+                    <td><c:out value="${orderItem.orderType}"/></td>
+                    <td>
+                        <button id="<c:out value="${book.id}"/>" class="remove-button btn btn-danger">
+                            remove from orders
+                        </button>
+                    </td>
+
+                </tr>
+            </c:forEach>
+        </table>
+
+
+            <div align="center">
+                <form action="${pageContext.request.contextPath}/user/process" method="get">
+
+                    <button type="submit" id="submit-button"  class="remove-button btn btn-success" value="Process order list">
+                        Submit orders
+                    </button>
+
+                </form>
+            </div>
+    </c:if>
+
+    <%--else--%>
+
+    <c:if test="${empty bookOrders}">
+        <h2>Empty order list</h2>
+
+        <p>
+            You can
+            <a href="/user/books">choose some books </a>
+            to order them
+        </p>
+    </c:if>
 
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>
 <script>
-    //TODO remove item from table
     var removeButtons=$('.remove-button');
+
     for(let i=0; i<removeButtons.length; i++){
         let but=removeButtons[i].id;
         $(removeButtons[i]).click(()=>{
@@ -65,8 +96,8 @@ asd
                 url: "/user/books/remove",
                 data: {id:but},
                 success: ()=>{
+                    updatePageElements(removeButtons[i]);
                     alertify.success('Book was successfuly removed');
-                    $(removeButtons[i]).parent().parent().remove();
                 },
                 error:()=>{
                     alertify.error("Book can'n be removed");
@@ -74,5 +105,14 @@ asd
             });
         })
     }
+
+    var updatePageElements=(clickedButton)=>{
+        $(clickedButton).parent().parent().remove();
+        $('#item-count-holder').load(' #item-count');
+
+        if($('.table-hover').find('tr').length===1){
+            $('#submit-button').attr("disabled", true);
+        }
+    };
 
 </script>

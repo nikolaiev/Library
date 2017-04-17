@@ -13,15 +13,14 @@ import com.model.entity.user.User;
 import com.service.OrderService;
 import com.service.exception.ServiceException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by vlad on 30.03.17.
  */
 public class OrderServiceImpl extends GenericService implements OrderService {
+
+    private final static String NO_SUCH_BOOK_EXCEPTION="DB error. No such book exception";
 
     private boolean createOrder(int userId, int bookId, OrderType orderType) {
         return executeInSerializableWrapper((daoManager)->{
@@ -96,6 +95,26 @@ public class OrderServiceImpl extends GenericService implements OrderService {
     public List<Order> getOrdersByUserId(int userId) {
         return executeInNonTransactionalWrapper(transactionManager ->
         transactionManager.getOrderDao().getOrdersByUserId(userId));
+    }
+
+    @Override
+    public Map<Book, OrderItem> getDetailedBookOrders(Map<Integer, OrderItem> sessionBookOrders) {
+        Map<Book,OrderItem> resultDetailedOrders=new HashMap<>();
+
+        for(Map.Entry<Integer,OrderItem> entry:sessionBookOrders.entrySet()){
+            int bookId=entry.getKey();
+            OrderItem orderItem=entry.getValue();
+
+            Book book=executeInNonTransactionalWrapper(transactionManager ->
+                transactionManager.getBookDao().getById(bookId)).orElseThrow(()->
+                    new ServiceException()
+                            .addLogMessage(NO_SUCH_BOOK_EXCEPTION)
+                            .addMessageKey(NO_SUCH_BOOK_EXCEPTION));
+
+            resultDetailedOrders.put(book,orderItem);
+        }
+
+        return resultDetailedOrders;
     }
 
     private static class InstanceHolder{

@@ -1,5 +1,6 @@
 package com.controller.commands.dto;
 
+import com.model.entity.book.Book;
 import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 

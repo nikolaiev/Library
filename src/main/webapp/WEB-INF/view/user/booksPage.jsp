@@ -209,7 +209,7 @@
                     },
                     success: function(){
                         $(buttons[i]).attr("disabled",true);
-                        $('#item-count-holder').load(' #item-count')
+                        $('#item-count-holder').load(' #item-count');
                         alertify.success('Book was successfully added');
                     },
                     error:function () {

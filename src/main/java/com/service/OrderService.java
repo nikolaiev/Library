@@ -1,9 +1,12 @@
 package com.service;
 
+import com.controller.commands.dto.OrderItem;
 import com.controller.commands.dto.OrderItemList;
+import com.model.entity.book.Book;
 import com.model.entity.order.Order;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,4 +19,6 @@ public interface OrderService {
 
     Optional<Order> getOrderById(Integer id);
     List<Order> getOrdersByUserId(int userId);
+
+    Map<Book,OrderItem> getDetailedBookOrders(Map<Integer, OrderItem> sessionBookOrders);
 }
