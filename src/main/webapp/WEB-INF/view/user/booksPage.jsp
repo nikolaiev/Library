@@ -13,29 +13,10 @@
 <head>
     <title>Books</title>
 
-    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
-
-    <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alertify.min.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
-
-
-<%--REMOVE IF NON NECCASSARY--%>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<%--REMOVE IF NON NECCASSARY ENDS--%>
-
 </head>
 
 <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
+
     <form method="get">
         <input type="text" name="title" placeholder="book title" value="<c:out value="${param.title}"/>"/>
 
@@ -122,10 +103,7 @@
     </table>
 
 
- <%--custom paginator--%>
-    <c:url var="searchUri" value="/searchResults.html?s=${searchval}&page=##" />
-    <%--<paginator:display maxLinks="10" currPage="${page}" totalPages="${totalPages}" uri="${searchUri}" />--%>
-    <m:display maxLinks="10" currPage="15" totalPages="30" uri="${searchUri}" />
+    <m:display paginParamName="page" totalPages="5"/>
 
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp" />
 

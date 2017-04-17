@@ -8,7 +8,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+
+    <%--CSS--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alertify.min.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css"/>
+
+    <%--JS--%>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" ></script>
+    <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
+
 </head>
 <body>
     <ul class="menu-list">
