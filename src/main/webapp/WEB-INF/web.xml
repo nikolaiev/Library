@@ -57,6 +57,11 @@
         <param-value>/usr/share/tomcat8/bin/library/images/</param-value>
     </context-param>
 
-
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://mytags.com/jsp/tlds/mytags</taglib-uri>
+            <taglib-location>/WEB-INF/tdls/paginator.tdl</taglib-location>
+        </taglib>
+    </jsp-config>
 
 </web-app>

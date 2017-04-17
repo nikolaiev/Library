@@ -1,15 +1,8 @@
-.login-form{
-    margin: auto;
-    width: 300px;
-    border: 3px solid green;
-    padding: 10px;
-}
-
 .order-image{
     height: 100px;
 }
 
-ul {
+ul.menu-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -17,11 +10,15 @@ ul {
     background-color: #333;
 }
 
-li {
+ul.menu-list li {
     float: left;
 }
 
-li a {
+ul.menu-list li.right{
+    float: right;
+}
+
+ul.menu-list li a{
     display: block;
     color: white;
     text-align: center;
@@ -29,10 +26,6 @@ li a {
     text-decoration: none;
 }
 
-li a:hover:not(.active) {
+ul.menu-list li a:hover:not(.active) {
     background-color: #111;
-}
-
-.active {
-    background-color: #4CAF50;
 }
