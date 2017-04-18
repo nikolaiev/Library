@@ -102,11 +102,18 @@ public abstract class AbstractDao {
         }
     }
 
+    /**
+     * Get simple field from result set
+     * @param FIELD_NAME field's name
+     * @param resultSet result set Object
+     * @return  field value or 0
+     * @throws SQLException result set parse error
+     */
     int getSimpleIntValueOrZero(final String FIELD_NAME, ResultSet resultSet) throws SQLException {
+
         if(resultSet.next()){
             return resultSet.getInt(FIELD_NAME);
         }
-
         return 0;
     }
 }

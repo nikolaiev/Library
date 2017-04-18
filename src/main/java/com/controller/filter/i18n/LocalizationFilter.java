@@ -1,4 +1,4 @@
-package com.controller.filters.i18n;
+package com.controller.filter.i18n;
 
 import javax.servlet.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.controller.filters.security;
+package com.controller.filter.security;
 
 import com.model.entity.user.UserRole;
 

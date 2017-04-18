@@ -13,7 +13,9 @@ import java.util.List;
  */
 public interface OrderDao extends GenericDao<Order> {
     List<Order> getOrdersByDate(Date date);
+
     void updateOrderStatus(Order order);
+
     List<Order> getOrdersByUserId(int userId);
 
     List<Order> getOrdersByParams(Integer userId, String bookTitle, OrderStatus orderStatus, OrderType orderType, Date beforeDate, int limit, int offset);

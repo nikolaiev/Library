@@ -14,10 +14,12 @@ public interface BookDao extends GenericDao<Book>{
     void returnBook(int bookId);
 
     List<Book> getAllLimitOffset(int limit,int offset);
+
     List<Book> getBooksByParams(String title,Integer authorId,
                                 BookGenre genre,
                                 BookLanguage language,
                                 Integer publisherId,int limit,int offset);
+
     int getBooksCountByParams(String title, Integer authorId,
                           BookGenre genre, BookLanguage language,
                           Integer publisherId);

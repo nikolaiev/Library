@@ -35,8 +35,12 @@ public interface TransactionManager extends AutoCloseable{
     void close();
 
     BookDao getBookDao();
+
     AuthorDao getAuthorDao();
+
     OrderDao getOrderDao();
+
     PublisherDao getPublisherDao();
+
     UserDao getUserDao();
 }

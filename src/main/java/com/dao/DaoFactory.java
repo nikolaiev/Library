@@ -7,8 +7,12 @@ import java.sql.Connection;
  */
 public interface DaoFactory {
     BookDao getBookDao(Connection connection);
+
     AuthorDao getAuthorDao(Connection connection);
+
     OrderDao getOrderDao(Connection connection);
+
     PublisherDao getPublisherDao(Connection connection);
+
     UserDao getUserDao(Connection connection);
 }

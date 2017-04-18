@@ -1,6 +1,4 @@
-package com.controller.filters.resource;
-
-import com.sun.deploy.net.HttpRequest;
+package com.controller.filter.resource;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +18,7 @@ public class DefaultFilter  implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request=(HttpServletRequest) servletRequest;
-            defaultRequestDispatcher.forward(servletRequest, servletResponse);
+        defaultRequestDispatcher.forward(servletRequest, servletResponse);
     }
 
     @Override
