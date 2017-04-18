@@ -47,10 +47,10 @@ public class CommandHolder {
 
         /*USER COMMAND*/
         /*home command*/
-        commands.put(GET_PATH+"/user/home",new GoHomeCommand());
+        //commands.put(GET_PATH+"/user/home",new GoHomeCommand());
         /*book commands*/
         commands.put(GET_PATH+"/user/books",new FindBookCommand());
-        commands.put(GET_PATH+"/user/process",new ProcessOrderListCommand());
+        commands.put(POST_PATH+"/user/process",new ProcessOrderListCommand());
         commands.put(GET_PATH+"/user/orders",new ShowOrderListCommand());
         commands.put(GET_PATH+"/user/profile",new ProfileCommand());
 

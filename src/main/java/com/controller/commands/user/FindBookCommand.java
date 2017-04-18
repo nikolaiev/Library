@@ -25,7 +25,7 @@ import static java.util.Optional.ofNullable;
  * Created by vlad on 03.04.17.
  */
 public class FindBookCommand extends CommandWrapper implements Command {
-
+    private static int DEFAULT_LIMIT_VALUE=20;
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -65,6 +65,8 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("languages",BookLanguage.values());
         request.setAttribute("genres",BookGenre.values());
         request.setAttribute("totalPages",totalPages);
+        request.setAttribute("totalCount",bookCount);
+        request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
     }
@@ -87,6 +89,6 @@ public class FindBookCommand extends CommandWrapper implements Command {
      */
     private int getLimitFromRequest(HttpServletRequest request) {
         String res=request.getParameter("limit");
-        return res==null?20:Integer.parseInt(res);
+        return res==null?DEFAULT_LIMIT_VALUE:Integer.parseInt(res);
     }
 }

@@ -25,22 +25,24 @@
 </head>
 <body>
     <ul class="menu-list">
-        <li ><a href="/user/home">Home</a></li>
-        <li ><a href="/user/books">Books</a></li>
         <li ><a href="/user/profile">Profile</a></li>
-        <li class="right" ><a href="/logout">Logout</a></li>
-        <li class="right" ><a href="/user/orders">
-            Orders
-            <div id="item-count-holder">
+        <li ><a href="/user/books">Books</a></li>
 
-                <c:set  scope="session" var="ordersSize" value="${fn:length(sessionScope.orderList.bookOrders)}"/>
-                <c:if test="${ordersSize !=0}">
-                    <span id="item-count">
-                        ${ordersSize}
-                    </span>
-                </c:if>
-            </div>
-        </a>
+        <li>
+            <a href="/user/orders">
+                Orders
+                <div id="item-count-holder">
+
+                    <c:set  scope="session" var="ordersSize" value="${fn:length(sessionScope.orderList.bookOrders)}"/>
+                    <c:if test="${ordersSize !=0}">
+                        <span id="item-count">
+                            ${ordersSize}
+                        </span>
+                    </c:if>
+                </div>
+            </a>
         </li>
+
+        <li class="right" ><a href="/logout">Logout</a></li>
     </ul>
 

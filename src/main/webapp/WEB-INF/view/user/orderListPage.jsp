@@ -62,7 +62,7 @@
 
 
             <div align="center">
-                <form action="${pageContext.request.contextPath}/user/process" method="get">
+                <form action="${pageContext.request.contextPath}/user/process" method="post">
 
                     <button type="submit" id="submit-button"  class="remove-button btn btn-success" value="Process order list">
                         Submit orders
@@ -83,6 +83,7 @@
             to order them
         </p>
     </c:if>
+</div>
 
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>
 <script>

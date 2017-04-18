@@ -22,9 +22,9 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
             //order list is not empty
             OrderService orderService = OrderServiceImpl.getInstance();
             Integer userId = (Integer) request.getSession().getAttribute("userId");
-            orderService.createOrders(orderItemList, userId);
-            //request.getSession().setAttribute("orderItemList",null);
+            orderService.createOrdersAndClear(orderItemList, userId);
         }
+
         response.sendRedirect("/user/orders");
         return "REDIRECTED";
     }

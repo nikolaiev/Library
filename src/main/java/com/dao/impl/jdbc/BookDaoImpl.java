@@ -2,6 +2,7 @@ package com.dao.impl.jdbc;
 
 import com.dao.BookDao;
 import com.dao.exception.DaoException;
+import com.dao.impl.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.*;
 
 import java.sql.*;
@@ -153,8 +154,15 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public List<Book> getBooksByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId, int limit, int offset) {
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(connection.get());
 
-        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(SELECT_ALL,title,authorId,genre,language,publisherId,limit,offset)){
+        queryBuilder.addFilterParam(title,BY_TITLE_FILTER);
+        queryBuilder.addFilterParam(authorId,BY_AUTHOR_FILTER);
+        queryBuilder.addFilterParam(genre,BY_GENRE_FILTER);
+        queryBuilder.addFilterParam(language,BY_LANG_FILTER);
+        queryBuilder.addFilterParam(publisherId,BY_PUBLISHER_FILTER);
+
+        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_ALL,limit,offset)){
             return  parseResultSet(statement.executeQuery());
         }
         catch (SQLException e){
@@ -165,8 +173,15 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     @Override
     public int getBooksCountByParams(String title, Integer authorId, BookGenre genre, BookLanguage language, Integer publisherId) {
-        try(PreparedStatement statement=new SelectQueryBuilder().getQuery(SELECT_COUNT,title,
-                authorId,genre,language,publisherId,1,0)){
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(connection.get());
+
+        queryBuilder.addFilterParam(title,BY_TITLE_FILTER);
+        queryBuilder.addFilterParam(authorId,BY_AUTHOR_FILTER);
+        queryBuilder.addFilterParam(genre,BY_GENRE_FILTER);
+        queryBuilder.addFilterParam(language,BY_LANG_FILTER);
+        queryBuilder.addFilterParam(publisherId,BY_PUBLISHER_FILTER);
+
+        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_COUNT)){
 
             ResultSet resultSet=statement.executeQuery();
 
@@ -262,13 +277,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         super.deleteById(TABLE,key);
     }
 
-    private int getSimpleIntValueOrZero(final String FIELD_NAME, ResultSet resultSet) throws SQLException {
-        if(resultSet.next()){
-            return resultSet.getInt(FIELD_NAME);
-        }
 
-        return 0;
-    }
 
     private List<Book> parseResultSet(ResultSet resultSet) throws SQLException {
         List<Book> bookList = new ArrayList<>();
@@ -294,82 +303,6 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             bookList.add(book);
         }
         return  bookList;
-    }
-
-    /**
-     * Inner helper class to build complex select query
-     */
-    class SelectQueryBuilder {
-        /*Map to hold parameters data
-        Integer - > order number in preparedStatement
-        Object -> data to set
-        */
-        HashMap<Integer,Object> params =new HashMap<>();
-
-        /*initial where close*/
-        StringBuilder whereQuery=new StringBuilder();
-
-        /*initial statement parameter index*/
-        Integer paramIndex=1;
-
-
-        PreparedStatement getQuery(String selectQuery,String title, Integer authorId,
-                                   BookGenre genre, BookLanguage language,
-                                   Integer publisherId, int limit, int offset) throws SQLException {
-
-            addFilterParam(title,BY_TITLE_FILTER);
-            addFilterParam(authorId,BY_AUTHOR_FILTER);
-            addFilterParam(genre,BY_GENRE_FILTER);
-            addFilterParam(language,BY_LANG_FILTER);
-            addFilterParam(publisherId,BY_PUBLISHER_FILTER);
-
-            return getPreparedStatement(selectQuery,limit,offset);
-        }
-
-        void addFilterParam(Object val,String whereClose){
-            if(val!=null && !val.equals("")){
-                //if at least one param was added
-                if(paramIndex!=1){
-                    whereQuery.append(AND);
-                }
-
-                whereQuery.append(whereClose);
-                params.put(paramIndex,val);
-                paramIndex++;
-            }
-        }
-
-        PreparedStatement getPreparedStatement(final String selectQuery,int limit,int offset) throws SQLException {
-            //if at least one param was added
-            if(paramIndex!=1){
-                //prepend
-                whereQuery.insert(0,WHERE);
-            }
-
-            final String RESULT_QUERY= selectQuery + whereQuery.toString() + LIMIT_OFFSET;
-
-            PreparedStatement resultStatement=connection.get().prepareStatement(RESULT_QUERY);
-
-            /*set param values*/
-            for(Map.Entry<Integer,Object> entry:params.entrySet()){
-
-                Integer index=entry.getKey();
-                Object param=entry.getValue();
-
-                if(param instanceof String || param.getClass().isEnum()){
-                    resultStatement.setString(index,param.toString());
-                }
-                else{
-                    resultStatement.setInt(index,(Integer)param);
-                }
-            }
-
-            /*set limit offset*/
-            resultStatement.setInt(paramIndex++,limit);
-            resultStatement.setInt(paramIndex,offset);
-
-            return  resultStatement;
-        }
     }
 }
 

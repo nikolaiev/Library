@@ -64,8 +64,12 @@
 
     <jsp-config>
         <taglib>
-            <taglib-uri>http://mytags.com/jsp/tlds/mytags</taglib-uri>
-            <taglib-location>/WEB-INF/tdls/paginator.tdl</taglib-location>
+            <taglib-uri>http://mytags.com/jsp/mytags</taglib-uri>
+            <taglib-location>/WEB-INF/tlds/paginator.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://mytags.com/jsp/myfuncs</taglib-uri>
+            <taglib-location>/WEB-INF/tlds/dateFormatter.tld</taglib-location>
         </taglib>
     </jsp-config>
 

@@ -24,7 +24,7 @@ public class LoginSubmitCommand implements Command{
     Map<UserRole,String> defaultLoggedInPage=new HashMap<>();
     {
         defaultLoggedInPage.put(UserRole.ADMIN,"/admin/books");
-        defaultLoggedInPage.put(UserRole.USER,"/user/home");
+        defaultLoggedInPage.put(UserRole.USER,"/user/books");
     }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
