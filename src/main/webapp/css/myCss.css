@@ -55,3 +55,12 @@ ul.menu-list li a:hover:not(.active) {
     color: #ffffff;
     padding: 5px;
 }
+
+#profile-id{
+    color: #ff0000;
+    padding: 10px;
+}
+
+.info-text{
+    color: #2aabd2;
+}

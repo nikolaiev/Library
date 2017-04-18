@@ -101,4 +101,12 @@ public abstract class AbstractDao {
                     .addLogMessage(String.format(LOG_MESSAGE_FORMAT_DB_ERROR_WHILE_DELETING_ENTITY_BY_ID, table, id));
         }
     }
+
+    int getSimpleIntValueOrZero(final String FIELD_NAME, ResultSet resultSet) throws SQLException {
+        if(resultSet.next()){
+            return resultSet.getInt(FIELD_NAME);
+        }
+
+        return 0;
+    }
 }

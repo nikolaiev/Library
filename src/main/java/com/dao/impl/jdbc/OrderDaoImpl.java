@@ -2,6 +2,7 @@ package com.dao.impl.jdbc;
 
 import com.dao.OrderDao;
 import com.dao.exception.DaoException;
+import com.dao.impl.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.*;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
@@ -24,7 +25,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String SELECT_ALL="SELECT ord_id, uid, bid, type, status, cdate, name, soname, login, pass, \n" +
             "       role, author_id, publisher_id, genre, lang, pdate, publisher_title, \n" +
             "       author_name, author_soname, title, count\n" +
-            "  FROM public.order_full_view ";
+            "  FROM public.order_full_view";
+
+    private static final String SELECT_COUNT="SELECT count(*) as count from order_full_view";
 
     private static final String SELECT_ORDER_BY_ID=SELECT_ALL+" WHERE ord_id =?";
     private static final String SELECT_ORDER_BY_USER_ID=SELECT_ALL+" WHERE uid =?";
@@ -39,6 +42,14 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String INSERT_ORDER="INSERT INTO public.\"order\"" +
             " (uid, bid, status, type)\n" +
             "    VALUES (?, ?, ?, ?);";
+
+    private static final String BY_TITLE_FILTER=" lower(title) like lower('%'||?||'%') ";
+    private static final String BY_USER_FILTER=" uid=? ";
+    private static final String BY_STATUS_FILTER=" status=? ";
+    private static final String BY_TYPE_FILTER=" type=? ";
+    private static final String BY_PUBLISHER_FILTER=" publisher_id=? ";
+    private static final String BY_DATE_FILTER=" cdate < ? ";
+
 
 
     /*author fields*/
@@ -60,10 +71,14 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String STATUS_FIELD_ORDER ="status";
     private static final String TYPE_FIELD_ORDER ="type";
     private static final String CREATE_DATE_FIELD_ORDER ="cdate";
+    private static final String COUNT_FIELD ="count";
     private static final String TABLE="public.\"order\"";
 
     /*order by*/
     private static final String ORDER_BY_CDATE_DESC="ORDER BY cdate DESC";
+
+    private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW ="Database error while getting filtered row";
+
 
     private static class InstanceHolder{
         private static OrderDaoImpl INSTANCE=new OrderDaoImpl();
@@ -140,6 +155,45 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         } catch (SQLException e) {
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_ID);
+        }
+    }
+
+    @Override
+    public List<Order> getOrdersByParams(Integer userId, String bookTitle, OrderStatus orderStatus, OrderType orderType, Date beforeDate, int limit, int offset) {
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(connection.get());
+
+        queryBuilder.addFilterParam(userId,BY_USER_FILTER);
+        queryBuilder.addFilterParam(bookTitle,BY_TITLE_FILTER);
+        queryBuilder.addFilterParam(orderStatus,BY_STATUS_FILTER);
+        queryBuilder.addFilterParam(orderType,BY_TYPE_FILTER);
+        queryBuilder.addFilterParam(beforeDate,BY_DATE_FILTER);
+
+        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_ALL,limit,offset)){
+            return parseResultSet(statement.executeQuery());
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
+        }
+    }
+
+    @Override
+    public int getOrdersCountByParams(Integer userId, String bookTitle, OrderStatus orderStatus, OrderType orderType, Date beforeDate) {
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(connection.get());
+
+        queryBuilder.addFilterParam(userId,BY_USER_FILTER);
+        queryBuilder.addFilterParam(bookTitle,BY_TITLE_FILTER);
+        queryBuilder.addFilterParam(orderStatus,BY_STATUS_FILTER);
+        queryBuilder.addFilterParam(orderType,BY_TYPE_FILTER);
+        queryBuilder.addFilterParam(beforeDate,BY_DATE_FILTER);
+
+        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_COUNT)){
+            ResultSet resultSet=statement.executeQuery();
+            return getSimpleIntValueOrZero(COUNT_FIELD,resultSet);
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW);
         }
     }
 

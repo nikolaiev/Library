@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://mytags.com/jsp/tlds/mytags" prefix="m" %>
+<%@ taglib uri="http://mytags.com/jsp/mytags" prefix="m" %>
 
 <html>
 <head>
@@ -17,6 +17,7 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
 </head>
 
+<%--FILTERS--%>
 <div class="row col-lg-12 center-block top-buffer">
     <form class="form-inline" method="get">
         <div class="form-group">
@@ -108,7 +109,7 @@
                 </c:if>
 
                 <c:if test="${empty param.limit}">
-                    <c:set var="limit" value="10"/>
+                    <c:set var="limit" value="${defLimit}"/>
                 </c:if>
                 <%--set limitation values--%>
                 <c:set var="pages" value="${[2,5,10,15,20,30]}"/>
@@ -133,11 +134,15 @@
     </form>
 
 </div>
+<%--FILTERS END--%>
 
 
+<%--BOOKS TABLE--%>
 <div class="container top-buffer">
-    <h2>Hover Rows</h2>
-    <p>The .table-hover class enables a hover state on table rows:</p>
+    <h2>Books library</h2>
+    <p class="info-text">Books found :
+        <c:out value="${totalCount}"/>
+    </p>
     <br>
 
 
@@ -189,12 +194,15 @@
     </c:forEach>
     </table>
 </div>
+<%--BOOKS TABLE ENDS--%>
 
-
+<%--PAGINATOR--%>
 <m:display paginParamName="page" totalPages="${totalPages}"/>
 
+<%--FOOTER--%>
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp" />
 
+<%--SCRIPTS--%>
 <script>
     let bindButtons=(buttons,orderType)=>{
         for(let i=0; i<buttons.length; i++){
@@ -218,7 +226,7 @@
                 });
             })
         }
-    }
+    };
 
     /*init selects*/
     $('.selectpicker').selectpicker();
