@@ -16,11 +16,15 @@ import java.util.Optional;
  * Created by vlad on 30.03.17.
  */
 public interface OrderService {
+
     void createOrdersAndClear(OrderItemList books, int userId);
+
     List<Order> getAllOrders();
+
     void updateOrderStatus(Order order);
 
     Optional<Order> getOrderById(Integer id);
+
     List<Order> getOrdersByUserId(int userId);
 
     Map<Book,OrderItem> getDetailedBookOrders(Map<Integer, OrderItem> sessionBookOrders);

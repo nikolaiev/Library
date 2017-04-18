@@ -11,6 +11,7 @@ import java.util.Optional;
  */
 public interface UserService {
     User createNewUser(User user);
+
     Optional<User> getUserByLogin(String login);
 
     Optional<User> getUserById(int userId);

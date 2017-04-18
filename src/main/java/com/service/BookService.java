@@ -12,6 +12,7 @@ import java.util.Optional;
  */
 public interface BookService {
     List<Book> getAllBooks();
+
     List<Book> getAllBooks(int limit,int offset);
 
     List<Book> getBooksByParams(String title, Integer authorId,

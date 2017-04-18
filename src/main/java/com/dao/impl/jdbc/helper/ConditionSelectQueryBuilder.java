@@ -14,19 +14,20 @@ public class ConditionSelectQueryBuilder {
     //TODO date param setting
     private final static String WHERE=" WHERE ";
     private final static String AND=" AND ";
-    private final static String LIMIT_OFFSET=" limit ? offset ? ";
+    private final static String LIMIT=" LIMIT ? ";
+    private final static String OFFSET=" OFFSET ? ";
     private Connection connection;
     /*Map to hold parameters data
         Integer - > order number in preparedStatement
         Object -> data to set
         */
-    HashMap<Integer,Object> params =new HashMap<>();
+    private HashMap<Integer,Object> params =new HashMap<>();
 
     /*initial where close*/
-    StringBuilder whereQuery=new StringBuilder();
+    private StringBuilder whereQuery=new StringBuilder();
 
     /*initial statement parameter index*/
-    Integer paramIndex=1;
+    private Integer paramIndex=1;
 
     public ConditionSelectQueryBuilder(Connection connection){
         this.connection=connection;
@@ -46,10 +47,18 @@ public class ConditionSelectQueryBuilder {
     }
 
     public PreparedStatement getPreparedStatement(final String SELECT_QUERY) throws SQLException {
-        return getPreparedStatement(SELECT_QUERY,null,null);
+        return getPreparedStatementLimitOffset(SELECT_QUERY,null,null);
     }
 
-    public PreparedStatement getPreparedStatement(final String SELECT_QUERY,Integer limit,Integer offset) throws SQLException, SQLException {
+    public PreparedStatement getPreparedStatementLimit(final String SELECT_QUERY,Integer limit) throws SQLException {
+        return getPreparedStatementLimitOffset(SELECT_QUERY,limit,null);
+    }
+
+    public PreparedStatement getPreparedStatementOffset(final String SELECT_QUERY,Integer offset) throws SQLException {
+        return getPreparedStatementLimitOffset(SELECT_QUERY,null,offset);
+    }
+
+    public PreparedStatement getPreparedStatementLimitOffset(final String SELECT_QUERY,Integer limit,Integer offset) throws SQLException {
         //if at least one param was added
         if(paramIndex!=1){
             //prepend
@@ -59,10 +68,16 @@ public class ConditionSelectQueryBuilder {
         String RESULT_QUERY= SELECT_QUERY + whereQuery.toString();
 
         /*check if params passed*/
-        boolean isLimitOffset=limit!=null && offset!=null;
+        boolean isLimit = limit!=null;
+        boolean isOffset = offset!=null;
 
-        if(isLimitOffset){
-            RESULT_QUERY+=LIMIT_OFFSET;
+        /*order of checks is necessary*/
+        if(isLimit){
+            RESULT_QUERY+=LIMIT;
+        }
+
+        if(isOffset){
+            RESULT_QUERY+=OFFSET;
         }
 
         /*result preparedStatement*/
@@ -74,6 +89,7 @@ public class ConditionSelectQueryBuilder {
             Integer index=entry.getKey();
             Object param=entry.getValue();
 
+            //check param for type
             if(param instanceof Date){
                 resultStatement.setDate(index,new java.sql.Date(((Date)param).getTime()));
                 continue;
@@ -83,14 +99,17 @@ public class ConditionSelectQueryBuilder {
                 resultStatement.setString(index,param.toString());
                 continue;
             }
-
+            //integer type left
             resultStatement.setInt(index,(Integer)param);
-
         }
 
-        if(isLimitOffset) {
-        /*set limit offset*/
+        /*!order of checks is necessary*/
+        /*set limit*/
+        if(isLimit){
             resultStatement.setInt(paramIndex++, limit);
+        }
+        /*set offset*/
+        if(isOffset){
             resultStatement.setInt(paramIndex, offset);
         }
 

@@ -162,7 +162,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         queryBuilder.addFilterParam(language,BY_LANG_FILTER);
         queryBuilder.addFilterParam(publisherId,BY_PUBLISHER_FILTER);
 
-        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_ALL,limit,offset)){
+        try(PreparedStatement statement=queryBuilder.getPreparedStatementLimitOffset(SELECT_ALL,limit,offset)){
             return  parseResultSet(statement.executeQuery());
         }
         catch (SQLException e){

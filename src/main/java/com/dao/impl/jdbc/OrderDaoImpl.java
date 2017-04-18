@@ -169,7 +169,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         queryBuilder.addFilterParam(orderType,BY_TYPE_FILTER);
         queryBuilder.addFilterParam(beforeDate,BY_DATE_FILTER);
 
-        try(PreparedStatement statement=queryBuilder.getPreparedStatement(SELECT_ALL,limit,offset)){
+        try(PreparedStatement statement=queryBuilder.getPreparedStatementLimitOffset(SELECT_ALL,limit,offset)){
             return parseResultSet(statement.executeQuery());
         }
         catch (SQLException e){
