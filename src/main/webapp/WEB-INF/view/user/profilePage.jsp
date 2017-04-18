@@ -110,11 +110,20 @@
 <%--FILTERS END--%>
 <%--TABLE--%>
 <div class="container top-buffer">
-    <h2>Profile id : 
+
+    <h2>User name :
+        <span id="user-name">
+            <c:out value="${user.name}"/>
+            <c:out value="${user.soname}"/>
+        </span>
+    </h2>
+
+    <h2>Profile id :
         <span id="profile-id">
             <c:out value="${sessionScope.userId}"/>
         </span>
     </h2>
+
     
     <c:if test="${not empty orders}">
         

@@ -75,7 +75,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final String TABLE="public.\"order\"";
 
     /*order by*/
-    private static final String ORDER_BY_CDATE_DESC="ORDER BY cdate DESC";
+    private static final String ORDER_BY_CDATE_DESC=" ORDER BY cdate DESC ";
 
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_FILTERED_ROW ="Database error while getting filtered row";
 
@@ -102,7 +102,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setInt(2,order.getBook().getId());
             statement.setString(3,order.getStatus().toString());
             statement.setString(4,order.getType().toString());
-            executeInsertStatement(statement);
+            int orderId=executeInsertStatement(statement);
+            order.setId(orderId);
 
         } catch (SQLException e) {
             throw new DaoException(e)

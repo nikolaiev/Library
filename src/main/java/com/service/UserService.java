@@ -10,6 +10,8 @@ import java.util.Optional;
  * Created by vlad on 21.03.17.
  */
 public interface UserService {
-    User createNewUser(SerializableTransactionWrapper<User> wrapper);
+    User createNewUser(User user);
     Optional<User> getUserByLogin(String login);
+
+    Optional<User> getUserById(int userId);
 }

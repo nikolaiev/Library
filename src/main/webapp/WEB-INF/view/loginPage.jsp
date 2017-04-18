@@ -21,10 +21,17 @@
 </head>
 
 <body>
-<c:if test="${not empty error}" >
+<c:if test="${not empty param.error}" >
     <div class="alert alert-danger" align="center">
         <strong>Error!</strong>
-        <td>${error}</td>
+        <td>${param.error}</td>
+    </div>
+</c:if>
+
+<c:if test="${not empty param.success_message}" >
+    <div class="alert alert-success" align="center">
+        <strong>Log in now!</strong>
+        <td>${param.success_message}</td>
     </div>
 </c:if>
 
@@ -69,7 +76,10 @@
 
                             <form id="register-form" action="/register" method="post" role="form" style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="username" id="username_reg" tabindex="1" class="form-control" placeholder="Username" value="">
+                                    <input type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder="Name" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="soname" id="soname_reg" tabindex="1" class="form-control" placeholder="Soname" value="">
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">

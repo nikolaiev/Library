@@ -24,7 +24,7 @@
         <url-pattern>/user/*</url-pattern>
         <url-pattern>/login/*</url-pattern>
         <url-pattern>/logout/*</url-pattern>
-        <url-pattern>/books/*</url-pattern>
+        <url-pattern>/register</url-pattern>
         <url-pattern>/static/*</url-pattern>
 
     </servlet-mapping>
@@ -72,5 +72,10 @@
             <taglib-location>/WEB-INF/tlds/dateFormatter.tld</taglib-location>
         </taglib>
     </jsp-config>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/index.jsp</location>
+    </error-page>
 
 </web-app>

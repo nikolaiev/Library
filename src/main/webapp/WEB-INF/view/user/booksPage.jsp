@@ -168,7 +168,7 @@
 
             <td>
                 <a href="/user/books?author_id=<c:out value="${book.author.id}"/>">
-                    <c:out value="${book.author.soname}"/>
+                    <c:out value="${book.author.name.concat(' ').concat(book.author.soname)}"/>
                 </a>
             </td>
 

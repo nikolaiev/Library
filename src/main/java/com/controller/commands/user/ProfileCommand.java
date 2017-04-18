@@ -5,8 +5,11 @@ import com.controller.commands.CommandWrapper;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
+import com.model.entity.user.User;
 import com.service.OrderService;
+import com.service.UserService;
 import com.service.impl.OrderServiceImpl;
+import com.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +44,8 @@ public class ProfileCommand extends CommandWrapper implements Command {
         try {
             beforeDate = format.parse(beforeDateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            //TODO logger
+            //e.printStackTrace();
         }
 
         int limit= getLimitFromRequest(request);
@@ -49,10 +53,12 @@ public class ProfileCommand extends CommandWrapper implements Command {
 
         /*services*/
         OrderService orderService= OrderServiceImpl.getInstance();
+        UserService userService= UserServiceImpl.getInstance();
 
         /*get data for jsp*/
         List<Order> orders=orderService.getOrdersByParams(userId,bookTitle,orderStatus ,
                 orderType,beforeDate,limit,offset);
+        User user=userService.getUserById(userId).orElse(null);
 
         int ordersCount=orderService.getOrdersCountByParams(userId,bookTitle,orderStatus ,orderType,beforeDate);
 
@@ -60,6 +66,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
 
 
         request.setAttribute("orders",orders);
+        request.setAttribute("user",user);
         request.setAttribute("statuses",OrderStatus.values());
         request.setAttribute("types",OrderType.values());
         request.setAttribute("totalPages",totalPages);

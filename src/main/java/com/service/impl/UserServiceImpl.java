@@ -21,14 +21,23 @@ public class UserServiceImpl extends GenericService implements UserService {
     }
 
     @Override
-    public User createNewUser(SerializableTransactionWrapper<User> wrapper) {
-        return executeInSerializableWrapper(wrapper);
+    public User createNewUser(User user) {
+        return  executeInSerializableWrapper(transactionManager ->
+            transactionManager.getUserDao().insert(user)
+        );
     }
 
     @Override
     public Optional<User> getUserByLogin(String login) {
         return executeInNonTransactionalWrapper(transactionManager ->
             transactionManager.getUserDao().getUserByLogin(login)
+        );
+    }
+
+    @Override
+    public Optional<User> getUserById(int userId) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+            transactionManager.getUserDao().getById(userId)
         );
     }
 }

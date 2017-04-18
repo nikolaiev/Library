@@ -59,9 +59,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1,user.getName());
             statement.setString(2,user.getSoname());
-            statement.setString(3,user.getPassword());
-            statement.setString(4, String.valueOf(user.getRole()));
-            executeInsertStatement(statement);
+            statement.setString(3,user.getLogin());
+            statement.setString(4,user.getPassword());
+            statement.setString(5, String.valueOf(user.getRole()));
+            int userId=executeInsertStatement(statement);
+            user.setId(userId);
 
         } catch (SQLException e) {
             throw new DaoException(e)

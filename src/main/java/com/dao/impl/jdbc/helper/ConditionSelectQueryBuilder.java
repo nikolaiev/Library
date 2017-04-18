@@ -76,14 +76,16 @@ public class ConditionSelectQueryBuilder {
 
             if(param instanceof Date){
                 resultStatement.setDate(index,new java.sql.Date(((Date)param).getTime()));
-            } else
+                continue;
+            }
 
             if(param instanceof String || param.getClass().isEnum()){
                 resultStatement.setString(index,param.toString());
+                continue;
             }
-            else{
-                resultStatement.setInt(index,(Integer)param);
-            }
+
+            resultStatement.setInt(index,(Integer)param);
+
         }
 
         if(isLimitOffset) {

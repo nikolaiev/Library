@@ -13,6 +13,7 @@ import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
 import com.controller.commands.common.GetStaticFileCommand;
+import com.controller.commands.login.RegistrationSubmitCommand;
 import com.controller.commands.user.*;
 import com.controller.commands.common.GoHomeCommand;
 import com.controller.commands.common.GoInvalidUrlCommand;
@@ -41,6 +42,7 @@ public class CommandHolder {
         /*login logout commands*/
         commands.put(GET_PATH+"/login",new LoginCommand());
         commands.put(POST_PATH+"/login",new LoginSubmitCommand());
+        commands.put(POST_PATH+"/register",new RegistrationSubmitCommand());
         commands.put(GET_PATH+"/logout",new LogoutCommand());
         commands.put(GET_PATH+"/forbidden",new GoInvalidUrlCommand());
         commands.put(GET_PATH+"/static",new GetStaticFileCommand());

@@ -61,6 +61,11 @@ ul.menu-list li a:hover:not(.active) {
     padding: 10px;
 }
 
+#user-name{
+    color: #1CB94A;
+    padding:10px;
+}
+
 .info-text{
     color: #2aabd2;
 }
