@@ -39,7 +39,7 @@ public abstract class CommandWrapper implements Command {
 
         if(request.getMethod().equals("GET")) {
             //TODO think about page redirection
-            return request.getContextPath() + "/WEB-INF/view/errorPage.jsp";
+            return "/WEB-INF/view/errorPage.jsp";
         }
         else{//POST request
             //TODO shit code rewrite!!

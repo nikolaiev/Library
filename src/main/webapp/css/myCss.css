@@ -1,5 +1,6 @@
 .order-image{
-    height: 100px;
+    max-height: 150px;
+    max-width: 150px;
 }
 
 ul.menu-list {
