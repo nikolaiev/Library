@@ -1,7 +1,7 @@
 package com.dao.jdbc;
 
 import com.dao.exception.DaoException;
-import com.model.entity.Identified;
+import com.model.entity.IdContainer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,14 +72,14 @@ public abstract class AbstractDao {
     }
 
 
-    void checkIsSaved(Identified entity) throws DaoException {
+    void checkIsSaved(IdContainer entity) throws DaoException {
         if (entity.getId() == 0) {
             throw new DaoException()
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_CAN_NOT_UPDATE_UNSAVED + entity);
         }
     }
 
-    void checkIsUnsaved(Identified entity) throws DaoException {
+    void checkIsUnsaved(IdContainer entity) throws DaoException {
         if (entity.getId() != 0) {
             throw new DaoException()
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_CAN_NOT_CREATE_ALREADY_SAVED + entity);
