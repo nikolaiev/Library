@@ -54,7 +54,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <%--Login--%>
-                            <form id="login-form" action="/login" method="post" role="form" style="display: block;">
+                            <form id="login-form" action="${pageContext.request.contextPath}/login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
                                     <input type="text" name="login" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                                 </div>
@@ -74,7 +74,7 @@
 
                             <%--Registration--%>
 
-                            <form id="register-form" action="/register" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="${pageContext.request.contextPath}/register" method="post" role="form" style="display: none;">
                                 <div class="form-group">
                                     <input type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder="Name" value="">
                                 </div>

@@ -163,19 +163,19 @@
             <td><img class="order-image" src='${pageContext.request.contextPath}/static/<c:out value="${book.image}"/>' /></td>
             <%--<td><c:out value="${book.id}"/></td>--%>
             <td>
-                <a href="/user/book/<c:out value="${book.id}"/>">
+                <a href="${pageContext.request.contextPath}/user/book/<c:out value="${book.id}"/>">
                     <c:out value="${book.title}"/>
                 </a>
             </td>
 
             <td>
-                <a href="/user/books?author_id=<c:out value="${book.author.id}"/>">
+                <a href="${pageContext.request.contextPath}/user/books?author_id=<c:out value="${book.author.id}"/>">
                     <c:out value="${book.author.name.concat(' ').concat(book.author.soname)}"/>
                 </a>
             </td>
 
             <td>
-                <a href="/user/books?genre=<c:out value="${book.genre}"/>">
+                <a href="${pageContext.request.contextPath}/user/books?genre=<c:out value="${book.genre}"/>">
                     <c:out value="${book.genre}"/>
                 </a>
 
@@ -212,7 +212,7 @@
             $(buttons[i]).click(()=>{
                 $.ajax({
                     type: "POST",
-                    url: "/user/books/add",
+                    url: "${pageContext.request.contextPath}/user/books/add",
                     data: {
                         id:but,
                         order_type:orderType//'LIBRARY'

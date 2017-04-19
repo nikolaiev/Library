@@ -25,7 +25,7 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
             orderService.createOrdersAndClear(orderItemList, userId);
         }
 
-        response.sendRedirect("/user/orders");
+        response.sendRedirect(request.getContextPath()+"/user/orders");
         return "REDIRECTED";
     }
 

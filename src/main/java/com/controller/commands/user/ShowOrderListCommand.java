@@ -31,7 +31,7 @@ public class ShowOrderListCommand implements Command {
             request.setAttribute("bookOrders", detailBookOrders);
         }
 
-        return request.getContextPath()+"/WEB-INF/view/user/orderListPage.jsp";
+        return "/WEB-INF/view/user/orderListPage.jsp";
 
     }
 }

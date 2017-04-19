@@ -29,7 +29,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         if(!password.equals(confPassword)){
             String errorMessage=escapeUrlCharacters("Registration data is not valid");
             //redirect to login page with successful message
-            response.sendRedirect("/login?error="+errorMessage);
+            response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
             return "REDIRECTED";
         }
 
@@ -47,12 +47,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
 
         String successMessage=escapeUrlCharacters("Registration was successful");
         //redirect to login page with successful message
-        response.sendRedirect("/login?success_message="+successMessage);
+        response.sendRedirect(request.getContextPath()+"/login?success_message="+successMessage);
         return "REDIRECTED";
-    }
-
-    //TODO move into abstract class
-    private String escapeUrlCharacters(String message) {
-        return message.replace(" ","%20");
     }
 }

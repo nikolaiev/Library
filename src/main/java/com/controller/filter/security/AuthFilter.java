@@ -1,6 +1,7 @@
 package com.controller.filter.security;
 
 import com.model.entity.user.UserRole;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,14 @@ import java.io.IOException;
  * Created by vlad on 09.04.17.
  */
 public class AuthFilter implements Filter {
+    private static final Logger logger=Logger.getLogger(AuthFilter.class);
+    private String deployPath;
+
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        logger.info("filter initialized");
+        deployPath=filterConfig.getServletContext().getContextPath();
     }
 
     @Override
@@ -26,6 +31,9 @@ public class AuthFilter implements Filter {
         UserRole role=(UserRole) session.getAttribute("userRole");
         String uri = httpRequest.getRequestURI();
 
+
+        logger.info("uri is "+uri);
+
         if(!isAuthorizedForUri(role,uri)){
             if(role==null){
                 HttpServletResponse httpResponse=(HttpServletResponse)servletResponse;
@@ -33,11 +41,13 @@ public class AuthFilter implements Filter {
             }
             else {
                 httpRequest.setAttribute("error",FORBIDDEN_URL_REQUESTED);
-                httpRequest.getRequestDispatcher(httpRequest.getContextPath() + "/WEB-INF/view/errorPage.jsp")
+                httpRequest.getRequestDispatcher("/WEB-INF/view/errorPage.jsp")
                         .forward(servletRequest, servletResponse);
             }
             return;
         }
+
+        logger.info("here "+uri);
 
         filterChain.doFilter(servletRequest,servletResponse);
     }
@@ -54,20 +64,20 @@ public class AuthFilter implements Filter {
 
     private boolean checkUnauthorizedUri(String uri) {
 
-        return uri.startsWith("/login")||
-                uri.startsWith("/register");
+        return uri.startsWith(deployPath+"/login")||
+                uri.startsWith(deployPath+"/register");
     }
 
     private boolean checkUserUri(String uri) {
-        return uri.startsWith("/user/")
-                ||uri.startsWith("/logout")
-                ||uri.startsWith("/static");
+        return uri.startsWith(deployPath+"/user/")
+                ||uri.startsWith(deployPath+"/logout")
+                ||uri.startsWith(deployPath+"/static");
     }
 
     private boolean checkAdminUri(String uri) {
-        return  uri.startsWith("/admin/")
-                ||uri.startsWith("/logout")
-                ||uri.startsWith("/static");
+        return  uri.startsWith(deployPath+"/admin/")
+                ||uri.startsWith(deployPath+"/logout")
+                ||uri.startsWith(deployPath+"/static");
     }
 
     @Override

@@ -9,11 +9,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Error page</title>
 </head>
 <body>
 <h3>Error occurred!</h3>
     <br>
     <c:out value="${requestScope.error}"/>
+    <br>
+    <c:out value="${requestScope.error_message}"/>
+    <br>
+    <c:out value="${requestScope.error_additional_message}"/>
 </body>
 </html>

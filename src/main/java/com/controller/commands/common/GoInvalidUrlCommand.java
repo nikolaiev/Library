@@ -23,11 +23,11 @@ public class GoInvalidUrlCommand implements Command {
         HttpSession session=request.getSession();
 
         if(session.getAttribute("userId")==null){
-            response.sendRedirect("/login");
+            response.sendRedirect(request.getContextPath()+"/login");
             return "REDIRECTED";
         }
 
         request.setAttribute("error",REQUESTED_UNSUPPORTED_URI);
-        return request.getContextPath()+"/WEB-INF/view/errorPage.jsp";
+        return "/WEB-INF/view/errorPage.jsp";
     }
 }

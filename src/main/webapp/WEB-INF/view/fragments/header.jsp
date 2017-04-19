@@ -25,11 +25,11 @@
 </head>
 <body>
     <ul class="menu-list">
-        <li ><a href="/user/profile">Profile</a></li>
-        <li ><a href="/user/books">Books</a></li>
+        <li ><a href="${pageContext.request.contextPath}/user/profile">Profile</a></li>
+        <li ><a href="${pageContext.request.contextPath}/user/books">Books</a></li>
 
         <li>
-            <a href="/user/orders">
+            <a href="${pageContext.request.contextPath}/user/orders">
                 Orders
                 <div id="item-count-holder">
 
@@ -43,6 +43,6 @@
             </a>
         </li>
 
-        <li class="right" ><a href="/logout">Logout</a></li>
+        <li class="right" ><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
     </ul>
 

@@ -61,19 +61,14 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
                 UserRole role=user.get().getRole();
                 session.setAttribute("userId",user.get().getId());
                 session.setAttribute("userRole",role);
-                response.sendRedirect(defaultLoggedInPage.get(role));
+                response.sendRedirect(request.getContextPath()+defaultLoggedInPage.get(role));
                 return "REDIRECTED";
             }
         }
-        //TODO localization
-        String errorMessage=escapeUrlCharacters("Login or password is incorrect!");
-        response.sendRedirect("/login?error="+errorMessage);
-        return "REDIRECTED";
-    }
 
-    //TODO replace to abstract class
-    private String escapeUrlCharacters(String message) {
-        return message.replace(" ","%20");
+        String errorMessage=escapeUrlCharacters("Login or password is incorrect!");
+        response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
+        return "REDIRECTED";
     }
 
     private boolean isUserLoggedIn(HttpServletRequest request){

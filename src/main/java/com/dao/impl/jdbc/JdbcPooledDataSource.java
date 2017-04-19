@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 public class JdbcPooledDataSource {
     private static final String CAN_NOT_READ_PROPERTY_FOR_MIN_JDBC_CONNECTION_POOL_SIZE =
             "Can not read property for min jdbc connection pool size. Setting default = 5.";
-    private static final Logger logger = Logger.getLogger(String.valueOf(JdbcPooledDataSource.class));
+    private static final Logger logger = Logger.getLogger(JdbcPooledDataSource.class);
     private static final String CAN_NOT_READ_PROPERTY_FOR_MAX_JDBC_CONNECTION_POOL_SIZE =
             "Can not read property for max jdbc connection pool size. Setting default = 20.";
     private static final String CAN_NOT_READ_PROPERTY_FOR_JDBC_CONNECTION_ACQUIRE_INCREMENT =

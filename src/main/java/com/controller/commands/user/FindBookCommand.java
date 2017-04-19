@@ -67,6 +67,6 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",bookCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
+        return "/WEB-INF/view/user/booksPage.jsp";
     }
 }

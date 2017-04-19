@@ -43,7 +43,7 @@
                 <tr>
 
                     <td>
-                        <a href="/user/book/<c:out value="${book.id}"/>" >
+                        <a href="${pageContext.request.contextPath}/user/book/<c:out value="${book.id}"/>" >
                             <c:out value="${book.title}"/>
                         </a>
                     </td>
@@ -79,7 +79,7 @@
 
         <p>
             You can
-            <a href="/user/books">choose some books </a>
+            <a href="${pageContext.request.contextPath}/user/books">choose some books </a>
             to order them
         </p>
     </c:if>
@@ -94,7 +94,7 @@
         $(removeButtons[i]).click(()=>{
             $.ajax({
                 type: "POST",
-                url: "/user/books/remove",
+                url: "${pageContext.request.contextPath}/user/books/remove",
                 data: {id:but},
                 success: ()=>{
                     updatePageElements(removeButtons[i]);

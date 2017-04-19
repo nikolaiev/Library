@@ -2,6 +2,7 @@ package com.controller;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandHolder;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import java.io.IOException;
  * Created by vlad on 30.03.17.
  */
 public class FrontController extends HttpServlet {
+
+    private static final Logger logger=Logger.getLogger(FrontController.class);
     private static CommandHolder commandHolder;
     /**
      * @see HttpServlet#HttpServlet()
@@ -21,7 +24,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init(){
-        commandHolder=new CommandHolder();
+        commandHolder=new CommandHolder(getServletContext().getContextPath());
     }
 
     /**
@@ -42,6 +45,8 @@ public class FrontController extends HttpServlet {
         String url=request.getMethod()+":"+request.getRequestURI();
         Command command=commandHolder.getCommand(url);
         String view=command.execute(request,response);
+        logger.error("inside Fornt controller "+url);
+        logger.error("view  is "+view);
 
         if(!view.equals("REDIRECTED"))
             request.getRequestDispatcher(view).forward(request,response);

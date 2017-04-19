@@ -5,6 +5,7 @@ import com.controller.commands.helper.RequestParamExtractor;
 import com.dao.exception.DaoException;
 import com.exception.ApplicationException;
 import com.service.exception.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import java.util.Optional;
  * Created by vlad on 09.04.17.
  */
 public abstract class CommandWrapper implements Command {
+
+    private final static Logger logger=Logger.getLogger(CommandWrapper.class);
 
     protected ParamExtractor paramExtractor=new RequestParamExtractor();
 
@@ -35,12 +38,17 @@ public abstract class CommandWrapper implements Command {
         }
 
         if(request.getMethod().equals("GET")) {
+            //TODO think about page redirection
             return request.getContextPath() + "/WEB-INF/view/errorPage.jsp";
         }
-        else{
-            //TODO rewrite SHIT CODE
+        else{//POST request
+            //TODO shit code rewrite!!
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write(request.getAttribute("error").toString());
+
+            String message=Optional.ofNullable(request.getAttribute("error_additional_message"))
+                    .map(Object::toString).orElse("POST request error");
+
+            response.getWriter().write(message);
             return "REDIRECTED";
         }
     }
@@ -62,19 +70,24 @@ public abstract class CommandWrapper implements Command {
      * @param request requestObject
      * @return limit for book search
      */
-    protected int getLimitFromRequest(HttpServletRequest request,String limitParamName,int DEFAULT_LIMIT_VALUE) {
+    protected int getLimitFromRequest(HttpServletRequest request,String limitParamName,int defaultLimitValue) {
         return Optional.ofNullable(paramExtractor.getIntParamOrNull(request,limitParamName))
-                .orElse(DEFAULT_LIMIT_VALUE);
+                .orElse(defaultLimitValue);
+    }
+
+    protected String escapeUrlCharacters(String message) {
+        return message.replace(" ","%20");
     }
 
     private void processException(HttpServletRequest request, Exception e) {
-        //TODO implement
-        request.setAttribute("error",e);
+        logger.error(e.getMessage());
+        request.setAttribute("error_message", "Unknown error occurred!");
     }
 
     private void processApplicationException(ApplicationException e, HttpServletRequest request) {
-        //TODO implement
-        request.setAttribute("error",e.getLogMessage()+e.getAdditionalMessage()+e.getMessageKey());
+        logger.error(e.toString());
+        request.setAttribute("error_message", e.getMessageKey());
+        request.setAttribute("error_additional_message", e.getAdditionalMessage());
     }
 
 

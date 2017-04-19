@@ -64,7 +64,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",ordersCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return request.getContextPath()+"/WEB-INF/view/user/profilePage.jsp";
+        return "/WEB-INF/view/user/profilePage.jsp";
     }
 
 }
