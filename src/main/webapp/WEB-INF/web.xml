@@ -29,22 +29,6 @@
 
     </servlet-mapping>
 
-    <!--Filters configuration-->
-    <filter>
-        <filter-name>default</filter-name>
-        <filter-class>com.controller.filter.resource.DefaultFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>default</filter-name>
-        <url-pattern>*.js</url-pattern>
-        <url-pattern>*.css</url-pattern>
-        <url-pattern>*.eot</url-pattern>
-        <url-pattern>*.svg</url-pattern>
-        <url-pattern>*.ttf</url-pattern>
-        <url-pattern>*.woff</url-pattern>
-        <url-pattern>*.woff2</url-pattern>
-    </filter-mapping>
 
     <filter>
         <filter-name>AuthenticationFilter</filter-name>

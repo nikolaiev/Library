@@ -64,8 +64,8 @@ public class AuthFilter implements Filter {
 
     private boolean checkUnauthorizedUri(String uri) {
 
-        return uri.startsWith(deployPath+"/login")||
-                uri.startsWith(deployPath+"/register");
+        return !uri.startsWith(deployPath+"/user")&&
+                !uri.startsWith(deployPath+"/admin");
     }
 
     private boolean checkUserUri(String uri) {
