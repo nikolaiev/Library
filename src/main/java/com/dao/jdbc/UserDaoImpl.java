@@ -1,4 +1,4 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
 import com.dao.UserDao;
 import com.dao.exception.DaoException;

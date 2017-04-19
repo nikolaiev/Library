@@ -1,15 +1,13 @@
 package com.model.entity.book;
 
-import com.model.entity.Identified;
-import com.model.entity.user.User;
+import com.model.entity.IdContainer;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Created by vlad on 16.03.17.
  */
-public class Book implements Identified {
+public class Book extends IdContainer{
     private int id;
     private String title;
     private Author author;

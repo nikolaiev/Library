@@ -1,8 +1,6 @@
 package com.service.impl;
 
-import com.dao.AuthorDao;
-import com.dao.TransactionManager;
-import com.dao.impl.jdbc.AuthorDaoImpl;
+import com.dao.jdbc.AuthorDaoImpl;
 import com.model.entity.book.Author;
 import com.service.AuthorService;
 

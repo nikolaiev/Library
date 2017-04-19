@@ -1,17 +1,5 @@
 package com.dao.impl;
 
-import com.dao.TransactionManager;
-import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
-import com.model.entity.book.Author;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by vlad on 23.03.17.
  */

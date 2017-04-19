@@ -1,4 +1,4 @@
-package com.controller.commands.login;
+package com.controller.commands.common.login;
 
 import com.controller.commands.Command;
 

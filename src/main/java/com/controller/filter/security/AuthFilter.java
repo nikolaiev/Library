@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class AuthFilter implements Filter {
     private static final Logger logger=Logger.getLogger(AuthFilter.class);
-    private String deployPath;
+    private static String deployPath;
 
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
     @Override

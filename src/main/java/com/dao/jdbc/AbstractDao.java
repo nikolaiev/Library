@@ -1,6 +1,5 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
-import com.dao.GenericDao;
 import com.dao.exception.DaoException;
 import com.model.entity.Identified;
 

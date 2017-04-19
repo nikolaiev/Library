@@ -1,6 +1,6 @@
 package com.model.entity.order;
 
-import com.model.entity.Identified;
+import com.model.entity.IdContainer;
 import com.model.entity.book.Book;
 import com.model.entity.user.User;
 
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by vlad on 20.03.17.
  */
-public class Order implements Identified{
+public class Order extends IdContainer {
     private int id;
     private User user;
     private Book book;
@@ -60,15 +60,6 @@ public class Order implements Identified{
         this.orderDateTime = orderDateTime;
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id=id;
-    }
 
     public static class Builder{
         Order order=new Order();

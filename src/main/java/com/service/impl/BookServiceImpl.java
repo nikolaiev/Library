@@ -1,17 +1,11 @@
 package com.service.impl;
 
-import com.dao.BookDao;
-import com.dao.GenericDao;
-import com.dao.TransactionManager;
-import com.dao.TransactionManagerFactory;
-import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
 import com.model.entity.book.Book;
 import com.model.entity.book.BookGenre;
 import com.model.entity.book.BookLanguage;
 import com.service.BookService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by vlad on 30.03.17.

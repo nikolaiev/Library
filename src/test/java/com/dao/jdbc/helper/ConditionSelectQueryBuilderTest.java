@@ -1,8 +1,6 @@
-package com.dao.impl.jdbc.helper;
+package com.dao.jdbc.helper;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by vlad on 18.04.17.

@@ -1,4 +1,4 @@
-package com.dao.impl.jdbc.helper;
+package com.dao.jdbc.helper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

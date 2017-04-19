@@ -1,4 +1,6 @@
-package com.dao;
+package com.dao.connection;
+
+import com.dao.*;
 
 /**
  * Created by vlad on 21.03.17.

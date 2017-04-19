@@ -1,11 +1,11 @@
 package com.model.entity.user;
 
-import com.model.entity.Identified;
+import com.model.entity.IdContainer;
 
 /**
  * Created by vlad on 20.03.17.
  */
-public class User implements Identified{
+public class User extends IdContainer {
 
     private int id;
     private String login;
@@ -52,16 +52,6 @@ public class User implements Identified{
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id=id;
     }
 
     public static class Builder{

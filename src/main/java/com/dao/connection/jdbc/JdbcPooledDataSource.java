@@ -1,4 +1,4 @@
-package com.dao.impl.jdbc;
+package com.dao.connection.jdbc;
 
 import com.dao.exception.DaoException;
 import com.mchange.v2.c3p0.ComboPooledDataSource;

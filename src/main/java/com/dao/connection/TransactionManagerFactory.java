@@ -1,4 +1,4 @@
-package com.dao;
+package com.dao.connection;
 
 /**
  * Created by vlad on 21.03.17.

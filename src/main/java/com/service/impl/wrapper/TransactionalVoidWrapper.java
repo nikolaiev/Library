@@ -1,7 +1,7 @@
 package com.service.impl.wrapper;
 
-import com.dao.TransactionManager;
-import com.dao.impl.jdbc.TransactionManagerFactoryImpl;
+import com.dao.connection.TransactionManager;
+import com.dao.connection.TransactionManagerFactoryImpl;
 
 /**
  * Created by vlad on 10.04.17.

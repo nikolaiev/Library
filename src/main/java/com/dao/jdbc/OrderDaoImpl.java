@@ -1,8 +1,8 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
 import com.dao.OrderDao;
 import com.dao.exception.DaoException;
-import com.dao.impl.jdbc.helper.ConditionSelectQueryBuilder;
+import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.*;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
@@ -11,8 +11,6 @@ import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

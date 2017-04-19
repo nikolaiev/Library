@@ -1,8 +1,7 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
-import com.dao.OrderDao;
-import com.dao.TransactionManager;
-import com.dao.TransactionManagerFactory;
+import com.dao.connection.TransactionManager;
+import com.dao.connection.TransactionManagerFactoryImpl;
 import com.model.entity.order.Order;
 import org.junit.Test;
 

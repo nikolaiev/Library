@@ -1,9 +1,9 @@
-package com.dao.impl.jdbc;
+package com.dao.connection;
 
 import com.dao.DaoFactory;
-import com.dao.TransactionManager;
-import com.dao.TransactionManagerFactory;
+import com.dao.connection.jdbc.JdbcPooledDataSource;
 import com.dao.exception.DaoException;
+import com.dao.jdbc.DaoFactoryImpl;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

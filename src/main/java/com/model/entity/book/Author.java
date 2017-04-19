@@ -1,11 +1,11 @@
 package com.model.entity.book;
 
-import com.model.entity.Identified;
+import com.model.entity.IdContainer;
 
 /**
  * Created by vlad on 20.03.17.
  */
-public class Author implements Identified{
+public class Author extends IdContainer{
     private int id;
     private String name;
     private String soname;

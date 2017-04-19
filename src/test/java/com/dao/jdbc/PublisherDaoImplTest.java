@@ -1,13 +1,11 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by vlad on 15.04.17.
  */
-public class UserDaoImplTest {
+public class PublisherDaoImplTest {
     @Test
     public void insert() throws Exception {
     }
@@ -25,7 +23,7 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void getUserByLogin() throws Exception {
+    public void getPublisherByTitle() throws Exception {
     }
 
 }

@@ -1,14 +1,12 @@
-package com.dao.impl.jdbc;
+package com.dao.jdbc;
 
 import com.dao.BookDao;
 import com.dao.exception.DaoException;
-import com.dao.impl.jdbc.helper.ConditionSelectQueryBuilder;
+import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.*;
 
 import java.sql.*;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**

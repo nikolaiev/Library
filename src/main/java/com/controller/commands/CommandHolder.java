@@ -13,12 +13,12 @@ import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
 import com.controller.commands.common.GetStaticFileCommand;
-import com.controller.commands.login.RegistrationSubmitCommand;
+import com.controller.commands.common.login.RegistrationSubmitCommand;
 import com.controller.commands.user.*;
 import com.controller.commands.common.GoInvalidUrlCommand;
-import com.controller.commands.login.LogoutCommand;
-import com.controller.commands.login.LoginCommand;
-import com.controller.commands.login.LoginSubmitCommand;
+import com.controller.commands.common.login.LogoutCommand;
+import com.controller.commands.common.login.LoginCommand;
+import com.controller.commands.common.login.LoginSubmitCommand;
 
 import java.util.HashMap;
 import java.util.Map;
