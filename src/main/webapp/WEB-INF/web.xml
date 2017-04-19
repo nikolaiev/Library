@@ -26,27 +26,25 @@
         <url-pattern>/logout/*</url-pattern>
         <url-pattern>/register</url-pattern>
         <url-pattern>/static/*</url-pattern>
-        <url-pattern>*.js</url-pattern>
-        <url-pattern>*.css</url-pattern>
 
     </servlet-mapping>
 
     <!--Filters configuration-->
-    <!--<filter>-->
-        <!--<filter-name>default</filter-name>-->
-        <!--<filter-class>com.controller.filter.resource.DefaultFilter</filter-class>-->
-    <!--</filter>-->
+    <filter>
+        <filter-name>default</filter-name>
+        <filter-class>com.controller.filter.resource.DefaultFilter</filter-class>
+    </filter>
 
-    <!--<filter-mapping>-->
-        <!--<filter-name>default</filter-name>-->
-        <!--<url-pattern>*.js</url-pattern>-->
-        <!--<url-pattern>*.css</url-pattern>-->
-        <!--<url-pattern>*.eot</url-pattern>-->
-        <!--<url-pattern>*.svg</url-pattern>-->
-        <!--<url-pattern>*.ttf</url-pattern>-->
-        <!--<url-pattern>*.woff</url-pattern>-->
-        <!--<url-pattern>*.woff2</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter-mapping>
+        <filter-name>default</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.eot</url-pattern>
+        <url-pattern>*.svg</url-pattern>
+        <url-pattern>*.ttf</url-pattern>
+        <url-pattern>*.woff</url-pattern>
+        <url-pattern>*.woff2</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>auth</filter-name>

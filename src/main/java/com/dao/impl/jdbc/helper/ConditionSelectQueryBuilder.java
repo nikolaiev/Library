@@ -11,7 +11,7 @@ import java.util.Map;
  * Inner helper class to build complex select query
  */
 public class ConditionSelectQueryBuilder {
-    //TODO date param setting
+
     private final static String WHERE=" WHERE ";
     private final static String AND=" AND ";
     private final static String LIMIT=" LIMIT ? ";

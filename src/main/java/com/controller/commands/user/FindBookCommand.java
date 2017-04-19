@@ -29,18 +29,16 @@ public class FindBookCommand extends CommandWrapper implements Command {
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        Optional<String> author_id= Optional.ofNullable(request.getParameter("author_id"));
-        Optional<String> publisher_id= Optional.ofNullable(request.getParameter("publisher_id"));
+        Integer authorId = paramExtractor.getIntParamOrNull(request,"author_id");
+        Integer publisherId = paramExtractor.getIntParamOrNull(request,"publisher_id");
 
-        Integer authorId = author_id.map(Integer::parseInt).orElse(null);
-        Integer publisherId = publisher_id.map(Integer::parseInt).orElse(null);
+        String title = paramExtractor.getStringParamOrNull(request,"title");
+        BookGenre genre = paramExtractor.getEnumParamOrNull(request,"genre",BookGenre.class);
+        BookLanguage language = paramExtractor.getEnumParamOrNull(request,"language",BookLanguage.class);
 
-        String title = request.getParameter("title");
-        BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
-        BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
-
-        int limit= getLimitFromRequest(request);
-        int offset= getOffsetFromRequest(request,limit);
+        /*paramExtractor used inside*/
+        int limit= getLimitFromRequest(request,"limit",DEFAULT_LIMIT_VALUE);
+        int offset= getOffsetFromRequest(request,"page",limit);
 
         /*services*/
         BookService bookService=BookServiceImpl.getInstance();
@@ -57,6 +55,7 @@ public class FindBookCommand extends CommandWrapper implements Command {
         int bookCount=bookService.getBooksCountByParams(title,authorId,genre,
                 language,publisherId);
 
+        /*pagination count*/
         int totalPages=(int)Math.ceil((double) bookCount/limit);
 
         request.setAttribute("books",books);
@@ -69,26 +68,5 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
         return request.getContextPath()+"/WEB-INF/view/user/booksPage.jsp";
-    }
-
-    /**
-     * Returns offset for book search
-     * @param request requestObject
-     * @param limit limit for book search
-     * @return offset for book search
-     */
-    private int getOffsetFromRequest(HttpServletRequest request,int limit) {
-        String res=request.getParameter("page");
-        return res==null?0:(Integer.parseInt(res)-1)*limit;
-    }
-
-    /**
-     * Returns limit for book search
-     * @param request requestObject
-     * @return limit for book search
-     */
-    private int getLimitFromRequest(HttpServletRequest request) {
-        String res=request.getParameter("limit");
-        return res==null?DEFAULT_LIMIT_VALUE:Integer.parseInt(res);
     }
 }

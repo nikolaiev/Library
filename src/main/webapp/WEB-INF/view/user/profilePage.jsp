@@ -19,7 +19,7 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
 </head>
 
-
+<%--TODO replace explicit values comparing via jstl el by JS--%>
 <%--FILTERS--%>
 <div class="row col-lg-1"></div>
 <div class="row col-lg-11 center-block top-buffer">

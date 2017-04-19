@@ -34,22 +34,13 @@ public class ProfileCommand extends CommandWrapper implements Command {
         HttpSession session=request.getSession();
         int userId= (int) session.getAttribute("userId");
 
-        String bookTitle = request.getParameter("title");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        OrderStatus orderStatus = OrderStatus.getOrNull(request.getParameter("status"));
-        OrderType orderType = OrderType.getOrNull(request.getParameter("type"));
-        String beforeDateString = Optional.ofNullable(request.getParameter("before_date")).orElse("");
-        Date beforeDate=null;
+        String bookTitle = paramExtractor.getStringParamOrNull(request,"title");
 
-        try {
-            beforeDate = format.parse(beforeDateString);
-        } catch (ParseException e) {
-            //TODO logger
-            //e.printStackTrace();
-        }
-
-        int limit= getLimitFromRequest(request);
-        int offset= getOffsetFromRequest(request,limit);
+        OrderStatus orderStatus = paramExtractor.getEnumParamOrNull(request,"status",OrderStatus.class);
+        OrderType orderType = paramExtractor.getEnumParamOrNull(request,"type",OrderType.class);
+        Date beforeDate=paramExtractor.getDateParamOrNull(request,"before_date");
+        int limit= getLimitFromRequest(request,"limit",DEFAULT_LIMIT_VALUE);
+        int offset= getOffsetFromRequest(request,"page",limit);
 
         /*services*/
         OrderService orderService= OrderServiceImpl.getInstance();
@@ -62,8 +53,8 @@ public class ProfileCommand extends CommandWrapper implements Command {
 
         int ordersCount=orderService.getOrdersCountByParams(userId,bookTitle,orderStatus ,orderType,beforeDate);
 
+        /*pagination count*/
         int totalPages=(int)Math.ceil((double) ordersCount/limit);
-
 
         request.setAttribute("orders",orders);
         request.setAttribute("user",user);
@@ -73,29 +64,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",ordersCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-
-
         return request.getContextPath()+"/WEB-INF/view/user/profilePage.jsp";
     }
 
-    /**
-     * Returns offset for book search
-     * @param request requestObject
-     * @param limit limit for book search
-     * @return offset for book search
-     */
-    private int getOffsetFromRequest(HttpServletRequest request,int limit) {
-        String res=request.getParameter("page");
-        return res==null?0:(Integer.parseInt(res)-1)*limit;
-    }
-
-    /**
-     * Returns limit for book search
-     * @param request requestObject
-     * @return limit for book search
-     */
-    private int getLimitFromRequest(HttpServletRequest request) {
-        String res=request.getParameter("limit");
-        return res==null?DEFAULT_LIMIT_VALUE:Integer.parseInt(res);
-    }
 }

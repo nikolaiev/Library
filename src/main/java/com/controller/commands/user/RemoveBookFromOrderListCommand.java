@@ -15,10 +15,11 @@ import java.io.IOException;
 public class RemoveBookFromOrderListCommand extends CommandWrapper implements Command {
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer bookId=Integer.valueOf(request.getParameter("id"));
         HttpSession session=request.getSession();
         OrderItemList orderList= (OrderItemList) session.getAttribute("orderList");
+
         if(orderList!=null){
+            int bookId=paramExtractor.getIntParam(request,"id");
             orderList.removeBookFromList(bookId);
         }
 

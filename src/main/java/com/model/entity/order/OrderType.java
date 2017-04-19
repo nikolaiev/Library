@@ -6,21 +6,21 @@ package com.model.entity.order;
 public enum OrderType {
     HOME,LIBRARY;
 
-    public static OrderType getOrDefault(String orderType) {
+    public static OrderType getOrNull(String type) {
         try{
-            return OrderType.valueOf(orderType);
-        }
-        catch (IllegalArgumentException|NullPointerException e){
-            return HOME;
-        }
-    }
-
-    public static OrderType getOrNull(String language) {
-        try{
-            return OrderType.valueOf(language);
+            return OrderType.valueOf(type);
         }
         catch (IllegalArgumentException|NullPointerException e){
             return null;
+        }
+    }
+
+    public static OrderType getOrDefault(String type) {
+        try{
+            return OrderType.valueOf(type);
+        }
+        catch (IllegalArgumentException|NullPointerException e){
+            return HOME;
         }
     }
 }

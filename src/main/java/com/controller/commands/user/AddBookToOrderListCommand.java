@@ -26,7 +26,7 @@ public class AddBookToOrderListCommand extends CommandWrapper implements Command
             session.setAttribute("orderList", orderItemList);
         }
 
-        Integer id=Integer.parseInt(request.getParameter("id"));
+        int id=paramExtractor.getIntParam(request,"id");
         OrderType orderType=OrderType.getOrDefault(request.getParameter("order_type"));
 
         orderItemList.addBook(id,orderType);
