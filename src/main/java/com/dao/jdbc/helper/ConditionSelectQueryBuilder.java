@@ -29,6 +29,10 @@ public class ConditionSelectQueryBuilder {
     /*initial statement parameter index*/
     private Integer paramIndex=1;
 
+    private String resultQuery;
+
+    private PreparedStatement resultStatement;
+
     public ConditionSelectQueryBuilder(Connection connection){
         this.connection=connection;
     }
@@ -65,23 +69,12 @@ public class ConditionSelectQueryBuilder {
             whereQuery.insert(0,WHERE);
         }
 
-        String RESULT_QUERY= SELECT_QUERY + whereQuery.toString();
+        resultQuery = SELECT_QUERY + whereQuery.toString();
 
-        /*check if params passed*/
-        boolean isLimit = limit!=null;
-        boolean isOffset = offset!=null;
-
-        /*order of checks is necessary*/
-        if(isLimit){
-            RESULT_QUERY+=LIMIT;
-        }
-
-        if(isOffset){
-            RESULT_QUERY+=OFFSET;
-        }
+        appendLimitOffsetResultQuery(limit,offset);
 
         /*result preparedStatement*/
-        PreparedStatement resultStatement=connection.prepareStatement(RESULT_QUERY);
+        resultStatement=connection.prepareStatement(resultQuery);
 
         /*set param values*/
         for(Map.Entry<Integer,Object> entry:params.entrySet()){
@@ -103,6 +96,16 @@ public class ConditionSelectQueryBuilder {
             resultStatement.setInt(index,(Integer)param);
         }
 
+        setLimitOffsetPreparedStatment(limit,offset);
+
+        return  resultStatement;
+    }
+
+    private void setLimitOffsetPreparedStatment(Integer limit, Integer offset) throws SQLException {
+         /*check if params passed*/
+        boolean isLimit = limit!=null;
+        boolean isOffset = offset!=null;
+
         /*!order of checks is necessary*/
         /*set limit*/
         if(isLimit){
@@ -112,7 +115,20 @@ public class ConditionSelectQueryBuilder {
         if(isOffset){
             resultStatement.setInt(paramIndex, offset);
         }
+    }
 
-        return  resultStatement;
+    private void appendLimitOffsetResultQuery(Integer limit, Integer offset) {
+        /*check if params passed*/
+        boolean isLimit = limit!=null;
+        boolean isOffset = offset!=null;
+
+        /*order of checks is necessary*/
+        if(isLimit){
+            resultQuery +=LIMIT;
+        }
+
+        if(isOffset){
+            resultQuery +=OFFSET;
+        }
     }
 }
