@@ -7,6 +7,6 @@ import java.util.List;
 /**
  * Created by vlad on 30.03.17.
  */
-public interface PublisherService {
+public interface PublisherService extends CrudService<Publisher>{
     List<Publisher> getAll();
 }

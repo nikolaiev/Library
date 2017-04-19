@@ -5,6 +5,7 @@ import com.model.entity.book.Author;
 import com.service.AuthorService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vlad on 30.03.17.
@@ -26,14 +27,28 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
     }
 
     @Override
-    public void createAuthor(Author author) {
+    public Author create(Author author) {
         //TODO implement
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void removeAuthor(Integer authorId) {
+    public Optional<Author> getById(int id) {
+        return null;
+    }
+
+
+    @Override
+    public void update(Author author) {
+
+    }
+
+
+    @Override
+    public void deleteById(int id) {
         //TODO implement
         throw new UnsupportedOperationException();
+
     }
+
 }

@@ -2,8 +2,6 @@ package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
-import com.controller.exception.ControllerException;
-import com.exception.ApplicationException;
 import com.model.entity.book.*;
 import com.service.BookService;
 import com.service.impl.BookServiceImpl;
@@ -16,11 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -65,7 +59,7 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
                 .setDate(publishDate)
                 .build();
 
-        service.createBook(book);
+        service.create(book);
 
         /*save uploaded image*/
         try(InputStream inputStream=filePart.getInputStream();

@@ -42,7 +42,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
 
         UserService service= UserServiceImpl.getInstance();
 
-        service.createNewUser(user);
+        service.create(user);
 
         String successMessage=escapeUrlCharacters("Registration was successful");
         //redirect to login page with successful message

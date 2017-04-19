@@ -49,7 +49,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         /*get data for jsp*/
         List<Order> orders=orderService.getOrdersByParams(userId,bookTitle,orderStatus ,
                 orderType,beforeDate,limit,offset);
-        User user=userService.getUserById(userId).orElse(null);
+        User user=userService.getById(userId).orElse(null);
 
         int ordersCount=orderService.getOrdersCountByParams(userId,bookTitle,orderStatus ,orderType,beforeDate);
 

@@ -18,7 +18,7 @@ public class AdminRemoveAuthorCommand extends CommandWrapper implements Command 
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer authorId=Integer.valueOf(request.getParameter("authorId"));
         AuthorService authorService= AuthorServiceImpl.getInstance();
-        authorService.removeAuthor(authorId);
+        authorService.deleteById(authorId);
         return request.getContextPath() + "/admin/authors";
     }
 }

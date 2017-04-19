@@ -20,7 +20,7 @@ public class AdminAddAuthorCommand extends CommandWrapper implements Command{
         String soname=request.getParameter("soname");
         Author author=new Author(name,soname);
         AuthorService authorService= AuthorServiceImpl.getInstance();
-        authorService.createAuthor(author);
+        authorService.create(author);
         return request.getContextPath() + "/admin/authors";
     }
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * Created by vlad on 30.03.17.
  */
-public interface BookService {
+public interface BookService  extends CrudService<Book>{
     List<Book> getAllBooks();
 
     List<Book> getAllBooks(int limit,int offset);
@@ -22,5 +22,4 @@ public interface BookService {
     int getBooksCountByParams(String title, Integer authorId,
                               BookGenre genre, BookLanguage language,
                               Integer publisherId);
-    Book createBook(Book book);
 }

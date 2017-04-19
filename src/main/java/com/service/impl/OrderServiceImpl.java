@@ -22,6 +22,8 @@ public class OrderServiceImpl extends GenericService implements OrderService {
 
     private final static String NO_SUCH_BOOK_EXCEPTION="DB error. No such book exception";
 
+
+
     private static class InstanceHolder{
         private static OrderServiceImpl INSTANCE=new OrderServiceImpl();
 
@@ -73,12 +75,6 @@ public class OrderServiceImpl extends GenericService implements OrderService {
         });
     }
 
-    @Override
-    public Optional<Order> getOrderById(Integer id) {
-        return executeInNonTransactionalWrapper(daoManager ->
-            daoManager.getOrderDao().getById(id)
-        );
-    }
 
     @Override
     public List<Order> getOrdersByUserId(int userId) {
@@ -121,6 +117,28 @@ public class OrderServiceImpl extends GenericService implements OrderService {
                 transactionManager.getOrderDao()
                         .getOrdersCountByParams(userId, bookTitle, orderStatus,
                                 orderType, beforeDate));
+    }
+
+    @Override
+    public Order create(Order order) {
+        return null;
+    }
+
+    @Override
+    public Optional<Order> getById(int id) {
+        return executeInNonTransactionalWrapper(daoManager ->
+                daoManager.getOrderDao().getById(id)
+        );
+    }
+
+    @Override
+    public void update(Order order) {
+
+    }
+
+    @Override
+    public void deleteById(int id) {
+
     }
 
     private boolean createOrder(int userId, int bookId, OrderType orderType) {

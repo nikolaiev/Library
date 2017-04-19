@@ -7,8 +7,6 @@ import java.util.List;
 /**
  * Created by vlad on 30.03.17.
  */
-public interface AuthorService {
+public interface AuthorService extends CrudService<Author> {
     List<Author> getAll();
-    void createAuthor(Author author);
-    void removeAuthor(Integer authorId);
 }

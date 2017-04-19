@@ -11,6 +11,8 @@ import java.util.Optional;
  * Created by vlad on 21.03.17.
  */
 public class UserServiceImpl extends GenericService implements UserService {
+
+
     private static class InstanceHolder{
         private static UserServiceImpl INSTANCE=new UserServiceImpl();
 
@@ -21,23 +23,34 @@ public class UserServiceImpl extends GenericService implements UserService {
     }
 
     @Override
-    public User createNewUser(User user) {
-        return  executeInSerializableWrapper(transactionManager ->
-            transactionManager.getUserDao().insert(user)
-        );
-    }
-
-    @Override
     public Optional<User> getUserByLogin(String login) {
         return executeInNonTransactionalWrapper(transactionManager ->
             transactionManager.getUserDao().getUserByLogin(login)
         );
     }
 
+
     @Override
-    public Optional<User> getUserById(int userId) {
-        return executeInNonTransactionalWrapper(transactionManager ->
-            transactionManager.getUserDao().getById(userId)
+    public User create(User user) {
+        return  executeInSerializableWrapper(transactionManager ->
+                transactionManager.getUserDao().insert(user)
         );
+    }
+
+    @Override
+    public Optional<User> getById(int userId) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+                transactionManager.getUserDao().getById(userId)
+        );
+    }
+
+    @Override
+    public void update(User user) {
+
+    }
+
+    @Override
+    public void deleteById(int id) {
+
     }
 }

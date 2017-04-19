@@ -6,6 +6,7 @@ import com.model.entity.book.BookLanguage;
 import com.service.BookService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vlad on 30.03.17.
@@ -57,11 +58,28 @@ public class BookServiceImpl extends GenericService implements BookService {
     }
 
     @Override
-    public Book createBook(Book book) {
+    public Book create(Book book) {
         return executeInNonTransactionalWrapper(transactionManager ->
             transactionManager.getBookDao().insert(book)
         );
     }
+
+    @Override
+    public Optional<Book> getById(int id) {
+        return null;
+    }
+
+
+    @Override
+    public void update(Book book) {
+
+    }
+
+    @Override
+    public void deleteById(int id) {
+
+    }
+
 
 
 }
