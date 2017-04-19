@@ -30,6 +30,7 @@ public class RequestParamExtractor implements ParamExtractor{
     public <T extends Enum<T>> T getEnumParamOrNull(HttpServletRequest request, String paramName, Class<T> enumType) {
         try {
             return Optional.ofNullable(request.getParameter(paramName))
+                    .filter(e->!"".equals(e))
                     .map(e -> Enum.valueOf(enumType, e)).orElse(null);
         }
         catch (IllegalArgumentException e){
@@ -43,6 +44,7 @@ public class RequestParamExtractor implements ParamExtractor{
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         return Optional.ofNullable(request.getParameter(paramName))
+                .filter(e->!"".equals(e))
                 .map(source -> {
                     try {
                         return format.parse(source);
@@ -59,6 +61,7 @@ public class RequestParamExtractor implements ParamExtractor{
     public Integer getIntParamOrNull(HttpServletRequest request, String paramName) {
         try {
             return Optional.ofNullable(request.getParameter(paramName))
+                    .filter(e->!"".equals(e))
                     .map(Integer::parseInt)
                     .orElse(null);
 
@@ -70,7 +73,9 @@ public class RequestParamExtractor implements ParamExtractor{
 
     @Override
     public String getStringParamOrNull(HttpServletRequest request, String paramName) {
-            return request.getParameter(paramName);
+            return Optional.ofNullable(request.getParameter(paramName))
+                    .filter(e->!"".equals(e))
+                    .orElse(null);
     }
 
     @Override
