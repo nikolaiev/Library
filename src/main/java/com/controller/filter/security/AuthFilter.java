@@ -69,15 +69,12 @@ public class AuthFilter implements Filter {
     }
 
     private boolean checkUserUri(String uri) {
-        return uri.startsWith(deployPath+"/user/")
-                ||uri.startsWith(deployPath+"/logout")
+        return !uri.startsWith(deployPath+"/admin/")
                 ||uri.startsWith(deployPath+"/static");
     }
 
     private boolean checkAdminUri(String uri) {
-        return  uri.startsWith(deployPath+"/admin/")
-                ||uri.startsWith(deployPath+"/logout")
-                ||uri.startsWith(deployPath+"/static");
+        return  !uri.startsWith(deployPath+"/user/");
     }
 
     @Override
