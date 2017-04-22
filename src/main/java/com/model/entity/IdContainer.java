@@ -6,7 +6,7 @@ package com.model.entity;
  */
 public abstract class IdContainer{
 
-    private int id;
+    protected int id;
 
     public int getId() {
         return id;

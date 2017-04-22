@@ -7,7 +7,7 @@ import com.model.entity.IdContainer;
  * Created by vlad on 20.03.17.
  */
 public class Publisher  extends IdContainer{
-    private int id;
+
     private String title;
 
     public Publisher(int id, String title) {
@@ -27,11 +27,4 @@ public class Publisher  extends IdContainer{
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "Publisher{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }

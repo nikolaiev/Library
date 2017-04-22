@@ -8,7 +8,6 @@ import java.time.LocalDate;
  * Created by vlad on 16.03.17.
  */
 public class Book extends IdContainer{
-    private int id;
     private String title;
     private Author author;
     private BookGenre genre;
@@ -82,7 +81,7 @@ public class Book extends IdContainer{
         this.publisher = publisher;
     }
 
-    @Override
+    /*@Override
     public int getId() {
         return id;
     }
@@ -90,22 +89,7 @@ public class Book extends IdContainer{
     @Override
     public void setId(int id) {
         this.id=id;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author=" + author +
-                ", genre=" + genre +
-                ", language=" + language +
-                ", publisher=" + publisher +
-                ", date=" + date +
-                ", image='" + image + '\'' +
-                ", count=" + count +
-                '}';
-    }
+    }*/
 
     public static class Builder{
         Book book=new Book();

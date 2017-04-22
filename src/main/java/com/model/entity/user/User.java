@@ -7,7 +7,6 @@ import com.model.entity.IdContainer;
  */
 public class User extends IdContainer {
 
-    private int id;
     private String login;
     private String password;
     private String name;

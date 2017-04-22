@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("filter initialized");
+        logger.info("Auth filter initialized");
         deployPath=filterConfig.getServletContext().getContextPath();
     }
 
@@ -31,8 +31,7 @@ public class AuthFilter implements Filter {
         UserRole role=(UserRole) session.getAttribute("userRole");
         String uri = httpRequest.getRequestURI();
 
-
-        logger.info("uri is "+uri);
+        logger.info("Requested URI is "+uri);
 
         if(!isAuthorizedForUri(role,uri)){
             if(role==null){

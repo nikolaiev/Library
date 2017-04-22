@@ -23,6 +23,7 @@ import java.util.Map;
 /**
  * Created by vlad on 03.04.17.
  */
+//TODO think about regex URIs
 public class CommandHolder {
 
     private final String GET_PATH="GET:";
@@ -85,6 +86,7 @@ public class CommandHolder {
 
     public Command getCommand(String url){
         //TODO rewrite SHIT CODE
+        //TODO replace with regex path check
         if(url.startsWith(GET_PATH + DEPLOY_PATH + "/static"))
             return new GetStaticFileCommand();
 

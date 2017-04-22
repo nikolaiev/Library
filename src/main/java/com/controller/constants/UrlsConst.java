@@ -6,4 +6,6 @@ package com.controller.constants;
 public class UrlsConst {
     //TODO add URLs params constants
     private UrlsConst(){}
+
+    public final static String REDIRECTED="REDIRECTED";
 }

@@ -41,7 +41,7 @@ public class PaginationTagHandler extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException {
         //check pagination is necessary
-        if(totalPages==0||totalPages==FIRST_PAGE_NUMBER){
+        if(totalPages == 0 || totalPages == FIRST_PAGE_NUMBER){
             return;
         }
 

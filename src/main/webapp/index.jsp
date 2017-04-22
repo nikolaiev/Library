@@ -3,7 +3,7 @@
 <head>
   <title>Start Page</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="refresh" content="5; url=${pageContext.request.contextPath}/login" />
+  <meta http-equiv="refresh" content="0; url=${pageContext.request.contextPath}/login" />
 </head>
 <body>
 Page not found

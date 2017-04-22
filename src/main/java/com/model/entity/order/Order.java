@@ -13,7 +13,7 @@ import java.util.List;
  * Created by vlad on 20.03.17.
  */
 public class Order extends IdContainer {
-    private int id;
+
     private User user;
     private Book book;
     private OrderStatus status;

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 16.04.17.
  */
@@ -29,6 +31,6 @@ public class GetStaticFileCommand extends CommandWrapper implements Command {
         response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
         Files.copy(file.toPath(), response.getOutputStream());
 
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 }

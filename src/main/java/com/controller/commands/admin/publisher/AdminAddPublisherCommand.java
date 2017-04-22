@@ -11,6 +11,7 @@ import java.io.IOException;
  * Created by vlad on 03.04.17.
  */
 public class AdminAddPublisherCommand extends CommandWrapper implements Command {
+    //TODO implement
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return null;

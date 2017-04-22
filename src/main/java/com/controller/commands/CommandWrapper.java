@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 09.04.17.
  */
+
 public abstract class CommandWrapper implements Command {
 
     private final static Logger logger=Logger.getLogger(CommandWrapper.class);
@@ -24,32 +27,35 @@ public abstract class CommandWrapper implements Command {
 
     protected abstract String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
+    //TODO change String return type to RequestDispatcher
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{
-            String view = processExecute(request,response);
-            return  view;
+            return  processExecute(request,response);
         }
         catch (ApplicationException e) {
             processApplicationException(e, request);
         }
         catch (Exception e) {
-            processException(request, e);
+            processException(e,request);
         }
 
         if(request.getMethod().equals("GET")) {
-            //TODO think about page redirection
+            /*GET REQUEST*/
             return "/WEB-INF/view/errorPage.jsp";
         }
-        else{//POST request
-            //TODO shit code rewrite!!
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
+        else{
+            /*POST REQUEST*/
+            //TODO rewrite
+            //TODO think about POST request error processing
+
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             String message=Optional.ofNullable(request.getAttribute("error_additional_message"))
                     .map(Object::toString).orElse("POST request error");
 
             response.getWriter().write(message);
-            return "REDIRECTED";
+            return REDIRECTED;
         }
     }
 
@@ -79,7 +85,7 @@ public abstract class CommandWrapper implements Command {
         return message.replace(" ","%20");
     }
 
-    private void processException(HttpServletRequest request, Exception e) {
+    private void processException(Exception e, HttpServletRequest request ) {
         logger.error(e.getMessage());
         request.setAttribute("error_message", "Unknown error occurred!");
     }
@@ -89,6 +95,4 @@ public abstract class CommandWrapper implements Command {
         request.setAttribute("error_message", e.getMessageKey());
         request.setAttribute("error_additional_message", e.getAdditionalMessage());
     }
-
-
 }

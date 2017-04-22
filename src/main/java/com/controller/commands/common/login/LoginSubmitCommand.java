@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 03.04.17.
  */
@@ -29,7 +31,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
     }
     @Override
     public String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //TODO
+        //TODO list
         /*
         * 1. validate data from request
         * 2. check if already logged in
@@ -61,13 +63,13 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
                 session.setAttribute("userId",user.get().getId());
                 session.setAttribute("userRole",role);
                 response.sendRedirect(request.getContextPath()+defaultLoggedInPage.get(role));
-                return "REDIRECTED";
+                return REDIRECTED;
             }
         }
 
         String errorMessage=escapeUrlCharacters("Login or password is incorrect!");
         response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 
     private boolean isUserLoggedIn(HttpServletRequest request){

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * This class describes POST command
  * Responsible for adding new book to OrderList (user session object)
@@ -35,7 +37,8 @@ public class AddBookToOrderListCommand extends CommandWrapper implements Command
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write("Goods was added!");
 
-        return "REDIRECTED";
+        //TODO replace with POST request dispatcher
+        return REDIRECTED;
     }
 }
 

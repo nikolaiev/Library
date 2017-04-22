@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * PRG pattern is necessary to prevent double upload
  * Created by vlad on 03.04.17.
@@ -42,11 +44,8 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
         BookService service= BookServiceImpl.getInstance();
 
         /*creating object to persist*/
-        Author author=new Author();
-        author.setId(authorId);
-
-        Publisher publisher=new Publisher();
-        publisher.setId(publisherId);
+        Author author=createIdOnlyAuthor(authorId);
+        Publisher publisher=createIdOnlyPublisher(publisherId);
 
         Book book=new Book.Builder()
                 .setImage(uniqueName)
@@ -73,11 +72,23 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
         }
 
         response.sendRedirect(request.getContextPath()+"/admin/books");
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 
     private String getFileExtension(Part filePart) {
         String[] temp=filePart.getSubmittedFileName().split("\\.");
         return temp[temp.length-1];
+    }
+
+    private Publisher createIdOnlyPublisher(int publisherId){
+        Publisher publisher=new Publisher();
+        publisher.setId(publisherId);
+        return publisher;
+    }
+
+    private Author createIdOnlyAuthor(int authorId){
+        Author author=new Author();
+        author.setId(authorId);
+        return author;
     }
 }

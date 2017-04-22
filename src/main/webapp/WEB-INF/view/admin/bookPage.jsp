@@ -70,9 +70,9 @@
         <select name="publisher_id" required>
             <option value="" disabled selected>All publishers</option>
 
-            <c:forEach items="${publishers}" var="publ">
-                <option value="<c:out value="${publ.id}"/>">
-                    <c:out value="${publ.title}"/> </option>
+            <c:forEach items="${publishers}" var="publisher">
+                <option value="<c:out value="${publisher.id}"/>">
+                    <c:out value="${publisher.title}"/> </option>
             </c:forEach>
 
         </select>

@@ -89,13 +89,13 @@
             <select name="publisher_id" class="selectpicker" data-width="130px">
                 <option value="" disabled selected>All</option>
 
-                <c:forEach items="${publishers}" var="publ">
-                    <option value="<c:out value="${publ.id}"/>"
-                        <c:if test="${publ.id==param.publisher_id}">
+                <c:forEach items="${publishers}" var="publisher">
+                    <option value="<c:out value="${publisher.id}"/>"
+                        <c:if test="${publisher.id==param.publisher_id}">
                             selected
                         </c:if>
                     >
-                        <c:out value="${publ.title}"/> </option>
+                        <c:out value="${publisher.title}"/> </option>
                 </c:forEach>
 
             </select>

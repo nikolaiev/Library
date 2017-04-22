@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -26,7 +28,7 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
         }
 
         response.sendRedirect(request.getContextPath()+"/user/orders");
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 
 }

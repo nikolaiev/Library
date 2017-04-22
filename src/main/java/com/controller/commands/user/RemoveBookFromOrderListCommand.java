@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 11.04.17.
  */
@@ -24,6 +26,6 @@ public class RemoveBookFromOrderListCommand extends CommandWrapper implements Co
         }
 
         response.getWriter().write("Book successfully removed");
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 }

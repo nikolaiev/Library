@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * post from crud
  * Created by vlad on 03.04.17.
  */
 public class AdminChangeOrderStatusCommand extends CommandWrapper implements Command {
+    //TODO replace with POST request dispatcher
     @Override
     protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -30,9 +33,9 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
         });
 
 
-        //TODO check why does not work
+
         response.sendRedirect("/admin/orders");
 
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 }

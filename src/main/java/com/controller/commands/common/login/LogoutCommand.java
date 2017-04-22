@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.REDIRECTED;
+
 /**
  * Created by vlad on 03.04.17.
  */
@@ -19,6 +21,6 @@ public class LogoutCommand implements Command {
             session.invalidate();
 
         response.sendRedirect(request.getContextPath()+"/login");
-        return "REDIRECTED";
+        return REDIRECTED;
     }
 }

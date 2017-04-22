@@ -46,9 +46,6 @@ public class FrontController extends HttpServlet {
         Command command=commandHolder.getCommand(url);
         String view=command.execute(request,response);
 
-        logger.error("inside Fornt controller "+url);
-        logger.error("view  is "+view);
-
         if(!view.equals("REDIRECTED"))
             request.getRequestDispatcher(view).forward(request,response);
     }
