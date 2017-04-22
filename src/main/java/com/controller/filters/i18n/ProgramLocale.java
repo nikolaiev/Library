@@ -1,4 +1,4 @@
-package com.controller.filter.i18n;
+package com.controller.filters.i18n;
 
 import java.util.Locale;
 

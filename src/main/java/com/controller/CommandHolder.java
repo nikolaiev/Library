@@ -1,5 +1,6 @@
-package com.controller.commands;
+package com.controller;
 
+import com.controller.commands.Command;
 import com.controller.commands.admin.author.AdminAddAuthorCommand;
 import com.controller.commands.admin.author.AdminAuthorCommand;
 import com.controller.commands.admin.author.AdminRemoveAuthorCommand;
@@ -12,10 +13,10 @@ import com.controller.commands.admin.publisher.AdminAddPublisherCommand;
 import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
-import com.controller.commands.common.GetStaticFileCommand;
+import com.controller.commands.GetStaticFileCommand;
 import com.controller.commands.common.login.*;
 import com.controller.commands.user.*;
-import com.controller.commands.common.GoInvalidUrlCommand;
+import com.controller.commands.GoInvalidUrlCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,10 +55,10 @@ public class CommandHolder {
         /*USER COMMAND*/
         /*book commands*/
         commands.put(GET_PATH + DEPLOY_PATH + "/user/books",new FindBookCommand());
-        commands.put(POST_PATH + DEPLOY_PATH + "/user/process",new ProcessOrderListCommand());
         commands.put(GET_PATH + DEPLOY_PATH + "/user/orders",new ShowOrderListCommand());
         commands.put(GET_PATH + DEPLOY_PATH + "/user/profile",new ProfileCommand());
 
+        commands.put(POST_PATH + DEPLOY_PATH + "/user/process",new ProcessOrderListCommand());
         commands.put(POST_PATH + DEPLOY_PATH + "/user/books/add",new AddBookToOrderListCommand());
         commands.put(POST_PATH + DEPLOY_PATH + "/user/books/remove",new RemoveBookFromOrderListCommand());
 

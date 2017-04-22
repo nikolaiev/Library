@@ -32,7 +32,7 @@
 
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>com.controller.filter.security.AuthFilter</filter-class>
+        <filter-class>com.controller.filters.security.AuthFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -43,7 +43,7 @@
 
     <filter>
         <filter-name>LocalizationFilter</filter-name>
-        <filter-class>com.controller.filter.i18n.LocalizationFilter</filter-class>
+        <filter-class>com.controller.filters.i18n.LocalizationFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -54,7 +54,7 @@
 
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.controller.filter.i18n.CharacterEncodingFilter</filter-class>
+        <filter-class>com.controller.filters.i18n.CharacterEncodingFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Describes view dispatching management
- *
- * Created by vlad on 21.04.17.
+ * Created by vlad on 23.04.17.
  */
+@FunctionalInterface
 public interface ViewDispatcher {
-    void dispatch(HttpServletRequest request, HttpServletResponse response);
+
+    void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

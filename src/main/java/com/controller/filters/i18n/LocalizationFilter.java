@@ -1,12 +1,9 @@
-package com.controller.filter.i18n;
+package com.controller.filters.i18n;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by vlad on 09.04.17.

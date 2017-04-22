@@ -1,4 +1,4 @@
-package com.controller.commands.common;
+package com.controller.commands;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;

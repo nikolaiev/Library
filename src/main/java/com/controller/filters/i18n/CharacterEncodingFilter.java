@@ -1,4 +1,4 @@
-package com.controller.filter.i18n;
+package com.controller.filters.i18n;
 
 import org.apache.log4j.Logger;
 

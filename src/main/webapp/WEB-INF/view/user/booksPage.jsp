@@ -19,6 +19,12 @@
 
 <%--TODO replace explicit values comparing via jstl el by JS--%>
 
+
+<form action="/user/books/add" method="post">
+    <input type="number" name="id">
+    <input type="text" name="order_type" id="" value="LIBRARY">
+    <input type="submit" value="ORDER">
+</form>
 <%--FILTERS--%>
 <div class="row col-lg-12 center-block top-buffer">
     <form class="form-inline" method="get">
@@ -205,7 +211,7 @@
 <jsp:include page="/WEB-INF/view/fragments/footer.jsp" />
 
 <%--SCRIPTS--%>
-<script>
+<script type="text/javascript">
     let bindButtons=(buttons,orderType)=>{
         for(let i=0; i<buttons.length; i++){
             let but=buttons[i].id.split('_')[0];
@@ -217,7 +223,7 @@
                         id:but,
                         order_type:orderType//'LIBRARY'
                     },
-                    success: function(){
+                    success: function(data){
                         $(buttons[i]).attr("disabled",true);
                         $('#item-count-holder').load(' #item-count');
                         alertify.success('Book was successfully added');

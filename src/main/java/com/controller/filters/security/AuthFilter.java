@@ -1,4 +1,4 @@
-package com.controller.filter.security;
+package com.controller.filters.security;
 
 import com.model.entity.user.UserRole;
 import org.apache.log4j.Logger;
@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("Auth filter initialized");
+        logger.info("Auth filters initialized");
         deployPath=filterConfig.getServletContext().getContextPath();
     }
 

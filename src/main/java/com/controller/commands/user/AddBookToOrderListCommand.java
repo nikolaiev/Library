@@ -3,6 +3,7 @@ package com.controller.commands.user;
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
 import com.controller.commands.dto.OrderItemList;
+import com.controller.exception.ControllerException;
 import com.model.entity.order.OrderType;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +35,13 @@ public class AddBookToOrderListCommand extends CommandWrapper implements Command
         orderItemList.addBook(id,orderType);
 
         /*closing request*/
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("Goods was added!");
+        //response.setStatus(HttpServletResponse.SC_OK);
+        //response.getWriter().write("Goods was added!");
+        request.setAttribute("error","POST REQUEST REDIRECTION ERROR");
+
+        if(true)
+            throw new ControllerException().addMessageKey("123");
+        response.sendRedirect("/user/orders");
 
         //TODO replace with POST request dispatcher
         return REDIRECTED;

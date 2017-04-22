@@ -40,23 +40,8 @@ public abstract class CommandWrapper implements Command {
             processException(e,request);
         }
 
-        if(request.getMethod().equals("GET")) {
-            /*GET REQUEST*/
-            return "/WEB-INF/view/errorPage.jsp";
-        }
+        return "/WEB-INF/view/errorPage.jsp";
 
-        else{
-            /*POST REQUEST*/
-            //TODO rewrite
-            //TODO think about POST request error processing
-
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            String message=Optional.ofNullable(request.getAttribute("error_additional_message"))
-                    .map(Object::toString).orElse("POST request error");
-
-            response.getWriter().write(message);
-            return REDIRECTED;
-        }
     }
 
     /**
