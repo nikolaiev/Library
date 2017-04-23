@@ -5,9 +5,8 @@ import com.controller.commands.admin.author.AdminAddAuthorCommand;
 import com.controller.commands.admin.author.AdminAuthorCommand;
 import com.controller.commands.admin.author.AdminRemoveAuthorCommand;
 import com.controller.commands.admin.book.AdminAddBookCommand;
-import com.controller.commands.admin.book.AdminBookCommand;
-import com.controller.commands.admin.book.AdminRemoveBookCommand;
 import com.controller.commands.admin.book.AdminUpdateBookCommand;
+import com.controller.commands.admin.book.AdminUpdateBookSubmitCommand;
 import com.controller.commands.admin.order.AdminOrderCommand;
 import com.controller.commands.admin.publisher.AdminAddPublisherCommand;
 import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
@@ -24,6 +23,8 @@ import com.controller.commands.GoInvalidUrlCommand;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
+import static com.controller.constants.JspPathsConst.USER_BOOKS_VIEW;
 import static com.controller.constants.UrlsConst.*;
 
 /**
@@ -58,7 +59,7 @@ public class CommandHolder {
 
         /*USER COMMAND*/
         /*book commands*/
-        commands.put(GET_PATH + deplyPath + USER_BOOKS,new FindBookCommand());
+        commands.put(GET_PATH + deplyPath + USER_BOOKS,new FindBookCommand(USER_BOOKS_VIEW));
         commands.put(GET_PATH + deplyPath + USER_ORDERS,new ShowOrderListCommand());
         commands.put(GET_PATH + deplyPath + USER_PROFILE,new ProfileCommand());
 
@@ -67,7 +68,7 @@ public class CommandHolder {
         commands.put(POST_PATH + deplyPath + USER_BOOKS_REMOVE,new RemoveBookFromOrderListCommand());
 
         /*ADMIN COMMANDS*/
-        commands.put(GET_PATH + deplyPath + ADMIN_BOOKS,new AdminBookCommand());
+        commands.put(GET_PATH + deplyPath + ADMIN_BOOKS,new FindBookCommand(ADMIN_BOOK_VIEW));
         commands.put(GET_PATH + deplyPath + ADMIN_AUTHORS,new AdminAuthorCommand());
         commands.put(GET_PATH + deplyPath + ADMIN_PUBLISHERS,new AdminPublisherCommand());
         commands.put(GET_PATH + deplyPath + ADMIN_ORDERS,new AdminOrderCommand());
@@ -78,8 +79,9 @@ public class CommandHolder {
 
         /*books*/
         commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_ADD,new AdminAddBookCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_REMOVE,new AdminRemoveBookCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_UPDATE,new AdminUpdateBookCommand());
+        //commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_REMOVE,new AdminRemoveBookCommand());
+        commands.put(POST_PATH + deplyPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
+        commands.put(GET_PATH+ deplyPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookCommand());
 
         /*order*/
         commands.put(POST_PATH + deplyPath + ADMIN_ORDERS_UPDATE,new AdminChangeOrderStatusCommand());

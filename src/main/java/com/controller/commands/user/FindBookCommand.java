@@ -16,11 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-import static com.controller.constants.JspPathsConst.USER_BOOKS_VIEW;
-import static java.util.Optional.of;
-import static java.util.Optional.ofNullable;
 
 /**
  * This class responsible fro GET command
@@ -29,6 +25,12 @@ import static java.util.Optional.ofNullable;
  */
 public class FindBookCommand extends CommandWrapper implements Command {
     private static int DEFAULT_LIMIT_VALUE=20;
+    private final String BOOKS_VIEW;
+
+    public FindBookCommand(String view) {
+        this.BOOKS_VIEW = view;
+    }
+
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -70,6 +72,6 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",bookCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return new ForwardViewDispatcher(USER_BOOKS_VIEW);
+        return new ForwardViewDispatcher(BOOKS_VIEW);
     }
 }

@@ -1,15 +1,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: vlad
-  Date: 30.03.17
-  Time: 2:12
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
+
+<div>
 
     <%--CSS--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alertify.min.css"/>
@@ -22,7 +15,7 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" ></script>
     <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
 
-</head>
+</div>
 <body>
     <ul class="menu-list">
         <li ><a href="${pageContext.request.contextPath}/user/profile">Profile</a></li>

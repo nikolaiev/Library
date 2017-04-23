@@ -20,7 +20,7 @@
 
 </head>
 
-<jsp:include page="/WEB-INF/view/fragments/header.jsp" />
+<jsp:include page="/WEB-INF/view/user/fragments/header.jsp" />
 
 <div class="container top-buffer">
     <c:if test="${not empty bookOrders}">
@@ -85,7 +85,7 @@
     </c:if>
 </div>
 
-<jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>
+<jsp:include page="/WEB-INF/view/user/fragments/footer.jsp"/>
 <script>
     var removeButtons=$('.remove-button');
 

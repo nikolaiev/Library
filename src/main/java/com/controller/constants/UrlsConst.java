@@ -20,6 +20,11 @@ public final class  UrlsConst {
     private static final String PUBLISHERS="/publishers";
     private static final String ORDERS="/orders";
 
+    private static final String BOOK="/book";
+    private static final String AUTHOR="/author";
+    private static final String PUBLISHER="/publisher";
+    private static final String ORDER="/order";
+
     /*USER*/
 
     public static final String USER_BOOKS=USER+BOOKS;
@@ -39,8 +44,9 @@ public final class  UrlsConst {
     //books
     public static final String ADMIN_BOOKS = ADMIN+BOOKS;
     public static final String ADMIN_BOOKS_ADD = ADMIN+BOOKS+ADD;
-    public static final String ADMIN_BOOKS_REMOVE = ADMIN+BOOKS+REMOVE;
-    public static final String ADMIN_BOOKS_UPDATE = ADMIN+BOOKS+UPDATE;
+    //public static final String ADMIN_BOOKS_REMOVE = ADMIN+BOOKS+REMOVE;
+    public static final String ADMIN_BOOK_UPDATE = ADMIN+BOOK+UPDATE;
+    //public static final String ADMIN_BOOKS_UPDATE = ADMIN+BOOKS+UPDATE;
 
     //authors
     public static final String ADMIN_AUTHORS = ADMIN+AUTHORS;

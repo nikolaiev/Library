@@ -24,8 +24,10 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.9.0/css/themes/default.min.css"/>
 
 </head>
-<body>
-Books list
+
+<jsp:include page="fragments/header.jsp"/>
+
+Orders list
 <br>
     <table>
         <c:forEach items="${orders}" var="order">
@@ -39,8 +41,10 @@ Books list
             </tr>
         </c:forEach>
     </table>
-</body>
-<script>
+
+<jsp:include page="fragments/footer.jsp"/>
+
+<script type="text/javascript">
 
     var returnButtons=$('.return-button');
     for(let i=0; i<returnButtons.length; i++){
@@ -56,4 +60,3 @@ Books list
         })
     }
 </script>
-</html>

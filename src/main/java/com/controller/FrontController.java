@@ -63,6 +63,7 @@ public class FrontController extends HttpServlet {
             dispatcher.dispatch(request, response);
         }
         catch (ServletException|IOException e){
+
             logger.error("Dispatch error occurred. "+e.toString());
             throw e;
         }

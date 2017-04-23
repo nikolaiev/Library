@@ -22,7 +22,7 @@ import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
 /**
  * Created by vlad on 10.04.17.
  */
-public class AdminBookCommand implements Command {
+public class AdminBooksCommand implements Command {
     @Override
     public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
          /*services*/

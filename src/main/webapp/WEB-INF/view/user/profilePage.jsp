@@ -13,7 +13,7 @@
 <head>
     <title>Profile</title>
 
-    <jsp:include page="/WEB-INF/view/fragments/header.jsp" />
+    <jsp:include page="/WEB-INF/view/user/fragments/header.jsp" />
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-select.css"/>
     <script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
@@ -171,7 +171,7 @@
 
 <m:display paginParamName="page" totalPages="${totalPages}"/>
 
-<jsp:include page="/WEB-INF/view/fragments/footer.jsp"/>
+<jsp:include page="/WEB-INF/view/user/fragments/footer.jsp"/>
 
 <%--SCRIPTS--%>
 <script>

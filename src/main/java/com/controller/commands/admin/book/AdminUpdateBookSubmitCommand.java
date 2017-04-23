@@ -12,13 +12,12 @@ import java.io.IOException;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 
 /**
- * Post command from CRUD
  * Created by vlad on 10.04.17.
  */
-public class AdminRemoveBookCommand extends CommandWrapper implements Command {
+public class AdminUpdateBookSubmitCommand extends CommandWrapper implements Command {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //TODO remove book from DB
+        //TODO update book
         return new RedirectDispatcher(ADMIN_BOOKS);
     }
 }
