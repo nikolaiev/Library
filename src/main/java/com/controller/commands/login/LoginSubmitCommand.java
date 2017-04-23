@@ -66,8 +66,8 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
 
         Optional<User> user=service.getUserByLogin(login);
 
-        if(user.isPresent()){
-            if(user.get().getPassword().equals(password)){
+        if(user.isPresent()
+            && user.get().getPassword().equals(password)){
                 HttpSession session=request.getSession(true);
 
                 UserRole role=user.get().getRole();
@@ -76,7 +76,6 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
                 session.setAttribute("userRole",role);
 
                 return new RedirectDispatcher(defaultLoggedInPage.get(role));
-            }
         }
 
         return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,loginDataValidator);

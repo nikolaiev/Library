@@ -15,7 +15,7 @@ import java.util.*;
 
 public class BookDaoImpl extends  AbstractDao implements BookDao{
 
-    private static final String GET_BOOKS_AVAIlABLE_AMOUNT =
+    private static final String GET_BOOKS_AVAILABLE_AMOUNT =
             "SELECT count-count_in_use as count FROM book WHERE id=?";
 
     private static final String SELECT_ALL="SELECT id,  author_id, publisher_id, title, genre, " +
@@ -42,18 +42,20 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     private static final String BY_TITLE_FILTER=" lower(title) like lower('%'||?||'%') ";
 
 
+    private static final String UPDATE_BOOK_CLOSE="UPDATE public.book ";
+    private static final String WHERE_ID_CLOSE=" WHERE id=? ";
 
-    private static final String UPDATE_BOOK_BY_ID="UPDATE public.book " +
+    private static final String UPDATE_BOOK_BY_ID = UPDATE_BOOK_CLOSE +
             "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=?" +
-            " WHERE id=?";
+            WHERE_ID_CLOSE;
 
-    private static final String UPDATE_GRANTED_BOOK="UPDATE public.book " +
+    private static final String UPDATE_GRANTED_BOOK = UPDATE_BOOK_CLOSE +
             "   SET count_in_use=count_in_use+1 " +
-            " WHERE id=?";
+            WHERE_ID_CLOSE;
 
-    private static final String UPDATE_RETURNED_BOOK="UPDATE public.book " +
+    private static final String UPDATE_RETURNED_BOOK = UPDATE_BOOK_CLOSE +
             "   SET count_in_use=count_in_use-1 " +
-            " WHERE id=?";
+            WHERE_ID_CLOSE;
 
     private static final String INSERT_BOOK="INSERT INTO public.book(" +
             "            aid, pid, genre, lang, pdate, title,image,count)" +
@@ -100,7 +102,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public int getCountAvailable(int bookId){
         int count=0;
 
-        try(PreparedStatement statement=connection.get().prepareStatement(GET_BOOKS_AVAIlABLE_AMOUNT)){
+        try(PreparedStatement statement=connection.get().prepareStatement(GET_BOOKS_AVAILABLE_AMOUNT)){
             statement.setInt(1,bookId);
             ResultSet resultSet=statement.executeQuery();
             if(resultSet.next()){

@@ -17,7 +17,7 @@ import static com.controller.constants.UrlsConst.LOGIN;
  */
 public class AuthFilter implements Filter {
     private static final Logger logger=Logger.getLogger(AuthFilter.class);
-    private static String deployPath;
+    private String deployPath;
 
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
     @Override
@@ -54,6 +54,11 @@ public class AuthFilter implements Filter {
         filterChain.doFilter(servletRequest,servletResponse);
     }
 
+    @Override
+    public void destroy() {
+        //does not need implementation
+    }
+
     private boolean isAuthorizedForUri(UserRole role, String uri){
         if(role==UserRole.ADMIN){
             return checkAdminUri(uri);
@@ -79,8 +84,4 @@ public class AuthFilter implements Filter {
         return  !uri.startsWith(deployPath+"/user/");
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

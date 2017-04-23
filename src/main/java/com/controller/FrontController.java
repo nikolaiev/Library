@@ -17,16 +17,18 @@ import java.net.UnknownHostException;
 public class FrontController extends HttpServlet {
 
     private static final Logger logger=Logger.getLogger(FrontController.class);
-    private static CommandHolder commandHolder;
+    private transient final CommandHolder commandHolder;
 
     /**
      * public constructor
      */
-    public FrontController() {}
+    public FrontController() {
+        commandHolder=new CommandHolder(getServletContext().getContextPath());
+    }
 
     @Override
     public void init(){
-        commandHolder=new CommandHolder(getServletContext().getContextPath());
+        //nothing to init
     }
 
     @Override
