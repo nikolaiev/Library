@@ -2,6 +2,8 @@ package com.controller.commands.user;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.*;
 import com.service.AuthorService;
 import com.service.BookService;
@@ -27,7 +29,7 @@ import static java.util.Optional.ofNullable;
 public class FindBookCommand extends CommandWrapper implements Command {
     private static int DEFAULT_LIMIT_VALUE=20;
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Integer authorId = paramExtractor.getIntParamOrNull(request,"author_id");
         Integer publisherId = paramExtractor.getIntParamOrNull(request,"publisher_id");
@@ -67,6 +69,6 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",bookCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return "/WEB-INF/view/user/booksPage.jsp";
+        return new ForwardViewDispatcher("/WEB-INF/view/user/booksPage.jsp");
     }
 }

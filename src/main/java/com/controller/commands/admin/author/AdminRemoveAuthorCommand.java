@@ -2,6 +2,8 @@ package com.controller.commands.admin.author;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.model.entity.book.Author;
 import com.service.AuthorService;
 import com.service.impl.AuthorServiceImpl;
@@ -15,10 +17,10 @@ import java.io.IOException;
  */
 public class AdminRemoveAuthorCommand extends CommandWrapper implements Command {
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer authorId=Integer.valueOf(request.getParameter("authorId"));
         AuthorService authorService= AuthorServiceImpl.getInstance();
         authorService.deleteById(authorId);
-        return request.getContextPath() + "/admin/authors";
+        return new RedirectDispatcher(request.getContextPath() + "/admin/authors");
     }
 }

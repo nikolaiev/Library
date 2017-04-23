@@ -86,9 +86,8 @@ public class CommandHolder {
     }
 
     public Command getCommand(String url){
-        //TODO rewrite SHIT CODE
         //TODO replace with regex path check
-        if(url.startsWith(GET_PATH + DEPLOY_PATH + "/static"))
+        if(url.startsWith(GET_PATH + DEPLOY_PATH + "/static/"))
             return new GetStaticFileCommand();
 
         return commands.getOrDefault(url, INVALID_URL_COMMAND);

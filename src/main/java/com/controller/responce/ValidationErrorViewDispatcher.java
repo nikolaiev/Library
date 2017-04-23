@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by vlad on 23.04.17.
  */
-public class ValidationErrorViewDispatcher implements ViewDispatcher {
+public class ValidationErrorViewDispatcher implements Dispatcher {
     private final String POST_METHOD="POST";
 
     /*page after validation errors*/

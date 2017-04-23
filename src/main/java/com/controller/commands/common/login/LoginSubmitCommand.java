@@ -2,6 +2,9 @@ package com.controller.commands.common.login;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
 import com.service.UserService;
@@ -30,7 +33,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
         defaultLoggedInPage.put(UserRole.USER,"/user/books");
     }
     @Override
-    public String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO list
         /*
         * 1. validate data from request
@@ -48,7 +51,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
 
         if(isUserLoggedIn(request)){
             UserRole role=(UserRole)request.getSession().getAttribute("userRole");
-            return defaultLoggedInPage.get(role);
+            return new ForwardViewDispatcher(defaultLoggedInPage.get(role));
         }
 
         //user is attempts to log in first time and has valid login data
@@ -59,17 +62,22 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
         if(user.isPresent()){
             if(user.get().getPassword().equals(password)){
                 HttpSession session=request.getSession(true);
+
                 UserRole role=user.get().getRole();
+
                 session.setAttribute("userId",user.get().getId());
                 session.setAttribute("userRole",role);
-                response.sendRedirect(request.getContextPath()+defaultLoggedInPage.get(role));
-                return REDIRECTED;
+
+                String redirectPage=request.getContextPath()+defaultLoggedInPage.get(role);
+
+                return new RedirectDispatcher(redirectPage);
             }
         }
-
+        //TODO use error flag but not message
         String errorMessage=escapeUrlCharacters("Login or password is incorrect!");
-        response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
-        return REDIRECTED;
+        String redirectPage=request.getContextPath()+"/login?error="+errorMessage;
+
+        return new RedirectDispatcher(redirectPage);
     }
 
     private boolean isUserLoggedIn(HttpServletRequest request){

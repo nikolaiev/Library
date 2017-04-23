@@ -2,6 +2,8 @@ package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +15,8 @@ import java.io.IOException;
  */
 public class AdminRemoveBookCommand extends CommandWrapper implements Command {
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO remove book from DB
-        return "/admin/books";
+        return new RedirectDispatcher(request.getContextPath()+"/admin/books");
     }
 }

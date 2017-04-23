@@ -9,7 +9,7 @@ import java.io.IOException;
  * Created by vlad on 23.04.17.
  */
 @FunctionalInterface
-public interface ViewDispatcher {
+public interface Dispatcher {
 
     void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

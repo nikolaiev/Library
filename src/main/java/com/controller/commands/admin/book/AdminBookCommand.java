@@ -1,6 +1,8 @@
 package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.Author;
 import com.model.entity.book.BookGenre;
 import com.model.entity.book.BookLanguage;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class AdminBookCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
          /*services*/
         AuthorService authorService= AuthorServiceImpl.getInstance();
         PublisherService publisherService= PublisherServiceImpl.getInstance();
@@ -34,6 +36,7 @@ public class AdminBookCommand implements Command {
         request.setAttribute("languages", BookLanguage.values());
         request.setAttribute("genres", BookGenre.values());
 
-        return request.getContextPath()+"/WEB-INF/view/admin/bookPage.jsp";
+        String view ="/WEB-INF/view/admin/bookPage.jsp";
+        return new ForwardViewDispatcher(view);
     }
 }

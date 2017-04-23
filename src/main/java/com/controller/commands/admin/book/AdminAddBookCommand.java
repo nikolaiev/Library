@@ -2,6 +2,8 @@ package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.model.entity.book.*;
 import com.service.BookService;
 import com.service.impl.BookServiceImpl;
@@ -25,7 +27,7 @@ import static com.controller.constants.UrlsConst.REDIRECTED;
  */
 public class AdminAddBookCommand extends CommandWrapper implements Command {
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         /*multipart data processing*/
         Part filePart=request.getPart("book_image");
         String extension=getFileExtension(filePart);
@@ -71,8 +73,8 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
             }
         }
 
-        response.sendRedirect(request.getContextPath()+"/admin/books");
-        return REDIRECTED;
+        String redirectPath=request.getContextPath()+"/admin/books";
+        return new RedirectDispatcher(redirectPath);
     }
 
     private String getFileExtension(Part filePart) {

@@ -3,6 +3,8 @@ package com.controller.commands.user;
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
 import com.controller.commands.dto.OrderItemList;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.service.OrderService;
 import com.service.impl.OrderServiceImpl;
 
@@ -17,7 +19,7 @@ import static com.controller.constants.UrlsConst.REDIRECTED;
  */
 public class ProcessOrderListCommand extends CommandWrapper implements Command {
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         OrderItemList orderItemList =(OrderItemList)request.getSession().getAttribute("orderList");
 
         if(orderItemList !=null) {
@@ -27,8 +29,9 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
             orderService.createOrdersAndClear(orderItemList, userId);
         }
 
-        response.sendRedirect(request.getContextPath()+"/user/orders");
-        return REDIRECTED;
+        String redirectPath=request.getContextPath()+"/user/orders";
+
+        return new RedirectDispatcher(redirectPath);
     }
 
 }

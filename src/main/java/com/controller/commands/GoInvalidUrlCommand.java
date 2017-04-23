@@ -2,6 +2,9 @@ package com.controller.commands;
 
 import com.controller.commands.Command;
 import com.controller.commands.common.login.LogoutCommand;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ErrorViewDispatcher;
+import com.controller.responce.RedirectDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,15 +22,17 @@ public class GoInvalidUrlCommand implements Command {
     private static final String REQUESTED_UNSUPPORTED_URI = "Requested unsupported URI. Redirecting to home page.";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         HttpSession session=request.getSession();
 
         if(session.getAttribute("userId")==null){
-            response.sendRedirect(request.getContextPath()+"/login");
-            return REDIRECTED;
+            String redirectPage=request.getContextPath()+"/login";
+            return  new RedirectDispatcher(redirectPage);
         }
 
         request.setAttribute("error",REQUESTED_UNSUPPORTED_URI);
-        return "/WEB-INF/view/errorPage.jsp";
+
+        return new ErrorViewDispatcher("/WEB-INF/view/errorPage.jsp");
     }
 }

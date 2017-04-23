@@ -2,6 +2,8 @@ package com.controller.commands.admin.order;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.order.Order;
 import com.service.OrderService;
 import com.service.impl.OrderServiceImpl;
@@ -17,10 +19,10 @@ import java.util.List;
  */
 public class AdminOrderCommand extends CommandWrapper implements Command {
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         OrderService service= OrderServiceImpl.getInstance();
         List<Order> orderList=service.getAllOrders();
         request.setAttribute("orders",orderList);
-        return request.getContextPath()+"/WEB-INF/view/admin/orderPage.jsp";
+        return new ForwardViewDispatcher("/WEB-INF/view/admin/orderPage.jsp");
     }
 }

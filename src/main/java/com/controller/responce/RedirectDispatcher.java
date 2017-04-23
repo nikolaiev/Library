@@ -8,15 +8,15 @@ import java.io.IOException;
 /**
  * Created by vlad on 23.04.17.
  */
-public class ForwardViewDispatcher implements Dispatcher {
-    private final String VIEW;
+public class RedirectDispatcher implements Dispatcher {
+    private final String PAGE;
 
-    public ForwardViewDispatcher(String view) {
-        VIEW = view;
+    public RedirectDispatcher(String page) {
+        PAGE = page;
     }
 
     @Override
     public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher(VIEW).forward(request,response);
+        response.sendRedirect(PAGE);
     }
 }

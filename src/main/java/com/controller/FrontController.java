@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.controller.commands.Command;
+import com.controller.responce.Dispatcher;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -8,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static com.controller.constants.UrlsConst.REDIRECTED;
 
 /**
  * Created by vlad on 30.03.17.
@@ -46,11 +45,9 @@ public class FrontController extends HttpServlet {
         logger.info("url requested "+url);
 
         Command command=commandHolder.getCommand(url);
-        String view=command.execute(request,response);
 
-        logger.info("view requested "+view);
+        Dispatcher dispatcher=command.execute(request,response);
 
-        if(!REDIRECTED.equals(view))
-            request.getRequestDispatcher(view).forward(request,response);
+        dispatcher.dispatch(request,response);
     }
 }

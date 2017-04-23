@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by vlad on 23.04.17.
  */
-public class ErrorViewDispatcher implements ViewDispatcher {
+public class ErrorViewDispatcher implements Dispatcher {
 
     private final String POST_METHOD="POST";
     private final String ERROR_VIEW;

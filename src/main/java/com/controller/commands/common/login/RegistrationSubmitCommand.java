@@ -2,6 +2,8 @@ package com.controller.commands.common.login;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
 import com.service.UserService;
@@ -24,7 +26,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
     private static final String SUCCESSFUL_REGISTRATION="Registration was successful";
     private static final String LOG_ERROR_REGISTRATION_VALIDATION_ERROR="Registration data is not valid";
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //TODO implement validation!!!
         String name=request.getParameter("name");
         String soname=request.getParameter("soname");
@@ -32,23 +34,23 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         String confPassword=request.getParameter("confirm-password");
         String login=request.getParameter("email");
 
-        /*check password*/
-        if(!password.equals(confPassword)){
-            String errorMessage=escapeUrlCharacters(LOG_ERROR_REGISTRATION_VALIDATION_ERROR);
-            //redirect to login page with successful message
-            response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
-            return REDIRECTED;
-        }
-
         UserService service= UserServiceImpl.getInstance();
 
         /*find possible user duplicate*/
         Optional<User> userDuplicate =service.getUserByLogin(login);
 
+        /*check password*/
         if(userDuplicate.isPresent()){
             String errorMessage=escapeUrlCharacters(LOG_ERROR_USER_ALREADY_EXISTS);
-            response.sendRedirect(request.getContextPath()+"/login?error="+errorMessage);
-            return REDIRECTED;
+            //redirect to login page with successful message
+            String redirectPage=request.getContextPath()+"/login?error="+errorMessage;
+            return new RedirectDispatcher(redirectPage);
+        }
+
+        if(!password.equals(confPassword)){
+            String errorMessage=escapeUrlCharacters(LOG_ERROR_REGISTRATION_VALIDATION_ERROR);
+            String redirectPage=request.getContextPath()+"/login?error="+errorMessage;
+            return new RedirectDispatcher(redirectPage);
         }
         else {
             /*creating new User*/
@@ -63,10 +65,9 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
 
             String successMessage=escapeUrlCharacters(SUCCESSFUL_REGISTRATION);
             //redirect to login page with successful message
-            response.sendRedirect(request.getContextPath()+"/login?success_message="+successMessage);
-            return REDIRECTED;
+            String redirectPage=request.getContextPath()+"/login?success_message="+successMessage;
+
+            return new RedirectDispatcher(redirectPage);
         }
-
-
     }
 }

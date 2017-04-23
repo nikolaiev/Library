@@ -2,6 +2,8 @@ package com.controller.commands.admin.order;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.RedirectDispatcher;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
 import com.service.OrderService;
@@ -21,7 +23,7 @@ import static com.controller.constants.UrlsConst.REDIRECTED;
 public class AdminChangeOrderStatusCommand extends CommandWrapper implements Command {
     //TODO replace with POST request dispatcher
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Integer id=Integer.parseInt(request.getParameter("id"));
         OrderService service= OrderServiceImpl.getInstance();
@@ -32,10 +34,7 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
             service.updateOrderStatus(ord);
         });
 
-
-
-        response.sendRedirect("/admin/orders");
-
-        return REDIRECTED;
+        String redirectPage=request.getContextPath()+"/admin/orders";
+        return new RedirectDispatcher(redirectPage);
     }
 }

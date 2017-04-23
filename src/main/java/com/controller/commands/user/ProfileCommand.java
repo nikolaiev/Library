@@ -2,6 +2,8 @@ package com.controller.commands.user;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
@@ -28,7 +30,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
     private static int DEFAULT_LIMIT_VALUE=20;
 
     @Override
-    protected String processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO make data validation!
 
         HttpSession session=request.getSession();
@@ -64,7 +66,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",ordersCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return "/WEB-INF/view/user/profilePage.jsp";
+        return new ForwardViewDispatcher("/WEB-INF/view/user/profilePage.jsp");
     }
 
 }

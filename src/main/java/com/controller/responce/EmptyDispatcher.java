@@ -8,15 +8,10 @@ import java.io.IOException;
 /**
  * Created by vlad on 23.04.17.
  */
-public class RedirectViewDispatcher implements ViewDispatcher {
-    private final String PAGE;
-
-    public RedirectViewDispatcher(String page) {
-        PAGE = page;
-    }
+public class EmptyDispatcher implements Dispatcher{
 
     @Override
     public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(PAGE);
+        //must be empty
     }
 }
