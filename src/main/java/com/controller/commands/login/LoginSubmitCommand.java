@@ -77,6 +77,11 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
 
                 return new RedirectDispatcher(defaultLoggedInPage.get(role));
         }
+        else {
+            //placing error to request
+            loginDataValidator.addError("Login or password error!");
+        }
+
 
         return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,loginDataValidator);
     }

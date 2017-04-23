@@ -37,7 +37,9 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         RegistrationData registrationData=getRegistrationDataFromReq(request);
         Validator<RegistrationData> registrationDataValidator=new RegisterDataValidator();
 
+
         if(!registrationDataValidator.isValid(registrationData)){
+            request.setAttribute("isRegistrationAttempt",true);
             return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,registrationDataValidator);
         }
 
@@ -49,15 +51,15 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         /*check password*/
         if(userDuplicate.isPresent()){
             //redirect to login page with error message
+            request.setAttribute("isRegistrationAttempt",true);
             registrationDataValidator.addError(LOG_ERROR_USER_ALREADY_EXISTS);
-            return new ValidationErrorViewDispatcher(LOGIN,registrationDataValidator);
+            return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,registrationDataValidator);
         }
 
         String password=registrationData.getPassword();
         String confPassword=registrationData.getPasswordConfirm();
 
         if(!password.equals(confPassword)){
-            //TODO add params to page
             return new RedirectDispatcher(LOGIN);
         }
         else {
@@ -72,7 +74,8 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
 
             service.create(user);
             //TODO pass message to page
-            return new RedirectDispatcher(LOGIN);
+            return new RedirectDispatcher(LOGIN)
+                    .addGetParam("success_message","Registration was successful!");
         }
     }
 

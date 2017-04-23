@@ -16,7 +16,7 @@ public class RegisterDataValidator extends AbstractValidator<RegistrationData> {
     private static final String LOGIN_IS_NOT_VALID="Email is not valid!";
     private static final String NAME_IS_NOT_VALID = "Name is not valid";
     private static final String SONAME_IS_NOT_VALID = "Soname is not valid";
-    private static final String PASS_MISMATCH = "Passwords do not not match";
+    private static final String PASS_MISMATCH = "Passwords do not match";
 
 
     @Override

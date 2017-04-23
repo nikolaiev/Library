@@ -50,10 +50,24 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a href="#" class="active" id="login-form-link">Login</a>
+                            <a href="#"
+                                <c:if test="${not isRegistrationAttempt}">
+                                    class="active"
+                                </c:if>
+                               id="login-form-link"
+                            >
+                                Login
+                            </a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#" id="register-form-link">Register</a>
+                            <a href="#" id="register-form-link"
+                                <c:if test="${isRegistrationAttempt}">
+                                    class="active"
+                                </c:if>
+
+                            >
+                                Register
+                            </a>
                         </div>
                     </div>
                     <hr>
@@ -62,9 +76,13 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <%--Login--%>
-                            <form id="login-form" action="${pageContext.request.contextPath}/login" method="post" role="form" style="display: block;">
+                            <form id="login-form" action="${pageContext.request.contextPath}/login" method="post" role="form"
+                                  <c:if test="${isRegistrationAttempt}">
+                                    hidden
+                                  </c:if>
+                            >
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="text" name="login" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="text" name="login" id="username" tabindex="1" class="form-control" placeholder="Username" value="${param.login}">
                                 </div>
                                 <div class="form-group">
                                     <input required type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
@@ -82,15 +100,19 @@
 
                             <%--Registration--%>
 
-                            <form id="register-form" action="${pageContext.request.contextPath}/register" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="${pageContext.request.contextPath}/register" method="post" role="form"
+                                <c:if test="${not isRegistrationAttempt}">
+                                    hidden
+                                </c:if>
+                            >
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder="Name" value="">
+                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder="Name" value="${param.name}">
                                 </div>
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="soname" id="soname_reg" tabindex="1" class="form-control" placeholder="Soname" value="">
+                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="soname" id="soname_reg" tabindex="1" class="form-control" placeholder="Soname" value="${param.soname}">
                                 </div>
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="${param.email}">
                                 </div>
                                 <div class="form-group">
                                     <input required type="password" name="password" id="password_reg" tabindex="2" class="form-control" placeholder="Password">

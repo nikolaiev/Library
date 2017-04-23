@@ -17,9 +17,9 @@ public class ValidationErrorViewDispatcher implements Dispatcher {
     private final String VIEW;
     private Validator validator;
 
-    public ValidationErrorViewDispatcher(String pageAfterValidationError, Validator validator) {
+    public ValidationErrorViewDispatcher(String viewAfterValidationError, Validator validator) {
 
-        VIEW = pageAfterValidationError;
+        VIEW = viewAfterValidationError;
         this.validator = validator;
     }
 

@@ -35,7 +35,6 @@ public class AuthFilter implements Filter {
 
         logger.info("Requested URI is "+uri);
 
-        //TODO block login if authorized
         if(!isAuthorizedForUri(role,uri)){
             if(role==null){
                 HttpServletResponse httpResponse=(HttpServletResponse)servletResponse;
@@ -49,7 +48,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        logger.info("here "+uri);
+        logger.info("Process view for uri "+uri);
 
         filterChain.doFilter(servletRequest,servletResponse);
     }

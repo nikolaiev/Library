@@ -9,14 +9,23 @@ import java.io.IOException;
  * Created by vlad on 23.04.17.
  */
 public class RedirectDispatcher implements Dispatcher {
-    private final String PAGE;
+    private String pageUrl;
 
     public RedirectDispatcher(String page) {
-        PAGE = page;
+        pageUrl = page;
+    }
+
+    public RedirectDispatcher addGetParam(String param,String value) {
+        pageUrl += "?"+param+"="+escapeCharactersInValue(value);
+        return this;
     }
 
     @Override
     public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath()+PAGE);
+        response.sendRedirect(request.getContextPath()+ pageUrl);
+    }
+
+    private static String escapeCharactersInValue(String val){
+        return val.replace(" ","%20");
     }
 }
