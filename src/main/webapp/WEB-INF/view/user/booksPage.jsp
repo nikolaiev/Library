@@ -17,14 +17,6 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap-select.min.js"></script>
 </head>
 
-<%--TODO replace explicit values comparing via jstl el by JS--%>
-
-
-<form action="/user/books/add" method="post">
-    <input type="number" name="id">
-    <input type="text" name="order_type" id="" value="LIBRARY">
-    <input type="submit" value="ORDER">
-</form>
 <%--FILTERS--%>
 <div class="row col-lg-12 center-block top-buffer">
     <form class="form-inline" method="get">

@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.controller.constants.UrlsConst.REDIRECTED;
 
 /**
  * Created by vlad on 03.04.17.
@@ -46,12 +45,11 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
         LoginData loginData=getLoginDataFromReq(request);
         Validator<LoginData> loginDataValidator=new LoginDataValidator();
 
-        /*clearing request data*/
         if(!loginDataValidator.isValid(loginData)){
             return new ValidationErrorViewDispatcher(LOGIN_VIEW,loginDataValidator);
         }
 
-        /*attempt to login one more time*/
+        /*double login attempt*/
         if(isUserLoggedIn(request)){
             UserRole role=(UserRole)request.getSession().getAttribute("userRole");
             return new ForwardViewDispatcher(defaultLoggedInPage.get(role));

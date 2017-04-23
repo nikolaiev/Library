@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.controller.constants.UrlsConst.REDIRECTED;
 
 /**
  * PRG pattern is necessary to prevent double upload
