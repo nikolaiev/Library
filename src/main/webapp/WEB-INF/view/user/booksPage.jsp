@@ -204,6 +204,11 @@
 
 <%--SCRIPTS--%>
 <script type="text/javascript">
+
+    /*init selects*/
+    $('.selectpicker').selectpicker();
+
+
     let bindButtons=(buttons,orderType)=>{
         for(let i=0; i<buttons.length; i++){
             let but=buttons[i].id.split('_')[0];
@@ -228,8 +233,6 @@
         }
     };
 
-    /*init selects*/
-    $('.selectpicker').selectpicker();
 
     /*order home buttons*/
     let orderHomeButtons=$('.order-button-home');
