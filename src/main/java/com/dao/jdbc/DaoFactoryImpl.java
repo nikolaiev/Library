@@ -15,7 +15,7 @@ public class DaoFactoryImpl implements DaoFactory {
 
     private DaoFactoryImpl(){}
 
-    public static DaoFactory getInstance(){return  InstanceHolder.INSTANCE;};
+    public static DaoFactory getInstance(){return  InstanceHolder.INSTANCE;}
 
     @Override
     public BookDao getBookDao(Connection connection) {

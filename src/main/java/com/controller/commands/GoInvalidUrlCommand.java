@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.controller.constants.JspPathsConst.ERROR_VIEW;
+
 /**
  * Created by vlad on 03.04.17.
  */
 public class GoInvalidUrlCommand implements Command {
 
 
-    private static final String REQUESTED_UNSUPPORTED_URI = "Requested unsupported URI. Redirecting to home page.";
+    private static final String REQUESTED_UNSUPPORTED_URI = "Requested unsupported URI.";
 
     @Override
     public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -29,6 +31,6 @@ public class GoInvalidUrlCommand implements Command {
 
         request.setAttribute("error",REQUESTED_UNSUPPORTED_URI);
 
-        return new ErrorViewDispatcher("/WEB-INF/view/errorPage.jsp");
+        return new ErrorViewDispatcher(ERROR_VIEW);
     }
 }

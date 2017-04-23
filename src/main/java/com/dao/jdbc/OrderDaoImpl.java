@@ -259,7 +259,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                     .setName(resultSet.getString(UserDaoImpl.NAME_FIELD_USER))
                     .setSoname(resultSet.getString(UserDaoImpl.SONAME_FIELD_USER))
                     .setLogin(resultSet.getString(UserDaoImpl.LOGIN_FIELD_USER))
-                    .setPassword(resultSet.getString(UserDaoImpl.PASSWORD_FIELD_USER))
+                    .setPassword(resultSet.getString(UserDaoImpl.PASS_FIELD_USER))
                     .build();
 
             Order order=new Order.Builder()

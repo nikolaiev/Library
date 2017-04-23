@@ -1,5 +1,7 @@
 package com.controller.filters.i18n;
 
+import org.apache.log4j.Logger;
+
 import java.util.Locale;
 
 /**
@@ -11,7 +13,7 @@ public enum ProgramLocale {
     UA(new Locale("ua", "UA"));
 
     public static final ProgramLocale DEFAULT_LOCALE = EN;
-
+    private static final Logger logger=Logger.getLogger(ProgramLocale.class);
     private Locale locale;
 
     ProgramLocale(Locale locale) {
@@ -31,6 +33,7 @@ public enum ProgramLocale {
             return ProgramLocale.valueOf(localeString);
         }
         catch (IllegalArgumentException|NullPointerException e){
+            logger.warn(e);
             return DEFAULT_LOCALE;
         }
     }

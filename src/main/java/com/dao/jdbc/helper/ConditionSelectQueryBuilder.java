@@ -38,7 +38,7 @@ public class ConditionSelectQueryBuilder {
     }
 
     public void addFilterParam(Object val,String whereClose){
-        if(val!=null && !val.equals("")){
+        if(val!=null && !"".equals(val)){
             //if at least one param was added
             if(paramIndex!=1){
                 whereQuery.append(AND);

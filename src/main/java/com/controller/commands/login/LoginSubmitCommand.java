@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
     private UserService service=new UserServiceImpl();
 
 
-    private Map<UserRole,String> defaultLoggedInPage=new HashMap<>();
+    private Map<UserRole,String> defaultLoggedInPage=new EnumMap<>(UserRole.class);
 
     {
         defaultLoggedInPage.put(UserRole.ADMIN , ADMIN_BOOKS);

@@ -1,6 +1,7 @@
 package com.controller.commands.helper;
 
 import com.controller.exception.ControllerException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * Created by vlad on 19.04.17.
  */
 public class RequestParamExtractor implements ParamExtractor{
+    private static final Logger logger=Logger.getLogger(RequestParamExtractor.class);
 
     private final static String LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT
             = "Can't parse Integer parameter";
@@ -34,6 +36,7 @@ public class RequestParamExtractor implements ParamExtractor{
                     .map(e -> Enum.valueOf(enumType, e)).orElse(null);
         }
         catch (IllegalArgumentException e){
+            logger.error(e);
             throw new ControllerException()
                     .addLogMessage(LOG_MESSAGE_PARSING_ERROR_ENUM_PARAMETR_FORMAT);
         }

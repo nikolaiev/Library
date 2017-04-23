@@ -24,7 +24,7 @@ public class JdbcPooledDataSource {
     private static final String JDBC_DRIVER = "jdbc.driver";
     private static final String JDBC_URL = "jdbc.url";
     private static final String JDBC_USER = "jdbc.user";
-    private static final String JDBC_PASSWORD = "jdbc.password";
+    private static final String JDBC_PASS = "jdbc.password";
     private static final String JDBC_MAX_POOL_SIZE = "jdbc.max.pool.size";
     private static final String JDBC_MIN_POOL_SIZE = "jdbc.min.pool.size";
     private static final String JDBC_ACQUIRE_INCREMENT = "jdbc.acquire.increment";
@@ -52,7 +52,7 @@ public class JdbcPooledDataSource {
 
         cpds.setJdbcUrl(jdbcProperties.getString(JDBC_URL));
         cpds.setUser(jdbcProperties.getString(JDBC_USER));
-        cpds.setPassword(jdbcProperties.getString(JDBC_PASSWORD));
+        cpds.setPassword(jdbcProperties.getString(JDBC_PASS));
 
         try {
             cpds.setMaxPoolSize(Integer.parseInt(jdbcProperties.getString(JDBC_MAX_POOL_SIZE)));

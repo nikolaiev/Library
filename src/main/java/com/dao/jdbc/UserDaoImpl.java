@@ -35,7 +35,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public static final String LOGIN_FIELD_USER ="login";
     public static final String NAME_FIELD_USER ="name";
     public static final String SONAME_FIELD_USER ="soname";
-    public static final String PASSWORD_FIELD_USER ="pass";
+    public static final String PASS_FIELD_USER ="pass";
     public static final String ROLE_FIELD_USER ="role";
     private static final String TABLE="public.\"user\"";
 
@@ -129,7 +129,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement.setString(1,login);
             ResultSet resultSet=statement.executeQuery();
             List<User> users=parseResultSet(resultSet);
-            return users.size()==0
+            return users.isEmpty()
                     ? Optional.empty()
                     :Optional.of(users.get(0));
 
@@ -147,7 +147,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     .setLogin(resultSet.getString(LOGIN_FIELD_USER))
                     .setName(resultSet.getString(NAME_FIELD_USER))
                     .setSoname(resultSet.getString(SONAME_FIELD_USER))
-                    .setPassword(resultSet.getString(PASSWORD_FIELD_USER))
+                    .setPassword(resultSet.getString(PASS_FIELD_USER))
                     .setRole(UserRole.valueOf(resultSet.getString(ROLE_FIELD_USER)))
                     .build();
 

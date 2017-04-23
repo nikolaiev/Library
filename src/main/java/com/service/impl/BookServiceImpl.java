@@ -66,7 +66,7 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public Optional<Book> getById(int id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 

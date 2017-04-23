@@ -3,6 +3,8 @@ package com.controller.commands.dto;
 import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 
+import java.io.Serializable;
+
 /**
  * This class describes Order item element
  * Created by vlad on 11.04.17.

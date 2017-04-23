@@ -1,22 +1,24 @@
 package com.controller.commands.dto;
 
-import com.model.entity.book.Book;
 import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class describes list of OrderItems elements
+ * Stored in HttpSession
+ *
  * Created by vlad on 10.04.17.
  */
-public class OrderItemList {
+public class OrderItemList implements Serializable{
     /*Order List map
     * key -> book's id
     * orderItem -> associated OrderItem object
     * */
-    private Map<Integer,OrderItem> bookOrders;
+    private transient Map<Integer,OrderItem>  bookOrders;
 
     /**
      * Public constructor

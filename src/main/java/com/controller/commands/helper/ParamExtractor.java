@@ -7,6 +7,7 @@ import java.util.Date;
  * Created by vlad on 19.04.17.
  */
 public interface ParamExtractor {
+
     <T extends Enum<T>> T getEnumParamOrNull(HttpServletRequest request,String paramName,Class<T> enumType);
 
     Date getDateParamOrNull(HttpServletRequest request, String paramName);

@@ -34,7 +34,7 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
 
     @Override
     public Optional<Author> getById(int id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 
