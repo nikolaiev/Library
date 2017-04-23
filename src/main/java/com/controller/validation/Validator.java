@@ -5,7 +5,10 @@ import java.util.List;
 /**
  * Created by vlad on 23.04.17.
  */
-public interface Validator <T>{
+public interface Validator<T>{
+    boolean isValid(T obj);
 
-    List<T> getAllErrors();
+    List<String> getAllErrors();
+
+    void addError(String error);
 }

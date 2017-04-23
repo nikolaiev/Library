@@ -17,6 +17,6 @@ public class RedirectDispatcher implements Dispatcher {
 
     @Override
     public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(PAGE);
+        response.sendRedirect(request.getContextPath()+PAGE);
     }
 }

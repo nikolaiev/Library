@@ -29,7 +29,6 @@ public abstract class CommandWrapper implements Command {
 
     protected abstract Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 
-    //TODO change String return type to RequestDispatcher
     @Override
     public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{

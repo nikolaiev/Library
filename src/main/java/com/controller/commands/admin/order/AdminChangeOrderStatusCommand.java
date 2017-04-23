@@ -34,7 +34,6 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
             service.updateOrderStatus(ord);
         });
 
-        String redirectPage=request.getContextPath()+"/admin/orders";
-        return new RedirectDispatcher(redirectPage);
+        return new RedirectDispatcher("/admin/orders");
     }
 }

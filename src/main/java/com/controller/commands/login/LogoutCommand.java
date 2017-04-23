@@ -1,4 +1,4 @@
-package com.controller.commands.common.login;
+package com.controller.commands.login;
 
 import com.controller.commands.Command;
 import com.controller.responce.Dispatcher;
@@ -17,13 +17,12 @@ import static com.controller.constants.UrlsConst.REDIRECTED;
 public class LogoutCommand implements Command {
     @Override
     public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session=request.getSession();
+
+        HttpSession session=request.getSession(false);
 
         if(session!=null)
             session.invalidate();
 
-        String redirectPath=request.getContextPath()+"/login";
-
-        return new RedirectDispatcher(redirectPath);
+        return new RedirectDispatcher("/login");
     }
 }

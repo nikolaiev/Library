@@ -17,6 +17,6 @@ public class AdminRemoveBookCommand extends CommandWrapper implements Command {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO remove book from DB
-        return new RedirectDispatcher(request.getContextPath()+"/admin/books");
+        return new RedirectDispatcher("/admin/books");
     }
 }

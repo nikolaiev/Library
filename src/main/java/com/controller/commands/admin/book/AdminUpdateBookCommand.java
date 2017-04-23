@@ -16,6 +16,6 @@ public class AdminUpdateBookCommand extends CommandWrapper implements Command {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO update book
-        return new RedirectDispatcher(request.getContextPath()+"/admin/books");
+        return new RedirectDispatcher("/admin/books");
     }
 }

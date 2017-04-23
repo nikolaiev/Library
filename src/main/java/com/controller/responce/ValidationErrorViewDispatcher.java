@@ -14,12 +14,12 @@ public class ValidationErrorViewDispatcher implements Dispatcher {
     private final String POST_METHOD="POST";
 
     /*page after validation errors*/
-    private final String PAGE;
+    private final String VIEW;
     private Validator validator;
 
     public ValidationErrorViewDispatcher(String pageAfterValidationError, Validator validator) {
 
-        PAGE = pageAfterValidationError;
+        VIEW = pageAfterValidationError;
         this.validator = validator;
     }
 
@@ -27,12 +27,12 @@ public class ValidationErrorViewDispatcher implements Dispatcher {
     public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if(isPost(request)){
-            /*add 500 status if POST request*/
+            //add 500 status if POST request
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        //TODO replace string to config class
+
         request.setAttribute("validation_errors", validator.getAllErrors());
-        request.getRequestDispatcher(PAGE).forward(request,response);
+        request.getRequestDispatcher(VIEW).forward(request,response);
     }
 
     private boolean isPost(HttpServletRequest request){

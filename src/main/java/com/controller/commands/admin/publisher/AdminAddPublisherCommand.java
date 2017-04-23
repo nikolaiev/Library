@@ -16,6 +16,6 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
     //TODO implement
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return new RedirectDispatcher(request.getContextPath()+"/admin/publishers");
+        return new RedirectDispatcher("/admin/publishers");
     }
 }

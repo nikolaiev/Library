@@ -14,7 +14,10 @@ import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
 import com.controller.commands.GetStaticFileCommand;
-import com.controller.commands.common.login.*;
+import com.controller.commands.login.LoginCommand;
+import com.controller.commands.login.LoginSubmitCommand;
+import com.controller.commands.login.LogoutCommand;
+import com.controller.commands.login.RegistrationSubmitCommand;
 import com.controller.commands.user.*;
 import com.controller.commands.GoInvalidUrlCommand;
 

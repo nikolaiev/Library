@@ -73,8 +73,7 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
             }
         }
 
-        String redirectPath=request.getContextPath()+"/admin/books";
-        return new RedirectDispatcher(redirectPath);
+        return new RedirectDispatcher("/admin/books");
     }
 
     private String getFileExtension(Part filePart) {

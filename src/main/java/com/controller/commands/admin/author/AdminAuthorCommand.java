@@ -2,6 +2,7 @@ package com.controller.commands.admin.author;
 
 import com.controller.commands.Command;
 import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.controller.responce.RedirectDispatcher;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,6 @@ import java.io.IOException;
 public class AdminAuthorCommand implements Command{
     @Override
     public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return new RedirectDispatcher("/WEB-INF/view/admin/authorPage.jsp");
+        return new ForwardViewDispatcher("/WEB-INF/view/admin/authorPage.jsp");
     }
 }

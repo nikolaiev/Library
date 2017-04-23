@@ -21,6 +21,6 @@ public class AdminRemoveAuthorCommand extends CommandWrapper implements Command 
         Integer authorId=Integer.valueOf(request.getParameter("authorId"));
         AuthorService authorService= AuthorServiceImpl.getInstance();
         authorService.deleteById(authorId);
-        return new RedirectDispatcher(request.getContextPath() + "/admin/authors");
+        return new RedirectDispatcher("/admin/authors");
     }
 }

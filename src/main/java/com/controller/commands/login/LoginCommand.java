@@ -1,4 +1,4 @@
-package com.controller.commands.common.login;
+package com.controller.commands.login;
 
 import com.controller.commands.Command;
 import com.controller.responce.Dispatcher;
