@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.ADMIN_AUTHORS;
+
 /**
  * Created by vlad on 03.04.17.
  */
@@ -24,6 +26,6 @@ public class AdminAddAuthorCommand extends CommandWrapper implements Command{
         AuthorService authorService= AuthorServiceImpl.getInstance();
         authorService.create(author);
 
-        return new RedirectDispatcher("/admin/authors");
+        return new RedirectDispatcher(ADMIN_AUTHORS);
     }
 }

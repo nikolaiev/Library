@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.controller.constants.UrlsConst.REDIRECTED;
+import static com.controller.constants.UrlsConst.LOGIN;
 
 /**
  * Created by vlad on 03.04.17.
@@ -23,6 +23,6 @@ public class LogoutCommand implements Command {
         if(session!=null)
             session.invalidate();
 
-        return new RedirectDispatcher("/login");
+        return new RedirectDispatcher(LOGIN);
     }
 }

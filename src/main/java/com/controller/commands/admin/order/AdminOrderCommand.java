@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.controller.constants.JspPathsConst.ADMIN_ORDER_VIEW;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -23,6 +25,6 @@ public class AdminOrderCommand extends CommandWrapper implements Command {
         OrderService service= OrderServiceImpl.getInstance();
         List<Order> orderList=service.getAllOrders();
         request.setAttribute("orders",orderList);
-        return new ForwardViewDispatcher("/WEB-INF/view/admin/orderPage.jsp");
+        return new ForwardViewDispatcher(ADMIN_ORDER_VIEW);
     }
 }

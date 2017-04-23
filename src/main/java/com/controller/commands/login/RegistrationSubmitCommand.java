@@ -21,21 +21,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.controller.constants.JspPathsConst.LOGIN_REG_VIEW;
+import static com.controller.constants.UrlsConst.LOGIN;
+
 /**
  * Created by vlad on 18.04.17.
  */
 public class RegistrationSubmitCommand extends CommandWrapper implements Command {
-    private final static String LOGIN_VIEW="/WEB-INF/view/loginPage.jsp";
     private static final String LOG_ERROR_USER_ALREADY_EXISTS="User already exists";
     private static final String SUCCESSFUL_REGISTRATION="Registration was successful";
     private static final String LOG_ERROR_REGISTRATION_VALIDATION_ERROR="Registration data is not valid";
+
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RegistrationData registrationData=getRegistrationDataFromReq(request);
         Validator<RegistrationData> registrationDataValidator=new RegisterDataValidator();
 
         if(!registrationDataValidator.isValid(registrationData)){
-            return new ValidationErrorViewDispatcher(LOGIN_VIEW,registrationDataValidator);
+            return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,registrationDataValidator);
         }
 
         UserService service= UserServiceImpl.getInstance();
@@ -47,16 +50,15 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         if(userDuplicate.isPresent()){
             //redirect to login page with error message
             registrationDataValidator.addError(LOG_ERROR_USER_ALREADY_EXISTS);
-            return new ValidationErrorViewDispatcher("/login",registrationDataValidator);
+            return new ValidationErrorViewDispatcher(LOGIN,registrationDataValidator);
         }
 
         String password=registrationData.getPassword();
         String confPassword=registrationData.getPasswordConfirm();
 
         if(!password.equals(confPassword)){
-            String redirectPage="/login";
             //TODO add params to page
-            return new RedirectDispatcher(redirectPage);
+            return new RedirectDispatcher(LOGIN);
         }
         else {
             /*creating new User*/
@@ -70,7 +72,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
 
             service.create(user);
             //TODO pass message to page
-            return new RedirectDispatcher("/login");
+            return new RedirectDispatcher(LOGIN);
         }
     }
 

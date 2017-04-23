@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
+
 
 /**
  * PRG pattern is necessary to prevent double upload
@@ -72,7 +74,7 @@ public class AdminAddBookCommand extends CommandWrapper implements Command {
             }
         }
 
-        return new RedirectDispatcher("/admin/books");
+        return new RedirectDispatcher(ADMIN_BOOKS);
     }
 
     private String getFileExtension(Part filePart) {

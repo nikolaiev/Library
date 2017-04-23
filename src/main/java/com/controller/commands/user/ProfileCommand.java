@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static com.controller.constants.JspPathsConst.USER_PROFILE_VIEW;
+
 /**
  * Created by vlad on 12.04.17.
  */
@@ -66,7 +68,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",ordersCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return new ForwardViewDispatcher("/WEB-INF/view/user/profilePage.jsp");
+        return new ForwardViewDispatcher(USER_PROFILE_VIEW);
     }
 
 }

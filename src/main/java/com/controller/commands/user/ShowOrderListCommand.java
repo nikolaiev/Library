@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.controller.constants.JspPathsConst.USER_ORDER_LIST_VIEW;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -34,7 +36,6 @@ public class ShowOrderListCommand implements Command {
             request.setAttribute("bookOrders", detailBookOrders);
         }
 
-        return new ForwardViewDispatcher("/WEB-INF/view/user/orderListPage.jsp");
-
+        return new ForwardViewDispatcher(USER_ORDER_LIST_VIEW);
     }
 }

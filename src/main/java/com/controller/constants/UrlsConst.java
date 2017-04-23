@@ -55,5 +55,4 @@ public final class  UrlsConst {
     //orders
     public static final String ADMIN_ORDERS = ADMIN+ORDERS;
     public static final String ADMIN_ORDERS_UPDATE = ADMIN+ORDERS+UPDATE;
-
 }

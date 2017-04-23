@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.ADMIN_AUTHORS;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -21,6 +23,6 @@ public class AdminRemoveAuthorCommand extends CommandWrapper implements Command 
         Integer authorId=Integer.valueOf(request.getParameter("authorId"));
         AuthorService authorService= AuthorServiceImpl.getInstance();
         authorService.deleteById(authorId);
-        return new RedirectDispatcher("/admin/authors");
+        return new RedirectDispatcher(ADMIN_AUTHORS);
     }
 }

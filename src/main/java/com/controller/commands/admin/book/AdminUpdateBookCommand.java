@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -16,6 +18,6 @@ public class AdminUpdateBookCommand extends CommandWrapper implements Command {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO update book
-        return new RedirectDispatcher("/admin/books");
+        return new RedirectDispatcher(ADMIN_BOOKS);
     }
 }

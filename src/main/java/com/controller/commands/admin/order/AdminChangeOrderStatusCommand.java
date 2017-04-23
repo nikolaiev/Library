@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.controller.constants.UrlsConst.REDIRECTED;
+import static com.controller.constants.UrlsConst.ADMIN_ORDERS;
 
 /**
  * post from crud
@@ -34,6 +34,6 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
             service.updateOrderStatus(ord);
         });
 
-        return new RedirectDispatcher("/admin/orders");
+        return new RedirectDispatcher(ADMIN_ORDERS);
     }
 }

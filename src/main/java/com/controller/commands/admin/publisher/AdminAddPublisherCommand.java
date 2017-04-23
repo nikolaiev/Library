@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.controller.constants.UrlsConst.ADMIN_PUBLISHERS;
+
 /**
  * Created by vlad on 03.04.17.
  */
@@ -16,6 +18,6 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
     //TODO implement
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return new RedirectDispatcher("/admin/publishers");
+        return new RedirectDispatcher(ADMIN_PUBLISHERS);
     }
 }

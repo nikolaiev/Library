@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import static com.controller.constants.JspPathsConst.USER_BOOKS_VIEW;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
@@ -69,6 +70,6 @@ public class FindBookCommand extends CommandWrapper implements Command {
         request.setAttribute("totalCount",bookCount);
         request.setAttribute("defLimit",DEFAULT_LIMIT_VALUE);
 
-        return new ForwardViewDispatcher("/WEB-INF/view/user/booksPage.jsp");
+        return new ForwardViewDispatcher(USER_BOOKS_VIEW);
     }
 }

@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
+import static com.controller.constants.JspPathsConst.LOGIN_REG_VIEW;
+import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
+import static com.controller.constants.UrlsConst.USER_BOOKS;
+
 
 /**
  * Created by vlad on 03.04.17.
@@ -30,14 +35,13 @@ import java.util.Optional;
 /*POST method*/
 public class LoginSubmitCommand extends CommandWrapper implements Command{
     private UserService service=new UserServiceImpl();
-    private final static String LOGIN_VIEW="/WEB-INF/view/loginPage.jsp";
 
 
     private Map<UserRole,String> defaultLoggedInPage=new HashMap<>();
 
     {
-        defaultLoggedInPage.put(UserRole.ADMIN,"/admin/books");
-        defaultLoggedInPage.put(UserRole.USER,"/user/books");
+        defaultLoggedInPage.put(UserRole.ADMIN , ADMIN_BOOKS);
+        defaultLoggedInPage.put(UserRole.USER , USER_BOOKS);
     }
 
     @Override
@@ -46,7 +50,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
         Validator<LoginData> loginDataValidator=new LoginDataValidator();
 
         if(!loginDataValidator.isValid(loginData)){
-            return new ValidationErrorViewDispatcher(LOGIN_VIEW,loginDataValidator);
+            return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,loginDataValidator);
         }
 
         /*double login attempt*/
@@ -74,7 +78,7 @@ public class LoginSubmitCommand extends CommandWrapper implements Command{
             }
         }
 
-        return new ValidationErrorViewDispatcher(LOGIN_VIEW,loginDataValidator);
+        return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,loginDataValidator);
     }
 
     private LoginData getLoginDataFromReq(HttpServletRequest request) {

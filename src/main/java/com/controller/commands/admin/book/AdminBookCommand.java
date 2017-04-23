@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
+
 /**
  * Created by vlad on 10.04.17.
  */
@@ -36,7 +38,6 @@ public class AdminBookCommand implements Command {
         request.setAttribute("languages", BookLanguage.values());
         request.setAttribute("genres", BookGenre.values());
 
-        String view ="/WEB-INF/view/admin/bookPage.jsp";
-        return new ForwardViewDispatcher(view);
+        return new ForwardViewDispatcher(ADMIN_BOOK_VIEW);
     }
 }

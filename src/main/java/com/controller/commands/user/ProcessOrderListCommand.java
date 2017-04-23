@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.controller.constants.UrlsConst.REDIRECTED;
+import static com.controller.constants.UrlsConst.USER_ORDERS;
 
 /**
  * Created by vlad on 10.04.17.
@@ -28,10 +28,7 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
             Integer userId = (Integer) request.getSession().getAttribute("userId");
             orderService.createOrdersAndClear(orderItemList, userId);
         }
-
-        String redirectPath=request.getContextPath()+"/user/orders";
-
-        return new RedirectDispatcher(redirectPath);
+        return new RedirectDispatcher(USER_ORDERS);
     }
 
 }
