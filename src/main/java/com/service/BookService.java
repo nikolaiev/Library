@@ -22,4 +22,9 @@ public interface BookService  extends CrudService<Book>{
     int getBooksCountByParams(String title, Integer authorId,
                               BookGenre genre, BookLanguage language,
                               Integer publisherId);
+
+    /**
+     * Updates book if count field restriction is not violated
+     * */
+    boolean updateIfPossible(Book book);
 }

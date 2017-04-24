@@ -1,4 +1,4 @@
-package com.controller.commands.user;
+package com.controller.commands;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class FindBookCommand extends CommandWrapper implements Command {
     private static int DEFAULT_LIMIT_VALUE=20;
+    /*different for admin and user*/
     private final String BOOKS_VIEW;
 
     public FindBookCommand(String view) {

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.controller.constants.JspPathsConst.ERROR_VIEW;
+
 /**
  * Created by vlad on 09.04.17.
  */
@@ -22,7 +24,7 @@ public abstract class CommandWrapper implements Command {
     protected ParamExtractor paramExtractor=new RequestParamExtractor();
 
     private final static Dispatcher DEFAULT_ERROR_DISPATCHER =
-            new ErrorViewDispatcher("/WEB-INF/view/errorPage.jsp");
+            new ErrorViewDispatcher(ERROR_VIEW);
 
     private final static Logger logger=Logger.getLogger(CommandWrapper.class);
 
@@ -73,7 +75,7 @@ public abstract class CommandWrapper implements Command {
 
     private void processException(Exception e, HttpServletRequest request ) {
         logger.error(e.getMessage());
-        request.setAttribute("error_message", "Unknown error occurred!");
+        request.setAttribute("error_message", "Unknown error occurred! "+e.toString());
     }
 
     private void processApplicationException(ApplicationException e, HttpServletRequest request) {

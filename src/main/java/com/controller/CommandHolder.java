@@ -1,10 +1,12 @@
 package com.controller;
 
 import com.controller.commands.Command;
+import com.controller.commands.FindBookCommand;
 import com.controller.commands.admin.author.AdminAddAuthorCommand;
 import com.controller.commands.admin.author.AdminAuthorCommand;
 import com.controller.commands.admin.author.AdminRemoveAuthorCommand;
 import com.controller.commands.admin.book.AdminAddBookCommand;
+import com.controller.commands.admin.book.AdminAddBookSubmitCommand;
 import com.controller.commands.admin.book.AdminUpdateBookCommand;
 import com.controller.commands.admin.book.AdminUpdateBookSubmitCommand;
 import com.controller.commands.admin.order.AdminOrderCommand;
@@ -56,6 +58,7 @@ public class CommandHolder {
         commands.put(GET_PATH + deplyPath + LOGOUT,new LogoutCommand());
         commands.put(POST_PATH + deplyPath + LOGIN,new LoginSubmitCommand());
         commands.put(POST_PATH + deplyPath + REGISTER,new RegistrationSubmitCommand());
+        commands.put(GET_PATH + deplyPath + STATIC,new GetStaticFileCommand());
 
         /*USER COMMAND*/
         /*book commands*/
@@ -78,10 +81,10 @@ public class CommandHolder {
         commands.put(POST_PATH + deplyPath + ADMIN_AUTHORS_REMOVE,new AdminRemoveAuthorCommand());
 
         /*books*/
-        commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_ADD,new AdminAddBookCommand());
-        //commands.put(POST_PATH + deplyPath + ADMIN_BOOKS_REMOVE,new AdminRemoveBookCommand());
+        commands.put(GET_PATH + deplyPath + ADMIN_BOOK_ADD,new AdminAddBookCommand());
+        commands.put(POST_PATH + deplyPath + ADMIN_BOOK_ADD,new AdminAddBookSubmitCommand());
         commands.put(POST_PATH + deplyPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
-        commands.put(GET_PATH+ deplyPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookCommand());
+        commands.put(GET_PATH+ deplyPath + ADMIN_BOOK,new AdminUpdateBookCommand());
 
         /*order*/
         commands.put(POST_PATH + deplyPath + ADMIN_ORDERS_UPDATE,new AdminChangeOrderStatusCommand());
@@ -92,10 +95,22 @@ public class CommandHolder {
     }
 
     public Command getCommand(String url){
+        Command command=commands.get(url);
+        if(command!=null)
+            return command;
 
+        //check static file request URL
         if(url.startsWith(GET_PATH + deplyPath + STATIC))
             return new GetStaticFileCommand();
 
-        return commands.getOrDefault(url, invalidUrlCommand);
+        //possible GET params passed
+        return commands.entrySet().stream()
+                .filter(e->{
+                        String urlPattern=e.getKey();
+                        return url.startsWith(urlPattern+"?");
+                })
+                .findFirst()
+                .map(Map.Entry::getValue)
+                .orElse(invalidUrlCommand);
     }
 }

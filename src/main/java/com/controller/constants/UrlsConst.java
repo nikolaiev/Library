@@ -43,8 +43,8 @@ public final class  UrlsConst {
 
     //books
     public static final String ADMIN_BOOKS = ADMIN+BOOKS;
-    public static final String ADMIN_BOOKS_ADD = ADMIN+BOOKS+ADD;
-    //public static final String ADMIN_BOOKS_REMOVE = ADMIN+BOOKS+REMOVE;
+    public static final String ADMIN_BOOK_ADD = ADMIN+BOOK+ADD;
+    public static final String ADMIN_BOOK= ADMIN+BOOK;
     public static final String ADMIN_BOOK_UPDATE = ADMIN+BOOK+UPDATE;
     //public static final String ADMIN_BOOKS_UPDATE = ADMIN+BOOKS+UPDATE;
 

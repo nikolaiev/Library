@@ -70,6 +70,7 @@ public class RequestParamExtractor implements ParamExtractor{
 
         }catch (NumberFormatException e){
             throw new ControllerException()
+                    .addMessageKey(LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT)
                     .addLogMessage(LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT);
         }
     }

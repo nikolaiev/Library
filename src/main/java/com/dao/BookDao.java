@@ -23,4 +23,6 @@ public interface BookDao extends GenericDao<Book>{
     int getBooksCountByParams(String title, Integer authorId,
                           BookGenre genre, BookLanguage language,
                           Integer publisherId);
+
+    boolean updateIfPossible(Book book);
 }

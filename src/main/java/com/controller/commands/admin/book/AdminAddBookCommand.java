@@ -3,10 +3,15 @@ package com.controller.commands.admin.book;
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
 import com.controller.responce.Dispatcher;
+import com.controller.responce.ForwardViewDispatcher;
 import com.controller.responce.RedirectDispatcher;
 import com.model.entity.book.*;
+import com.service.AuthorService;
 import com.service.BookService;
+import com.service.PublisherService;
+import com.service.impl.AuthorServiceImpl;
 import com.service.impl.BookServiceImpl;
+import com.service.impl.PublisherServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,80 +22,35 @@ import java.io.IOException;
 import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
+import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
+import static com.controller.constants.JspPathsConst.ADMIN_EDIT_BOOK_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 
 
 /**
- * PRG pattern is necessary to prevent double upload
  * Created by vlad on 03.04.17.
  */
-public class AdminAddBookCommand extends CommandWrapper implements Command {
+public class AdminAddBookCommand implements Command {
+
     @Override
-    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        /*multipart data processing*/
-        Part filePart=request.getPart("book_image");
-        String extension=getFileExtension(filePart);
-        String uniqueName = UUID.randomUUID().toString().replace("-","_")+"."+extension;
-        File file = new File(request.getServletContext().getInitParameter("upload.location")+uniqueName);
+    public Dispatcher execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        AuthorService authorService= AuthorServiceImpl.getInstance();
+        PublisherService publisherService= PublisherServiceImpl.getInstance();
 
-        /*request params*/
-        Integer authorId = Integer.parseInt(request.getParameter("author_id"));
-        Integer publisherId = Integer.parseInt(request.getParameter("publisher_id"));
-        Integer count = Integer.parseInt(request.getParameter("count"));
-        String title = request.getParameter("title");
-        LocalDate publishDate = LocalDate.parse(request.getParameter("publish_date"));
-        BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
-        BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
+        List<Author> authors=authorService.getAll();
+        List<Publisher> publishers=publisherService.getAll();
 
-        BookService service= BookServiceImpl.getInstance();
 
-        /*creating object to persist*/
-        Author author=createIdOnlyAuthor(authorId);
-        Publisher publisher=createIdOnlyPublisher(publisherId);
+        request.setAttribute("authors",authors);
+        request.setAttribute("publishers",publishers);
+        request.setAttribute("languages", BookLanguage.values());
+        request.setAttribute("genres", BookGenre.values());
 
-        Book book=new Book.Builder()
-                .setImage(uniqueName)
-                .setAuthor(author)
-                .setGenre(genre)
-                .setLanguage(language)
-                .setPublisher(publisher)
-                .setTitle(title)
-                .setCount(count)
-                .setDate(publishDate)
-                .build();
-
-        service.create(book);
-
-        /*save uploaded image*/
-        try(InputStream inputStream=filePart.getInputStream();
-            FileOutputStream fileOutputStream=new FileOutputStream(file);
-        ){
-            byte[] buffer = new byte[100];
-            int len;
-            while ((len = inputStream.read(buffer)) != -1) {
-                fileOutputStream.write(buffer, 0, len);
-            }
-        }
-
-        return new RedirectDispatcher(ADMIN_BOOKS);
-    }
-
-    private String getFileExtension(Part filePart) {
-        String[] temp=filePart.getSubmittedFileName().split("\\.");
-        return temp[temp.length-1];
-    }
-
-    private Publisher createIdOnlyPublisher(int publisherId){
-        Publisher publisher=new Publisher();
-        publisher.setId(publisherId);
-        return publisher;
-    }
-
-    private Author createIdOnlyAuthor(int authorId){
-        Author author=new Author();
-        author.setId(authorId);
-        return author;
+        return new ForwardViewDispatcher(ADMIN_ADD_BOOK_VIEW);
     }
 }

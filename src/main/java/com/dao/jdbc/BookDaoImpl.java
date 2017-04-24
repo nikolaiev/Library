@@ -20,7 +20,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
 
     private static final String SELECT_ALL="SELECT id,  author_id, publisher_id, title, genre, " +
             "lang, pdate, publisher_title, " +
-            "       author_name, author_soname, image" +
+            "       author_name, author_soname, image , count" +
             "  FROM public.book_full_view ";
 
     private static final String SELECT_COUNT="SELECT count(*) as count from \"book_full_view\" ";
@@ -46,7 +46,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     private static final String WHERE_ID_CLOSE=" WHERE id=? ";
 
     private static final String UPDATE_BOOK_BY_ID = UPDATE_BOOK_CLOSE +
-            "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=?" +
+            "   SET aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=?,count=?" +
             WHERE_ID_CLOSE;
 
     private static final String UPDATE_GRANTED_BOOK = UPDATE_BOOK_CLOSE +
@@ -194,12 +194,33 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     }
 
     @Override
+    public boolean updateIfPossible(Book newBook) {
+        int bookId=newBook.getId();
+
+        Book oldBook=getById(bookId).get();
+
+        /*check if new book count
+            is not less than books count in use*/
+
+        int countAvailable=getCountAvailable(bookId);
+        int booksInUse=oldBook.getCount()-countAvailable;
+        int newBookCount=newBook.getCount();
+
+        if(booksInUse>newBookCount){
+            return false;
+        }
+
+        update(newBook);
+        return true;
+    }
+
+    @Override
     public Book insert(Book book) {
         checkForNull(book);
         checkIsUnsaved(book);
         try(PreparedStatement statement=connection.get().prepareStatement(INSERT_BOOK,
                 Statement.RETURN_GENERATED_KEYS)) {
-            //  aid, pid, genre, lang, pdate, title, image
+            //  aid, pid, genre, lang, pdate, title, image, count
             statement.setInt(1,book.getAuthor().getId());
             statement.setInt(2,book.getPublisher().getId());
             statement.setString(3,book.getGenre().toString());
@@ -225,7 +246,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         checkForNull(book);
         checkIsSaved(book);
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_BOOK_BY_ID)) {
-            //aid=?, pid=?, genre=?, lang=?, pdate=?, title=? " +
+            //aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=? , count=?" +
             //" WHERE id=?
             statement.setInt(1,book.getAuthor().getId());
             statement.setInt(2,book.getPublisher().getId());
@@ -234,7 +255,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setObject(5,book.getDate());
             statement.setString(6,book.getTitle());
             statement.setString(7,book.getImage());
-            statement.setInt(8,book.getId());
+            statement.setInt(8,book.getCount());
+            statement.setInt(9,book.getId());
 
             statement.executeUpdate();
 
@@ -299,6 +321,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))
                     .setImage(resultSet.getString(IMAGE_PATH_FIELD_BOOK))
+                    .setCount(resultSet.getInt(COUNT_FIELD))
                     .build();
             bookList.add(book);
         }

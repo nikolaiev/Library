@@ -5,7 +5,7 @@
 
 
 <%--FILTERS--%>
-<div class="row col-lg-12 center-block top-buffer">
+<div class="row col-lg-12 center-block alert alert-info">
     <form class="form-inline" method="get">
         <div class="form-group">
             <label class="mr-sm-2" >Title</label>
@@ -112,7 +112,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-info right">Find books</button>
+        <button type="submit" class="btn btn-success right">Filter</button>
 
     </form>
 

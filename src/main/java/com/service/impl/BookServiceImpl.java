@@ -58,6 +58,11 @@ public class BookServiceImpl extends GenericService implements BookService {
     }
 
     @Override
+    public boolean updateIfPossible(Book book) {
+        return executeInSerializableWrapper(transactionManager -> transactionManager.getBookDao().updateIfPossible(book));
+    }
+
+    @Override
     public Book create(Book book) {
         return executeInNonTransactionalWrapper(transactionManager ->
             transactionManager.getBookDao().insert(book)
@@ -66,7 +71,7 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public Optional<Book> getById(int id) {
-        throw new UnsupportedOperationException();
+        return executeInNonTransactionalWrapper(transactionManager -> transactionManager.getBookDao().getById(id));
     }
 
 
@@ -77,7 +82,7 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public void deleteById(int id) {
-
+        throw new UnsupportedOperationException("BookService deleteById");
     }
 
 

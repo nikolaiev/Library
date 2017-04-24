@@ -81,16 +81,6 @@ public class Book extends IdContainer{
         this.publisher = publisher;
     }
 
-    /*@Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id=id;
-    }*/
-
     public static class Builder{
         Book book=new Book();
 
@@ -140,7 +130,6 @@ public class Book extends IdContainer{
         }
 
         public Book build(){
-            //TODO check values
             return book;
         }
     }
