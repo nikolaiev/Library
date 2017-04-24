@@ -121,7 +121,9 @@ public class OrderServiceImpl extends GenericService implements OrderService {
 
     @Override
     public Order create(Order order) {
-        return null;
+
+        //TODO implement
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -134,10 +136,14 @@ public class OrderServiceImpl extends GenericService implements OrderService {
     @Override
     public void update(Order order) {
 
+        //TODO implement
+        throw new UnsupportedOperationException();
+
     }
 
     @Override
     public void deleteById(int id) {
+        throw new UnsupportedOperationException();
 
     }
 

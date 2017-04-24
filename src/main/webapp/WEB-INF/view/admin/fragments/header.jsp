@@ -7,9 +7,9 @@
 
     <%--CSS--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/alertify.min.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myCss.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-select.css"/>
 
     <%--JS--%>

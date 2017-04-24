@@ -31,22 +31,29 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
 
     @Override
     public Publisher create(Publisher publisher) {
-        return null;
+
+        //TODO implement
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Publisher> getById(int id) {
+        //TODO implement
         throw new UnsupportedOperationException();
     }
 
 
     @Override
     public void update(Publisher publisher) {
+        //TODO implement
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void deleteById(int id) {
+        //TODO implement
+        throw new UnsupportedOperationException();
 
     }
 

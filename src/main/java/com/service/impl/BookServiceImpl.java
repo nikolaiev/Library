@@ -77,7 +77,7 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public void update(Book book) {
-
+        throw new UnsupportedOperationException("Update book is not supported. Use updateIfPossible(..) instead.");
     }
 
     @Override

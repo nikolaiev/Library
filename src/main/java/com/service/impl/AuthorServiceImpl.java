@@ -41,6 +41,9 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
     @Override
     public void update(Author author) {
 
+        //TODO implement
+        throw new UnsupportedOperationException();
+
     }
 
 
