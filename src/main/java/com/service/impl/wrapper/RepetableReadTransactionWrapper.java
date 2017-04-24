@@ -7,15 +7,16 @@ import com.dao.connection.TransactionManagerFactoryImpl;
  * Created by vlad on 30.03.17.
  */
 @FunctionalInterface
-public interface SerializableTransactionVoidWrapper {
-    default void execute() {
+public interface RepetableReadTransactionWrapper<T> {
+    default T execute() {
         try (TransactionManager daoManager = TransactionManagerFactoryImpl
                 .getInstance().createTransactionManager()) {
-            daoManager.beginSerializableTransaction();
-            processMethod(daoManager);
-
+            daoManager.beginRepeatableReadTransaction();
+            T result = processMethod(daoManager);
+            daoManager.commitTransaction();
+            return result;
         }
     }
 
-    void processMethod(TransactionManager transactionManager);
+    T processMethod(TransactionManager transactionManager);
 }

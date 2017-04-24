@@ -16,7 +16,7 @@ public class TransactionManagerImpl implements TransactionManager {
     private static final String LOG_MESSAGE_CAN_NOT_CLOSE_CONNECTION = "Can not close connection";
 
     private static final int DEFAULT_TRANSACTION_ISOLATION_LEVEL = Connection.TRANSACTION_READ_COMMITTED;
-    private static final int SERIALIZABLE_TRANSACTION_ISOLATION_LEVEL = Connection.TRANSACTION_SERIALIZABLE;
+    private static final int REPEATABLE_TRANSACTION_ISOLATION_LEVEL = Connection.TRANSACTION_REPEATABLE_READ;
 
     private Connection connection;
     private DaoFactory daoFactory;
@@ -48,8 +48,8 @@ public class TransactionManagerImpl implements TransactionManager {
 
 
     @Override
-    public void beginSerializableTransaction() {
-        beginTransactionWithIsolationLevel(SERIALIZABLE_TRANSACTION_ISOLATION_LEVEL);
+    public void beginRepeatableReadTransaction() {
+        beginTransactionWithIsolationLevel(REPEATABLE_TRANSACTION_ISOLATION_LEVEL);
     }
 
     @Override

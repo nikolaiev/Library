@@ -51,9 +51,9 @@
                 <td><img class="order-image" src='${pageContext.request.contextPath}/static/<c:out value="${book.image}"/>' /></td>
                     <%--<td><c:out value="${book.id}"/></td>--%>
                 <td>
-                    <a href="${pageContext.request.contextPath}/user/book/<c:out value="${book.id}"/>">
+                    <%--<a href="${pageContext.request.contextPath}/user/book/<c:out value="${book.id}"/>">--%>
                         <c:out value="${book.title}"/>
-                    </a>
+                    <%--</a>--%>
                 </td>
 
                 <td>

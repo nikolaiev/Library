@@ -14,7 +14,7 @@ public interface TransactionManager extends AutoCloseable{
     /**
      * Defines begin of transaction with high isolation level
      */
-    void beginSerializableTransaction();
+    void beginRepeatableReadTransaction();
 
     /**
      * Saves transaction.
