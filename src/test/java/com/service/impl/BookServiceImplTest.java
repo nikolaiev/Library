@@ -111,9 +111,7 @@ public class BookServiceImplTest {
 
     @Test
     public void updateIfPossible() throws Exception {
-        int publisherId=2;
-        int authorId=1;
-        int expectedCount=2;
+
         Book book=new Book.Builder().build();
 
         boolean isUpdateExpected=true;

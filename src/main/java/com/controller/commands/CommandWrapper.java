@@ -69,16 +69,13 @@ public abstract class CommandWrapper implements Command {
                 .orElse(defaultLimitValue);
     }
 
-    protected String escapeUrlCharacters(String message) {
-        return message.replace(" ","%20");
-    }
-
     private void processException(Exception e, HttpServletRequest request ) {
         logger.error(e.getMessage());
         request.setAttribute("error_message", "Unknown error occurred! "+e.toString());
     }
 
     private void processApplicationException(ApplicationException e, HttpServletRequest request) {
+        logger.error(e.getLogMessage());
         logger.error(e.toString());
         request.setAttribute("error_message", e.getMessageKey());
         request.setAttribute("error_additional_message", e.getAdditionalMessage());
