@@ -4,6 +4,8 @@ import com.controller.exception.ControllerException;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.RedirectDispatcher;
 import com.controller.responce.ValidationErrorViewDispatcher;
+import com.controller.validation.BookValidator;
+import com.controller.validation.Validator;
 import com.model.entity.book.*;
 import com.service.BookService;
 import com.service.impl.BookServiceImpl;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
+import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
 import static com.controller.constants.JspPathsConst.ADMIN_EDIT_BOOK_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 
@@ -88,6 +91,13 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
             String uniqueName = UUID.randomUUID().toString().replace("-","_")+"."+extension;
             file= new File(request.getServletContext().getInitParameter("upload.location")+uniqueName);
             book.setImage(uniqueName);
+        }
+
+
+        Validator<Book> validator=new BookValidator();
+        /*check for valid data*/
+        if(!validator.isValid(book)){
+            return new ValidationErrorViewDispatcher(ADMIN_ADD_BOOK_VIEW,validator);
         }
 
         BookService service=BookServiceImpl.getInstance();

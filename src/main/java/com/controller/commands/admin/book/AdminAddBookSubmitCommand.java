@@ -3,6 +3,9 @@ package com.controller.commands.admin.book;
 import com.controller.exception.ControllerException;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.RedirectDispatcher;
+import com.controller.responce.ValidationErrorViewDispatcher;
+import com.controller.validation.BookValidator;
+import com.controller.validation.Validator;
 import com.model.entity.book.*;
 import com.service.BookService;
 import com.service.impl.BookServiceImpl;
@@ -16,6 +19,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
+import static com.controller.constants.JspPathsConst.LOGIN_REG_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 
 /**
@@ -27,7 +32,7 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-    /*multipart data processing*/
+        /*multipart data processing*/
         Part filePart = request.getPart("book_image");
 
         if(filePart ==null){
@@ -64,6 +69,13 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
                 .setCount(count)
                 .setDate(publishDate)
                 .build();
+
+        Validator<Book> validator=new BookValidator();
+
+        /*check for valid data*/
+        if(!validator.isValid(book)){
+            return new ValidationErrorViewDispatcher(ADMIN_ADD_BOOK_VIEW,validator);
+        }
 
         service.create(book);
 

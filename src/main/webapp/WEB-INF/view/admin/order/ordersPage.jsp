@@ -25,7 +25,7 @@
 
 </head>
 
-<jsp:include page="fragments/header.jsp"/>
+<jsp:include page="../fragments/header.jsp"/>
 
 Orders list
 <br>
@@ -42,7 +42,7 @@ Orders list
         </c:forEach>
     </table>
 
-<jsp:include page="fragments/footer.jsp"/>
+<jsp:include page="../fragments/footer.jsp"/>
 
 <script type="text/javascript">
 
