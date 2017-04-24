@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ *
+ *Describes Command interface
  * Created by vlad on 30.03.17.
  */
 @FunctionalInterface
