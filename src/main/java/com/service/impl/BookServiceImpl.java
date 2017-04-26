@@ -15,7 +15,6 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     private static class InstanceHolder{
         private static BookServiceImpl INSTANCE=new BookServiceImpl();
-
     }
 
     public static BookService getInstance(){
@@ -26,7 +25,6 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public List<Book> getAllBooks() {
-
         return executeInNonTransactionalWrapper((transactionManager)->
             transactionManager.getBookDao().getAll()
         );

@@ -85,6 +85,7 @@
     </c:if>
 </div>
 
+
 <jsp:include page="/WEB-INF/view/user/fragments/footer.jsp"/>
 <script>
     var removeButtons=$('.remove-button');

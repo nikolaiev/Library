@@ -57,13 +57,13 @@
                 </td>
 
                 <td>
-                    <a href="${pageContext.request.contextPath}/user/books?author_id=<c:out value="${book.author.id}"/>">
+                    <a href="${pageContext.request.contextPath}/admin/books?author_id=<c:out value="${book.author.id}"/>">
                         <c:out value="${book.author.name.concat(' ').concat(book.author.soname)}"/>
                     </a>
                 </td>
 
                 <td>
-                    <a href="${pageContext.request.contextPath}/user/books?genre=<c:out value="${book.genre}"/>">
+                    <a href="${pageContext.request.contextPath}/admin/books?genre=<c:out value="${book.genre}"/>">
                         <c:out value="${book.genre}"/>
                     </a>
 

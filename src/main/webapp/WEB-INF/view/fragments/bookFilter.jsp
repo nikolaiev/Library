@@ -17,7 +17,7 @@
         <%--author--%>
         <div class="form-group left-buffer">
             <label class="mr-sm-2" >Author</label>
-            <select name="author_id" class="selectpicker" data-width="130px">
+            <select name="author_id" class="selectpicker" data-width="170px">
                 <option value="" disabled selected>All</option>
 
                 <c:forEach items="${authors}" var="author">
@@ -35,7 +35,7 @@
         <%--genre--%>
         <div class="form-group left-buffer">
             <label class="mr-sm-2" >Genre</label>
-            <select name="genre" class="selectpicker" data-width="130px">
+            <select name="genre" class="selectpicker" data-width="140px">
                 <option value="" disabled selected>All</option>
 
                 <c:forEach items="${genres}" var="genre">
@@ -99,7 +99,7 @@
                     <c:set var="limit" value="${defLimit}"/>
                 </c:if>
                 <%--set limitation values--%>
-                <c:set var="pages" value="${[2,5,10,15,20,30]}"/>
+                <c:set var="pages" value="${[5,10,15,20,30]}"/>
 
                 <c:forEach var="amount" items="${pages}">
                     <option value="${amount}"

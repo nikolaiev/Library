@@ -21,7 +21,6 @@ import static com.controller.constants.UrlsConst.ADMIN_ORDERS;
  * Created by vlad on 03.04.17.
  */
 public class AdminChangeOrderStatusCommand extends CommandWrapper implements Command {
-    //TODO replace with POST request dispatcher
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

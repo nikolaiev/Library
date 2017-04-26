@@ -13,7 +13,6 @@ public interface RepetableReadTransactionVoidWrapper {
                 .getInstance().createTransactionManager()) {
             daoManager.beginRepeatableReadTransaction();
             processMethod(daoManager);
-
         }
     }
 

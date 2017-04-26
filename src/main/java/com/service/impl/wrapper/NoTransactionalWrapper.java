@@ -8,6 +8,7 @@ import com.dao.connection.TransactionManagerFactoryImpl;
  */
 @FunctionalInterface
 public interface NoTransactionalWrapper <T>{
+
     default T execute(){
         try (TransactionManager daoManager = TransactionManagerFactoryImpl
                 .getInstance().createTransactionManager()) {

@@ -17,7 +17,8 @@ import java.net.UnknownHostException;
 public class FrontController extends HttpServlet {
 
     private static final Logger logger=Logger.getLogger(FrontController.class);
-    private static CommandHolder commandHolder;
+    //TODO make singleton
+    private CommandHolder commandHolder;
 
     /**
      * Empty public constructor

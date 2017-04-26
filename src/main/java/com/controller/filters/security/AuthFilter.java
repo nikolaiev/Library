@@ -30,6 +30,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest httpRequest=(HttpServletRequest)servletRequest;
 
         HttpSession session=httpRequest.getSession();
+        //TODO do not use session
         UserRole role=(UserRole) session.getAttribute("userRole");
         String uri = httpRequest.getRequestURI();
 

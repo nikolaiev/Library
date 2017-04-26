@@ -38,12 +38,12 @@ public class CommandHolder {
 
     private final static String GET_PATH="GET:";
     private final static String POST_PATH="POST:";
-    private final String deplyPath;
+    private final String deployPath;
     private final Command invalidUrlCommand;
     private Map<String,Command> commands;
 
     public CommandHolder(String deployPath){
-        this.deplyPath =deployPath;
+        this.deployPath =deployPath;
         this.invalidUrlCommand =new GoInvalidUrlCommand();
         init();
     }
@@ -54,53 +54,54 @@ public class CommandHolder {
 
         /*COMMON COMMANDS*/
         /*login logout commands*/
-        commands.put(GET_PATH + deplyPath + LOGIN ,new LoginCommand());
-        commands.put(GET_PATH + deplyPath + LOGOUT,new LogoutCommand());
-        commands.put(POST_PATH + deplyPath + LOGIN,new LoginSubmitCommand());
-        commands.put(POST_PATH + deplyPath + REGISTER,new RegistrationSubmitCommand());
-        commands.put(GET_PATH + deplyPath + STATIC,new GetStaticFileCommand());
+        commands.put(GET_PATH + deployPath + LOGIN ,new LoginCommand());
+        commands.put(GET_PATH + deployPath + LOGOUT,new LogoutCommand());
+        commands.put(POST_PATH + deployPath + LOGIN,new LoginSubmitCommand());
+        commands.put(POST_PATH + deployPath + REGISTER,new RegistrationSubmitCommand());
+        commands.put(GET_PATH + deployPath + STATIC,new GetStaticFileCommand());
 
         /*USER COMMAND*/
         /*book commands*/
-        commands.put(GET_PATH + deplyPath + USER_BOOKS,new FindBookCommand(USER_BOOKS_VIEW));
-        commands.put(GET_PATH + deplyPath + USER_ORDERS,new ShowOrderListCommand());
-        commands.put(GET_PATH + deplyPath + USER_PROFILE,new ProfileCommand());
+        commands.put(GET_PATH + deployPath + USER_BOOKS,new FindBookCommand(USER_BOOKS_VIEW));
+        commands.put(GET_PATH + deployPath + USER_ORDERS,new ShowOrderListCommand());
+        commands.put(GET_PATH + deployPath + USER_PROFILE,new ProfileCommand());
 
-        commands.put(POST_PATH + deplyPath + USER_PROCESS_ORDERS,new ProcessOrderListCommand());
-        commands.put(POST_PATH + deplyPath + USER_BOOKS_ADD,new AddBookToOrderListCommand());
-        commands.put(POST_PATH + deplyPath + USER_BOOKS_REMOVE,new RemoveBookFromOrderListCommand());
+        commands.put(POST_PATH + deployPath + USER_PROCESS_ORDERS,new ProcessOrderListCommand());
+        commands.put(POST_PATH + deployPath + USER_BOOKS_ADD,new AddBookToOrderListCommand());
+        commands.put(POST_PATH + deployPath + USER_BOOKS_REMOVE,new RemoveBookFromOrderListCommand());
 
         /*ADMIN COMMANDS*/
-        commands.put(GET_PATH + deplyPath + ADMIN_BOOKS,new FindBookCommand(ADMIN_BOOK_VIEW));
-        commands.put(GET_PATH + deplyPath + ADMIN_AUTHORS,new AdminAuthorCommand());
-        commands.put(GET_PATH + deplyPath + ADMIN_PUBLISHERS,new AdminPublisherCommand());
-        commands.put(GET_PATH + deplyPath + ADMIN_ORDERS,new AdminOrderCommand());
+        commands.put(GET_PATH + deployPath + ADMIN_BOOKS,new FindBookCommand(ADMIN_BOOK_VIEW));
+        commands.put(GET_PATH + deployPath + ADMIN_AUTHORS,new AdminAuthorCommand());
+        commands.put(GET_PATH + deployPath + ADMIN_PUBLISHERS,new AdminPublisherCommand());
+        commands.put(GET_PATH + deployPath + ADMIN_ORDERS,new AdminOrderCommand());
 
         /*author*/
-        commands.put(POST_PATH + deplyPath + ADMIN_AUTHORS_ADD,new AdminAddAuthorCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_AUTHORS_REMOVE,new AdminRemoveAuthorCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_AUTHORS_ADD,new AdminAddAuthorCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_AUTHORS_REMOVE,new AdminRemoveAuthorCommand());
 
         /*books*/
-        commands.put(GET_PATH + deplyPath + ADMIN_BOOK_ADD,new AdminAddBookCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_BOOK_ADD,new AdminAddBookSubmitCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
-        commands.put(GET_PATH+ deplyPath + ADMIN_BOOK,new AdminUpdateBookCommand());
+        commands.put(GET_PATH + deployPath + ADMIN_BOOK_ADD,new AdminAddBookCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_BOOK_ADD,new AdminAddBookSubmitCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
+        commands.put(GET_PATH+ deployPath + ADMIN_BOOK,new AdminUpdateBookCommand());
 
         /*order*/
-        commands.put(POST_PATH + deplyPath + ADMIN_ORDERS_UPDATE,new AdminChangeOrderStatusCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_ORDERS_UPDATE,new AdminChangeOrderStatusCommand());
 
         /*publisher*/
-        commands.put(POST_PATH + deplyPath + ADMIN_PUBLISHERS_ADD,new AdminAddPublisherCommand());
-        commands.put(POST_PATH + deplyPath + ADMIN_PUBLISHERS_REMOVE,new AdminRemovePublisherCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_PUBLISHERS_ADD,new AdminAddPublisherCommand());
+        commands.put(POST_PATH + deployPath + ADMIN_PUBLISHERS_REMOVE,new AdminRemovePublisherCommand());
     }
 
     public Command getCommand(String url){
         Command command=commands.get(url);
+
         if(command!=null)
             return command;
 
         //check static file request URL
-        if(url.startsWith(GET_PATH + deplyPath + STATIC))
+        if(url.startsWith(GET_PATH + deployPath + STATIC))
             return new GetStaticFileCommand();
 
         //possible GET params passed

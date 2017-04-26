@@ -12,6 +12,15 @@
 <div class="row col-lg-1"></div>
 <div class="row col-lg-11 center-block top-buffer alert alert-info">
     <form class="form-inline" method="get">
+        <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+            <div class="form-group">
+                <label class="mr-sm-2" >User</label>
+                <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0"
+                       min="1"
+                       name="user_id" placeholder="user id" value="<c:out value="${param.user_id}"/>"/>
+            </div>
+        </c:if>
+
         <div class="form-group">
             <label class="mr-sm-2" >Title</label>
             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"
@@ -85,10 +94,14 @@
 
             </select>
         </div>
-
+        <br>
+        <br>
+        <br>
         <button type="submit" class="btn btn-info right">Find orders</button>
 
     </form>
+    <br>
+    <br>
 
     <form method="get">
         <button type="submit" class="btn btn-warning right">Clear filter</button>
