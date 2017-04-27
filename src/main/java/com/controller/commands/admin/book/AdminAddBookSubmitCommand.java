@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -44,15 +45,15 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
         File file = new File(request.getServletContext().getInitParameter("upload.location") + uniqueName);
 
         /*request params*/
-        Integer authorId = Integer.parseInt(request.getParameter("author_id"));
-        Integer publisherId = Integer.parseInt(request.getParameter("publisher_id"));
-        Integer count = Integer.parseInt(request.getParameter("count"));
-        String title = request.getParameter("title");
-        LocalDate publishDate = LocalDate.parse(request.getParameter("publish_date"));
-        BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
-        BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
+        Integer authorId = paramExtractor.getIntParam(request,"author_id");
+        Integer publisherId = paramExtractor.getIntParam(request,"publisher_id");
+        Integer count = paramExtractor.getIntParam(request,"count");
+        String title = paramExtractor.getStringParam(request,"title");
 
-        BookService service = ServiceFactory.getInstance().getBookService();
+        Instant publishInstant= paramExtractor.getInstantParam(request,"publish_date");
+        BookGenre genre = paramExtractor.getEnumParamOrNull(request,"genre",BookGenre.class);
+        BookLanguage language = paramExtractor.getEnumParamOrNull(request,"language",BookLanguage.class);
+
 
         /*creating object to persist*/
         Author author = createIdOnlyAuthor(authorId);
@@ -66,7 +67,7 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
                 .setPublisher(publisher)
                 .setTitle(title)
                 .setCount(count)
-                .setDate(publishDate)
+                .setInstant(publishInstant)
                 .build();
 
         Validator<Book> validator=new BookValidator();
@@ -76,6 +77,7 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
             return new ValidationErrorViewDispatcher(ADMIN_ADD_BOOK_VIEW,validator);
         }
 
+        BookService service = ServiceFactory.getInstance().getBookService();
         service.create(book);
 
         /*save uploaded image*/

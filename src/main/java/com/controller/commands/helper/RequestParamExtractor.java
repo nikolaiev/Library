@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
@@ -61,6 +62,16 @@ public class RequestParamExtractor implements ParamExtractor{
     }
 
     @Override
+    public Instant getInstantParamOrNull(HttpServletRequest request, String paramName) {
+        Date date=getDateParamOrNull(request,paramName);
+
+        if(date==null)
+            return null;
+
+        return Instant.ofEpochMilli(date.getTime());
+    }
+
+    @Override
     public Integer getIntParamOrNull(HttpServletRequest request, String paramName) {
         try {
             return Optional.ofNullable(request.getParameter(paramName))
@@ -80,6 +91,11 @@ public class RequestParamExtractor implements ParamExtractor{
             return Optional.ofNullable(request.getParameter(paramName))
                     .filter(e->!"".equals(e))
                     .orElse(null);
+    }
+
+    @Override
+    public Instant getInstantParam(HttpServletRequest request, String paramName) {
+        return Instant.ofEpochMilli(getDateParam(request,paramName).getTime());
     }
 
     @Override

@@ -57,7 +57,7 @@
             <c:forEach items="${orders}" var="order">
                 <tr>
                     <td>
-                        <p>Date is: ${f:formatLocalDateTime(order.orderDateTime, 'dd.MM.yyyy ,hh:mm a')}</p>
+                        <p>Date is: ${f:formatInstantToLocale(order.instant, 'dd.MM.yyyy ,hh:mm a')}</p>
 
                     </td>
 

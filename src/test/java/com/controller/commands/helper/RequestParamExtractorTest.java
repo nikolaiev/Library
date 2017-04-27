@@ -71,12 +71,6 @@ public class RequestParamExtractorTest {
         assertNull(genre);
     }
 
-//    @Test
-//    public void getIntParamOrNull() throws Exception {
-//        Integer result=extractor.getIntParamOrNull(mockedRequest,INT_PARAM_NAME);
-//        logger.info(result.toString());
-//        assertNotNull(result);
-//    }
 
     @Test
     public void getStringParamOrNull() throws Exception {

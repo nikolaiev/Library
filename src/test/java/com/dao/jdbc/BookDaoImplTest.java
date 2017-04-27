@@ -24,6 +24,43 @@ public class BookDaoImplTest extends DaoTest{
     /*Stateless tests*/
 
     @Test
+    public void update(){
+        executeInReadCommitedVoidRollbackWrapper((daoManager -> {
+            BookDao bookDao=daoManager.getBookDao();
+
+            int limit=1;
+            int offset=0;
+            int expectedBookId=0;
+
+            Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
+            logger.info("Instant is "+book.getInstant());
+            expectedBookId=book.getId();
+            bookDao.update(book);
+
+            assertEquals("books was not updated ",expectedBookId,book.getId());
+
+        }));
+
+    }
+    @Test
+    public void insert(){
+        executeInReadCommitedVoidRollbackWrapper((daoManager -> {
+            BookDao bookDao=daoManager.getBookDao();
+
+            int limit=1;
+            int offset=0;
+            int bookId;
+
+            Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
+            logger.info("Instant is "+book.getInstant());
+            book.setId(0);
+            Book newBook=bookDao.insert(book);
+            assertNotNull(newBook);
+
+        }));
+
+    }
+    @Test
     public void getAll() throws Exception {
         Connection connection= JdbcPooledDataSource.getInstance().getConnection();
         BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);

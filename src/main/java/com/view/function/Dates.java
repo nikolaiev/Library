@@ -3,9 +3,13 @@ package com.view.function;
 import org.apache.log4j.Logger;
 import sun.rmi.runtime.Log;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 
 /**
  * Jstl custom function
@@ -29,6 +33,21 @@ public final class Dates {
     public static String formatLocalDate(LocalDate localDate, String pattern) {
         if(localDate!=null) {
             return localDate.format(DateTimeFormatter.ofPattern(pattern));
+        }
+        else {
+            logger.error("passed null parameter to JSP ");
+            return "";
+        }
+    }
+
+    public static String formatInstantToLocale(Instant instant,String pattern){
+        if(instant!=null) {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
+                            .withLocale( Locale.UK )
+                            .withZone( ZoneId.systemDefault() );
+            logger.info("formatter: " + formatter + " with zone: " + formatter.getZone() + " and Locale: " + formatter.getLocale());
+            return formatter.format( instant );
         }
         else {
             logger.error("passed null parameter to JSP ");

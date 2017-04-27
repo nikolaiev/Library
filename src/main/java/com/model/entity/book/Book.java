@@ -2,6 +2,7 @@ package com.model.entity.book;
 
 import com.model.entity.IdContainer;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 /**
@@ -13,7 +14,7 @@ public class Book extends IdContainer{
     private BookGenre genre;
     private BookLanguage language;
     private Publisher publisher;
-    private LocalDate date;
+    private Instant instant;
     private String image;
     private int count;
 
@@ -33,12 +34,12 @@ public class Book extends IdContainer{
         this.image = image;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Instant getInstant() {
+        return instant;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setInstant(Instant instant) {
+        this.instant = instant;
     }
 
     public String getTitle() {
@@ -114,8 +115,8 @@ public class Book extends IdContainer{
             return this;
         }
 
-        public Builder setDate(LocalDate date){
-            book.setDate(date);
+        public Builder setInstant(Instant instant){
+            book.setInstant(instant);
             return this;
         }
 

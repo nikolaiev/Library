@@ -16,4 +16,10 @@
         <function-class>com.view.function.Dates</function-class>
         <function-signature>java.lang.String formatLocalDate(java.time.LocalDate, java.lang.String)</function-signature>
     </function>
+
+    <function>
+        <name>formatInstantToLocale</name>
+        <function-class>com.view.function.Dates</function-class>
+        <function-signature>java.lang.String formatInstantToLocale(java.time.Instant,java.lang.String)</function-signature>
+    </function>
 </taglib>

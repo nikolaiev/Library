@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
 
         Integer count=paramExtractor.getIntParamOrNull(request,"count");
         String title=paramExtractor.getStringParamOrNull(request,"title");
-        Date publishDate=paramExtractor.getDateParamOrNull(request,"publish_date");
+        Instant publishInstant=paramExtractor.getInstantParamOrNull(request,"publish_date");
 
         Integer authorId=paramExtractor.getIntParamOrNull(request,"author_id");
         Integer publisherId=paramExtractor.getIntParamOrNull(request,"publisher_id");
@@ -63,9 +64,8 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
             book.setTitle(title);
         }
 
-        if(publishDate!=null){
-            LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(publishDate) );
-            book.setDate(localDate);
+        if(publishInstant!=null){
+            book.setInstant(publishInstant);
         }
 
         if(authorId!=null){

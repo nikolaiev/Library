@@ -4,9 +4,12 @@ import com.dao.BookDao;
 import com.dao.exception.DaoException;
 import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.*;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -14,6 +17,8 @@ import java.util.*;
  */
 
 public class BookDaoImpl extends  AbstractDao implements BookDao{
+
+    private static Logger logger= Logger.getLogger(BookDaoImpl.class);
 
     private static final String GET_BOOKS_AVAILABLE_AMOUNT =
             "SELECT count-count_in_use as count FROM book WHERE id=?";
@@ -221,14 +226,19 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
         try(PreparedStatement statement=connection.get().prepareStatement(INSERT_BOOK,
                 Statement.RETURN_GENERATED_KEYS)) {
             //  aid, pid, genre, lang, pdate, title, image, count
+
             statement.setInt(1,book.getAuthor().getId());
             statement.setInt(2,book.getPublisher().getId());
             statement.setString(3,book.getGenre().toString());
             statement.setString(4,book.getLanguage().toString());
-            statement.setObject(5,book.getDate());
+            statement.setObject(5, LocalDateTime.ofInstant(book.getInstant(),ZoneId.systemDefault()).toLocalDate());
             statement.setString(6,book.getTitle());
             statement.setString(7,book.getImage());
             statement.setInt(8,book.getCount());
+
+            logger.info("Insert method"+statement);
+
+
 
             int id=executeInsertStatement(statement);
             book.setId(id);
@@ -244,7 +254,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public void update(Book book) {
         checkForNull(book);
-        checkIsSaved(book);
+            checkIsSaved(book);
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_BOOK_BY_ID)) {
             //aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=? , count=?" +
             //" WHERE id=?
@@ -252,7 +262,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
             statement.setInt(2,book.getPublisher().getId());
             statement.setString(3,book.getGenre().toString());
             statement.setString(4,book.getLanguage().toString());
-            statement.setObject(5,book.getDate());
+            statement.setObject(5,LocalDateTime.ofInstant(book.getInstant(),ZoneId.systemDefault()).toLocalDate());
             statement.setString(6,book.getTitle());
             statement.setString(7,book.getImage());
             statement.setInt(8,book.getCount());
@@ -316,7 +326,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
                     .setId(resultSet.getInt(ID_FIELD_BOOK))
                     .setAuthor(author)
                     .setPublisher(publisher)
-                    .setDate(((Date)resultSet.getObject(PUBLISH_DATE_FIELD_BOOK)).toLocalDate())
+                    .setInstant(resultSet.getTimestamp(PUBLISH_DATE_FIELD_BOOK).toInstant())
                     .setGenre(BookGenre.valueOf(resultSet.getString(GENRE_FIELD_BOOK)))
                     .setTitle(resultSet.getString(TITLE_FIELD_BOOL))
                     .setLanguage(BookLanguage.valueOf(resultSet.getString(LANG_FIELD_BOOK)))

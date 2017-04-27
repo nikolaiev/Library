@@ -56,7 +56,7 @@
          <div class="form-group">
 
              <label>Publishing date</label>
-             <label class="label label-info">Date is: ${f:formatLocalDate(book.date, 'dd.MM.yyyy')}</label>
+             <label class="label label-info">Date is: ${f:formatInstantToLocale(book.instant, 'dd.MM.yyyy')}</label>
 
              <input   class="form-control" type="date" name="publish_date" min="1900-01-01" max="2017-12-31"/>
          </div>

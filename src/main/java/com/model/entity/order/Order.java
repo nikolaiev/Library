@@ -4,10 +4,7 @@ import com.model.entity.IdContainer;
 import com.model.entity.book.Book;
 import com.model.entity.user.User;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.List;
+import java.time.Instant;
 
 /**
  * Created by vlad on 20.03.17.
@@ -18,7 +15,7 @@ public class Order extends IdContainer {
     private Book book;
     private OrderStatus status;
     private OrderType type;
-    private LocalDateTime orderDateTime;
+    private Instant instant;
 
     public User getUser() {
         return user;
@@ -52,12 +49,12 @@ public class Order extends IdContainer {
         this.type = type;
     }
 
-    public LocalDateTime getOrderDateTime() {
-        return orderDateTime;
+    public Instant getInstant() {
+        return instant;
     }
 
-    public void setOrderDateTime(LocalDateTime orderDateTime) {
-        this.orderDateTime = orderDateTime;
+    public void setInstant(Instant instant) {
+        this.instant = instant;
     }
 
 
@@ -89,8 +86,8 @@ public class Order extends IdContainer {
             return this;
         }
 
-        public Builder setOrderDateTime(LocalDateTime dateTime){
-            order.setOrderDateTime(dateTime);
+        public Builder setInstant(Instant instant){
+            order.setInstant(instant);
             return this;
         }
 
