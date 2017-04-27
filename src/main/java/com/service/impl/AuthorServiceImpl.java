@@ -11,13 +11,7 @@ import java.util.Optional;
  * Created by vlad on 30.03.17.
  */
 public class AuthorServiceImpl extends GenericService implements AuthorService {
-    private static class InstanceHolder{
-
-        private static AuthorServiceImpl INSTANCE=new AuthorServiceImpl();
-    }
-
-    public static AuthorService getInstance(){
-        return InstanceHolder.INSTANCE;
+    protected AuthorServiceImpl() {
     }
 
     @Override
@@ -28,7 +22,6 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
 
     @Override
     public Author create(Author author) {
-        //TODO implement
         throw new UnsupportedOperationException();
     }
 
@@ -40,7 +33,6 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
 
     @Override
     public void update(Author author) {
-
         //TODO implement
         throw new UnsupportedOperationException();
 
@@ -53,5 +45,4 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
         throw new UnsupportedOperationException();
 
     }
-
 }

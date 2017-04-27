@@ -27,7 +27,7 @@ public final class JspPathsConst {
 
     /*ADMIN*/
     public static final String ADMIN_AUTHOR_VIEW = VIEW_PATH+ADMIN+AUTHORS+"/authorsPage"+VIEW_EXTENSION;
-    public static final String ADMIN_BOOK_VIEW = VIEW_PATH+ADMIN+BOOKS+"/booksPage"+VIEW_EXTENSION;
+    public static final String ADMIN_BOOKS_VIEW = VIEW_PATH+ADMIN+BOOKS+"/booksPage"+VIEW_EXTENSION;
     public static final String ADMIN_ORDER_VIEW = VIEW_PATH+ADMIN+ORDERS+"/ordersPage"+VIEW_EXTENSION;
     public static final String ADMIN_PUBLISHER_VIEW = VIEW_PATH+ADMIN+PUBLISHERS+"/publishersPage"+VIEW_EXTENSION;
 

@@ -2,17 +2,13 @@ package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
-import com.controller.commands.helper.ParamExtractor;
-import com.controller.commands.helper.RequestParamExtractor;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.*;
 import com.service.AuthorService;
 import com.service.BookService;
 import com.service.PublisherService;
-import com.service.impl.AuthorServiceImpl;
-import com.service.impl.BookServiceImpl;
-import com.service.impl.PublisherServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +27,9 @@ public class AdminUpdateBookCommand extends CommandWrapper implements Command {
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
          //throws exception if no such param
         int bookId=paramExtractor.getIntParam(request,"id");
-        BookService service=BookServiceImpl.getInstance();
-        AuthorService authorService= AuthorServiceImpl.getInstance();
-        PublisherService publisherService= PublisherServiceImpl.getInstance();
+        BookService service= ServiceFactory.getInstance().getBookService();
+        AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
+        PublisherService publisherService= ServiceFactory.getInstance().getPublisherService();
 
         Optional<Book> book=service.getById(bookId);
         List<Author> authors=authorService.getAll();

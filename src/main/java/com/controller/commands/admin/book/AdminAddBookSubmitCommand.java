@@ -8,7 +8,7 @@ import com.controller.validation.BookValidator;
 import com.controller.validation.Validator;
 import com.model.entity.book.*;
 import com.service.BookService;
-import com.service.impl.BookServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
-import static com.controller.constants.JspPathsConst.LOGIN_REG_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 
 /**
@@ -53,7 +52,7 @@ public class AdminAddBookSubmitCommand extends AbstractAdminBookCommand {
         BookGenre genre = BookGenre.getOrNull(request.getParameter("genre"));
         BookLanguage language = BookLanguage.getOrNull(request.getParameter("language"));
 
-        BookService service = BookServiceImpl.getInstance();
+        BookService service = ServiceFactory.getInstance().getBookService();
 
         /*creating object to persist*/
         Author author = createIdOnlyAuthor(authorId);

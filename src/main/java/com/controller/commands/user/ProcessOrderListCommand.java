@@ -6,7 +6,7 @@ import com.controller.commands.dto.OrderItemList;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.RedirectDispatcher;
 import com.service.OrderService;
-import com.service.impl.OrderServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ public class ProcessOrderListCommand extends CommandWrapper implements Command {
 
         if(orderItemList !=null) {
             //order list is not empty
-            OrderService orderService = OrderServiceImpl.getInstance();
+            OrderService orderService = ServiceFactory.getInstance().getOrderService();
             Integer userId = (Integer) request.getSession().getAttribute("userId");
             orderService.createOrdersAndClear(orderItemList, userId);
         }

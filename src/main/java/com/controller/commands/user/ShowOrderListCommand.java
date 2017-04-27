@@ -7,7 +7,7 @@ import com.controller.responce.Dispatcher;
 import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.Book;
 import com.service.OrderService;
-import com.service.impl.OrderServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class ShowOrderListCommand implements Command {
         OrderItemList orderItemList =(OrderItemList) request.getSession().getAttribute("orderList");
 
         if(orderItemList !=null) {
-            OrderService service= OrderServiceImpl.getInstance();
+            OrderService service= ServiceFactory.getInstance().getOrderService();
 
             /*key - > book's id field*/
             Map<Integer,OrderItem> sessionBookOrders=orderItemList.getBookOrders();

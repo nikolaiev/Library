@@ -9,25 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 /**
  * Created by vlad on 30.03.17.
  */
 public class FrontController extends HttpServlet {
-
     private static final Logger logger=Logger.getLogger(FrontController.class);
-    //TODO make singleton
-    private CommandHolder commandHolder;
-
-    /**
-     * Empty public constructor
-     */
-    public FrontController() {}
+    private String deployPath;
 
     @Override
     public void init(){
-        commandHolder=new CommandHolder(getServletContext().getContextPath());
+        deployPath=getServletContext().getContextPath();
     }
 
     @Override
@@ -53,18 +45,21 @@ public class FrontController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String url = request.getMethod() + ":" + request.getRequestURI();
+            String url = request.getMethod() +
+                    ":" +
+                    request.getRequestURI();
 
-            logger.info("url requested " + url);
+            /*remove contextPath from requested url*/
+            url= url.replace(deployPath,"");
 
-            Command command = commandHolder.getCommand(url);
+            logger.info("URI requested " + url);
 
+            Command command = CommandFabric.getInstance().getCommand(url);
             Dispatcher dispatcher = command.execute(request, response);
 
             dispatcher.dispatch(request, response);
         }
         catch (ServletException|IOException e){
-
             logger.error("Dispatch error occurred. "+e.toString());
             throw e;
         }

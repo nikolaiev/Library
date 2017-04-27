@@ -12,16 +12,8 @@ import java.util.Optional;
  * Created by vlad on 30.03.17.
  */
 public class BookServiceImpl extends GenericService implements BookService {
-
-    private static class InstanceHolder{
-        private static BookServiceImpl INSTANCE=new BookServiceImpl();
+    protected BookServiceImpl() {
     }
-
-    public static BookService getInstance(){
-        return InstanceHolder.INSTANCE;
-    }
-
-    private BookServiceImpl(){}
 
     @Override
     public List<Book> getAllBooks() {

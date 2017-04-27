@@ -8,7 +8,7 @@ import com.controller.validation.BookValidator;
 import com.controller.validation.Validator;
 import com.model.entity.book.*;
 import com.service.BookService;
-import com.service.impl.BookServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +47,7 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
         BookGenre genre=paramExtractor.getEnumParamOrNull(request,"genre",BookGenre.class);
         BookLanguage language=paramExtractor.getEnumParamOrNull(request,"language",BookLanguage.class);
 
-        BookService bookService= BookServiceImpl.getInstance();
+        BookService bookService= ServiceFactory.getInstance().getBookService();
 
         /*check book exists*/
         Book book=bookService.getById(bookId).orElseThrow(()-> new ControllerException()
@@ -100,7 +100,7 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
             return new ValidationErrorViewDispatcher(ADMIN_ADD_BOOK_VIEW,validator);
         }
 
-        BookService service=BookServiceImpl.getInstance();
+        BookService service=ServiceFactory.getInstance().getBookService();
         boolean isUpdated=service.updateIfPossible(book);
 
         if(isUpdated) {

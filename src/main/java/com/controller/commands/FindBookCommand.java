@@ -1,16 +1,12 @@
 package com.controller.commands;
 
-import com.controller.commands.Command;
-import com.controller.commands.CommandWrapper;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.*;
 import com.service.AuthorService;
 import com.service.BookService;
 import com.service.PublisherService;
-import com.service.impl.AuthorServiceImpl;
-import com.service.impl.BookServiceImpl;
-import com.service.impl.PublisherServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,9 +43,9 @@ public class FindBookCommand extends CommandWrapper implements Command {
         int offset= getOffsetFromRequest(request,"page",limit);
 
         /*services*/
-        BookService bookService=BookServiceImpl.getInstance();
-        AuthorService authorService= AuthorServiceImpl.getInstance();
-        PublisherService publisherService= PublisherServiceImpl.getInstance();
+        BookService bookService= ServiceFactory.getInstance().getBookService();
+        AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
+        PublisherService publisherService= ServiceFactory.getInstance().getPublisherService();
 
         /*get data for jsp*/
         List<Book> books=bookService.getBooksByParams(title,authorId,genre,

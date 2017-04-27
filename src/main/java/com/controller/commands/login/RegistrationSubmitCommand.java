@@ -12,8 +12,8 @@ import com.controller.validation.Validator;
 import com.controller.validation.model.RegistrationData;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
+import com.service.impl.ServiceFactory;
 import com.service.UserService;
-import com.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
             return new ValidationErrorViewDispatcher(LOGIN_REG_VIEW,registrationDataValidator);
         }
 
-        UserService service= UserServiceImpl.getInstance();
+        UserService service= ServiceFactory.getInstance().getUserService();
 
         /*find possible user duplicate*/
         Optional<User> userDuplicate =service.getUserByLogin(registrationData.getLogin());

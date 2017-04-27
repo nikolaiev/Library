@@ -12,15 +12,7 @@ import java.util.Optional;
  */
 public class PublisherServiceImpl extends GenericService implements PublisherService {
 
-
-
-    private static class InstanceHolder{
-        private static PublisherServiceImpl INSTANCE=new PublisherServiceImpl();
-
-    }
-
-    public static PublisherService getInstance(){
-        return InstanceHolder.INSTANCE;
+    protected PublisherServiceImpl() {
     }
 
     @Override
@@ -56,5 +48,4 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
         throw new UnsupportedOperationException();
 
     }
-
 }

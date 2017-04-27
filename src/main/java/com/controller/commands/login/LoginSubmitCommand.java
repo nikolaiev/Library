@@ -11,19 +11,17 @@ import com.controller.validation.Validator;
 import com.controller.validation.model.LoginData;
 import com.model.entity.user.User;
 import com.model.entity.user.UserRole;
+import com.service.impl.ServiceFactory;
 import com.service.UserService;
-import com.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.controller.constants.JspPathsConst.ADMIN_BOOK_VIEW;
 import static com.controller.constants.JspPathsConst.LOGIN_REG_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_BOOKS;
 import static com.controller.constants.UrlsConst.USER_BOOKS;
@@ -35,7 +33,7 @@ import static com.controller.constants.UrlsConst.USER_BOOKS;
 
 /*POST method*/
 public class LoginSubmitCommand extends CommandWrapper implements Command{
-    private UserService service=new UserServiceImpl();
+    private UserService service= ServiceFactory.getInstance().getUserService();
 
 
     private Map<UserRole,String> defaultLoggedInPage=new EnumMap<>(UserRole.class);

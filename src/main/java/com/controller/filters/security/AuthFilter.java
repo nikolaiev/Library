@@ -20,6 +20,7 @@ public class AuthFilter implements Filter {
     private String deployPath;
 
     private static String FORBIDDEN_URL_REQUESTED="FORBIDDEN URL REQUESTED";
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         deployPath=filterConfig.getServletContext().getContextPath();
@@ -28,10 +29,9 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest=(HttpServletRequest)servletRequest;
-
         HttpSession session=httpRequest.getSession();
-        //TODO do not use session
         UserRole role=(UserRole) session.getAttribute("userRole");
+
         String uri = httpRequest.getRequestURI();
 
         logger.info("Requested URI is "+uri);
@@ -71,17 +71,17 @@ public class AuthFilter implements Filter {
 
     private boolean checkUnauthorizedUri(String uri) {
 
-        return !uri.startsWith(deployPath+"/user/")&&
-                !uri.startsWith(deployPath+"/admin/");
+        return !uri.startsWith(deployPath+"/user")&&
+                !uri.startsWith(deployPath+"/admin");
     }
 
     private boolean checkUserUri(String uri) {
-        return !uri.startsWith(deployPath+"/admin/")
-                ||uri.startsWith(deployPath+"/static/");
+        return !uri.startsWith(deployPath+"/admin")
+                ||uri.startsWith(deployPath+"/static");
     }
 
     private boolean checkAdminUri(String uri) {
-        return  !uri.startsWith(deployPath+"/user/");
+        return  !uri.startsWith(deployPath+"/user");
     }
 
 }

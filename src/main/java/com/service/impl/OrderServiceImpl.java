@@ -22,18 +22,8 @@ public class OrderServiceImpl extends GenericService implements OrderService {
 
     private final static String NO_SUCH_BOOK_EXCEPTION="DB error. No such book exception";
 
-
-
-    private static class InstanceHolder{
-        private static OrderServiceImpl INSTANCE=new OrderServiceImpl();
-
+    protected OrderServiceImpl() {
     }
-
-    public static OrderService getInstance(){
-        return InstanceHolder.INSTANCE;
-    }
-
-
 
     /**
      * Creates orders from user OrderItemList session object

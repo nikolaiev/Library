@@ -7,7 +7,7 @@ import com.controller.responce.RedirectDispatcher;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
 import com.service.OrderService;
-import com.service.impl.OrderServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class AdminChangeOrderStatusCommand extends CommandWrapper implements Com
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Integer id=Integer.parseInt(request.getParameter("id"));
-        OrderService service= OrderServiceImpl.getInstance();
+        OrderService service= ServiceFactory.getInstance().getOrderService();
         Optional<Order> order=service.getById(id);
 
         order.ifPresent(ord -> {

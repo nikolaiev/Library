@@ -10,14 +10,7 @@ import java.util.Optional;
  */
 public class UserServiceImpl extends GenericService implements UserService {
 
-
-    private static class InstanceHolder{
-        private static UserServiceImpl INSTANCE=new UserServiceImpl();
-
-    }
-
-    public static UserService getInstance(){
-        return InstanceHolder.INSTANCE;
+    protected UserServiceImpl() {
     }
 
     @Override

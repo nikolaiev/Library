@@ -6,7 +6,7 @@ import com.controller.responce.Dispatcher;
 import com.controller.responce.RedirectDispatcher;
 import com.model.entity.book.Author;
 import com.service.AuthorService;
-import com.service.impl.AuthorServiceImpl;
+import com.service.impl.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class AdminAddAuthorCommand extends CommandWrapper implements Command{
         String name=request.getParameter("name");
         String soname=request.getParameter("soname");
         Author author=new Author(name,soname);
-        AuthorService authorService= AuthorServiceImpl.getInstance();
+        AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
         authorService.create(author);
 
         return new RedirectDispatcher(ADMIN_AUTHORS);

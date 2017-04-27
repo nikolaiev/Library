@@ -9,14 +9,12 @@ import com.model.entity.order.OrderStatus;
 import com.model.entity.order.OrderType;
 import com.model.entity.user.User;
 import com.service.OrderService;
+import com.service.impl.ServiceFactory;
 import com.service.UserService;
-import com.service.impl.OrderServiceImpl;
-import com.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +43,7 @@ public class AdminOrderCommand extends CommandWrapper implements Command {
         int offset= getOffsetFromRequest(request,"page",limit);
 
         /*services*/
-        OrderService orderService= OrderServiceImpl.getInstance();
+        OrderService orderService= ServiceFactory.getInstance().getOrderService();
 
         /*get data for jsp*/
         List<Order> orders=orderService.getOrdersByParams(userId,bookTitle,orderStatus ,
@@ -70,7 +68,7 @@ public class AdminOrderCommand extends CommandWrapper implements Command {
     }
 
     private User getUserOrNullByParam(Integer userId) {
-        UserService userService= UserServiceImpl.getInstance();
+        UserService userService= ServiceFactory.getInstance().getUserService();
         User user=null;
 
         if(userId!=null)
