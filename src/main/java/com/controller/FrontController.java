@@ -45,9 +45,7 @@ public class FrontController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String url = request.getMethod() +
-                    ":" +
-                    request.getRequestURI();
+            String url = request.getMethod() +":"+request.getRequestURI();
 
             /*remove contextPath from requested url*/
             url= url.replace(deployPath,"");

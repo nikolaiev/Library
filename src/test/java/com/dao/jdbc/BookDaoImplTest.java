@@ -73,15 +73,19 @@ public class BookDaoImplTest extends DaoTest{
     @Test
     public void removeById() throws Exception {
         executeInReadCommitedVoidRollbackWrapper((daoManager -> {
+            //TODO insert - remove
             BookDao bookDao=daoManager.getBookDao();
 
             int limit=1;
             int offset=0;
             int bookId;
 
-            bookId=bookDao.getAllLimitOffset(limit,offset).get(0).getId();
+            Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
+            book.setId(0);
+            book=bookDao.insert(book);
 
-            bookDao.removeById(bookId);
+            bookId=book.getId();
+            bookDao.removeById(book.getId());
 
             Optional<Book> bookOpt=bookDao.getById(bookId);
 
@@ -96,12 +100,14 @@ public class BookDaoImplTest extends DaoTest{
         Connection connection= JdbcPooledDataSource.getInstance().getConnection();
         BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
 
-        Integer index=1;
-        Book book=bookDao.getAllLimitOffset(1,0).get(0);
+        int limit=1;
+        int offset=0;
+        Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
         logger.info("Book id is "+book.getId());
         logger.info("Book count is "+book.getCount());
+
         Integer countAvailable=bookDao.getCountAvailable(book.getId());
-        assertThat("count cant be less", index, greaterThanOrEqualTo(countAvailable));
+        assertThat("count cant be less", countAvailable, greaterThanOrEqualTo(0));
     }
 
     @Test

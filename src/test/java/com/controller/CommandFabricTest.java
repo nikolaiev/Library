@@ -37,6 +37,7 @@ public class CommandFabricTest {
                 { GET_PATH+"/admin/books", new FindBookCommand(ADMIN_BOOKS_VIEW) },
                 { GET_PATH+"/logout", new LogoutCommand()},
                 { POST_PATH+"/user/process", new ProcessOrderListCommand()},
+                { GET_PATH+"/user/books?language=UKR", new FindBookCommand(USER_BOOKS_VIEW)},
                 { POST_PATH+"/admin/book/update?param=1", new AdminUpdateBookSubmitCommand()},
                 { GET_PATH+"/static/some_image.png", new GetStaticFileCommand()},
                 { GET_PATH+"/wrong_url", new GoInvalidUrlCommand()},

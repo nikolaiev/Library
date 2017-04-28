@@ -1,6 +1,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div>
 
@@ -16,6 +17,11 @@
     <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
 
 </div>
+<br>
+<c:set var="localeCode" value="${pageContext.response.locale}" />
+${localeCode}
+
+<br>
 <body>
     <ul class="menu-list">
         <li ><a href="${pageContext.request.contextPath}/user/profile">Profile</a></li>
@@ -37,5 +43,9 @@
         </li>
 
         <li class="right" ><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+        <li class="right" ><a href="?locale=RUS">rus</a></li>
+        <li class="right" ><a href="?locale=UA">ua</a></li>
+        <li class="right" ><a href="?locale=ENG">eng</a></li>
+
     </ul>
 

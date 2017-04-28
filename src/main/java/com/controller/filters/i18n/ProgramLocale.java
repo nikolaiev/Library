@@ -8,11 +8,11 @@ import java.util.Locale;
  * Created by vlad on 19.04.17.
  */
 public enum ProgramLocale {
-    EN(new Locale("en", "EN")),
-    RU(new Locale("ru", "RU")),
+    ENG(new Locale("en", "US")),
+    RUS(new Locale("ru", "RU")),
     UA(new Locale("ua", "UA"));
 
-    public static final ProgramLocale DEFAULT_LOCALE = EN;
+    public static final ProgramLocale DEFAULT_LOCALE = ENG;
     private static final Logger logger=Logger.getLogger(ProgramLocale.class);
     private Locale locale;
 
