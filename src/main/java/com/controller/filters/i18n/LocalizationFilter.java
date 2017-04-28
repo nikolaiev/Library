@@ -13,7 +13,6 @@ import java.io.IOException;
 public class LocalizationFilter implements Filter {
     private static Logger logger=Logger.getLogger(LocalizationFilter.class);
 
-    //TODO place constant into configClass
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
 

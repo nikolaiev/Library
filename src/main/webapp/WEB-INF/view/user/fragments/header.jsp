@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/header" var="header"/>
 
 <div>
 
@@ -18,18 +22,20 @@
 
 </div>
 <br>
-<c:set var="localeCode" value="${pageContext.response.locale}" />
-${localeCode}
 
 <br>
 <body>
     <ul class="menu-list">
-        <li ><a href="${pageContext.request.contextPath}/user/profile">Profile</a></li>
-        <li ><a href="${pageContext.request.contextPath}/user/books">Books</a></li>
+        <li ><a href="${pageContext.request.contextPath}/user/profile">
+            <fmt:message bundle="${header}" key="profile"/>
+        </a></li>
+        <li ><a href="${pageContext.request.contextPath}/user/books">
+            <fmt:message bundle="${header}" key="books"/>
+        </a></li>
 
         <li>
             <a href="${pageContext.request.contextPath}/user/orders">
-                Orders
+                <fmt:message bundle="${header}" key="orders"/>
                 <div id="item-count-holder">
 
                     <c:set  scope="session" var="ordersSize" value="${fn:length(sessionScope.orderList.bookOrders)}"/>
@@ -42,7 +48,9 @@ ${localeCode}
             </a>
         </li>
 
-        <li class="right" ><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+        <li class="right" ><a href="${pageContext.request.contextPath}/logout">
+            <fmt:message bundle="${header}" key="logout"/>
+        </a></li>
         <li class="right" ><a href="?locale=RUS">rus</a></li>
         <li class="right" ><a href="?locale=UA">ua</a></li>
         <li class="right" ><a href="?locale=ENG">eng</a></li>

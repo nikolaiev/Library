@@ -5,7 +5,7 @@
 
 <fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="i18n/login" var="msg"/>
+<fmt:setBundle basename="i18n/login" var="log"/>
 
 
 
@@ -64,7 +64,7 @@
                                 </c:if>
                                id="login-form-link"
                             >
-                                <fmt:message key="login" bundle="${msg}"/>
+                                <fmt:message key="login" bundle="${log}"/>
                             </a>
                         </div>
                         <div class="col-xs-6">
@@ -74,7 +74,7 @@
                                 </c:if>
 
                             >
-                                <fmt:message key="register" bundle="${msg}"/>
+                                <fmt:message key="register" bundle="${log}"/>
                             </a>
                         </div>
                     </div>
@@ -92,16 +92,16 @@
                                 <div class="form-group">
 
                                     <input pattern="${RegExConst.LOGIN_REG_EX}" required type="text" name="login"
-                                           id="username" tabindex="1" class="form-control" placeholder=<fmt:message key="login_placeholder" bundle="${msg}"/>  value="${param.login}">
+                                           id="username" tabindex="1" class="form-control" placeholder=<fmt:message key="login_placeholder" bundle="${log}"/>  value="${param.login}">
                                 </div>
                                 <div class="form-group">
-                                    <input required type="password" name="password" id="password" tabindex="2" class="form-control" placeholder=<fmt:message key="password_placeholder" bundle="${msg}"/>>
+                                    <input required type="password" name="password" id="password" tabindex="2" class="form-control" placeholder=<fmt:message key="password_placeholder" bundle="${log}"/>>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value=<fmt:message key="submit_login" bundle="${msg}"/>>
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value=<fmt:message key="submit_login" bundle="${log}"/>>
                                         </div>
                                     </div>
                                 </div>
@@ -116,24 +116,24 @@
                                 </c:if>
                             >
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder=<fmt:message key="name" bundle="${msg}"/> value="${param.name}">
+                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="name" id="name_reg" tabindex="1" class="form-control" placeholder=<fmt:message key="name" bundle="${log}"/> value="${param.name}">
                                 </div>
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="soname" id="soname_reg" tabindex="1" class="form-control" placeholder=<fmt:message key="soname" bundle="${msg}"/> value="${param.soname}">
+                                    <input pattern="${RegExConst.NAME_SONAME_REG_EX}" required type="text" name="soname" id="soname_reg" tabindex="1" class="form-control" placeholder=<fmt:message key="soname" bundle="${log}"/> value="${param.soname}">
                                 </div>
                                 <div class="form-group">
-                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="email" name="email" id="email" tabindex="1" class="form-control" placeholder=<fmt:message key="email" bundle="${msg}"/> value="${param.email}">
+                                    <input pattern="${RegExConst.LOGIN_REG_EX}" required type="email" name="email" id="email" tabindex="1" class="form-control" placeholder=<fmt:message key="email" bundle="${log}"/> value="${param.email}">
                                 </div>
                                 <div class="form-group">
-                                    <input required type="password" name="password" id="password_reg" tabindex="2" class="form-control" placeholder=<fmt:message key="password_placeholder" bundle="${msg}"/> >
+                                    <input required type="password" name="password" id="password_reg" tabindex="2" class="form-control" placeholder=<fmt:message key="password_placeholder" bundle="${log}"/> >
                                 </div>
                                 <div class="form-group">
-                                    <input required type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder=<fmt:message key="confirm_password_placeholder" bundle="${msg}"/>>
+                                    <input required type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder=<fmt:message key="confirm_password_placeholder" bundle="${log}"/>>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value=<fmt:message key="register_now" bundle="${msg}"/>>
+                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value=<fmt:message key="register_now" bundle="${log}"/>>
                                         </div>
                                     </div>
                                 </div>
