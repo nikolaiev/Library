@@ -2,13 +2,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://mytags.com/jsp/mytags" prefix="m" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/bookFilter" var="book"/>
 
 
 <%--FILTERS--%>
 <div class="row col-lg-12 center-block alert alert-info">
     <form class="form-inline" method="get">
         <div class="form-group">
-            <label class="mr-sm-2" >Title</label>
+            <label class="mr-sm-2" >
+                <fmt:message bundle="${book}" key="title"/>
+            </label>
             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"
                    name="title" placeholder="book title" value="<c:out value="${param.title}"/>"/>
         </div>
@@ -16,9 +23,9 @@
 
         <%--author--%>
         <div class="form-group left-buffer">
-            <label class="mr-sm-2" >Author</label>
+            <label class="mr-sm-2" ><fmt:message bundle="${book}" key="author"/></label>
             <select name="author_id" class="selectpicker" data-width="170px">
-                <option value="" disabled selected>All</option>
+                <option value="" disabled selected><fmt:message bundle="${book}" key="all"/></option>
 
                 <c:forEach items="${authors}" var="author">
                     <option value="<c:out value="${author.id}"/>"
@@ -34,9 +41,9 @@
 
         <%--genre--%>
         <div class="form-group left-buffer">
-            <label class="mr-sm-2" >Genre</label>
+            <label class="mr-sm-2" ><fmt:message bundle="${book}" key="genre"/></label>
             <select name="genre" class="selectpicker" data-width="140px">
-                <option value="" disabled selected>All</option>
+                <option value="" disabled selected><fmt:message bundle="${book}" key="all"/></option>
 
                 <c:forEach items="${genres}" var="genre">
                     <option value="<c:out value="${genre}"/>"
@@ -52,9 +59,9 @@
 
         <%--language--%>
         <div class="form-group left-buffer">
-            <label class="mr-sm-2" >Language</label>
+            <label class="mr-sm-2" ><fmt:message bundle="${book}" key="lang"/></label>
             <select name="language" class="selectpicker" data-width="75px">
-                <option value="" disabled selected>All</option>
+                <option value="" disabled selected><fmt:message bundle="${book}" key="all"/></option>
 
                 <c:forEach items="${languages}" var="language">
                     <option value="<c:out value="${language}"/>"
@@ -70,9 +77,9 @@
 
         <%--publishers--%>
         <div class="form-group left-buffer">
-            <label class="mr-sm-2" >Publisher</label>
+            <label class="mr-sm-2" ><fmt:message bundle="${book}" key="publisher"/></label>
             <select name="publisher_id" class="selectpicker" data-width="130px">
-                <option value="" disabled selected>All</option>
+                <option value="" disabled selected><fmt:message bundle="${book}" key="all"/></option>
 
                 <c:forEach items="${publishers}" var="publisher">
                     <option value="<c:out value="${publisher.id}"/>"
@@ -87,7 +94,7 @@
         </div>
 
         <div class="form-group left-buffer">
-            <label class="mr-sm-2" >Books per page</label>
+            <label class="mr-sm-2" ><fmt:message bundle="${book}" key="books_per_page"/></label>
 
             <select name="limit" class="selectpicker" data-width="75px">
                 <%--set limit value or default--%>
@@ -112,12 +119,12 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success right">Filter</button>
+        <button type="submit" class="btn btn-success right"><fmt:message bundle="${book}" key="filter"/></button>
 
     </form>
 
     <form method="get">
-        <button type="submit" class="btn btn-warning right">Clear filter</button>
+        <button type="submit" class="btn btn-warning right"><fmt:message bundle="${book}" key="clear_filter"/></button>
     </form>
 
 </div>

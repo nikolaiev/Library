@@ -37,4 +37,14 @@ public enum ProgramLocale {
             return DEFAULT_LOCALE;
         }
     }
+
+    public static ProgramLocale getOrNull(String localeString) {
+        try{
+            return ProgramLocale.valueOf(localeString);
+        }
+        catch (IllegalArgumentException|NullPointerException e){
+            logger.warn(e);
+            return null;
+        }
+    }
 }

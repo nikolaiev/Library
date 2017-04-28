@@ -5,7 +5,7 @@
 
 <fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="i18n/header" var="header"/>
+<fmt:setBundle basename="i18n/header" var="book"/>
 
 <div>
 
@@ -21,21 +21,19 @@
     <script src="${pageContext.request.contextPath}/js/alertify.min.js" ></script>
 
 </div>
-<br>
 
-<br>
 <body>
     <ul class="menu-list">
         <li ><a href="${pageContext.request.contextPath}/user/profile">
-            <fmt:message bundle="${header}" key="profile"/>
+            <fmt:message bundle="${book}" key="profile"/>
         </a></li>
         <li ><a href="${pageContext.request.contextPath}/user/books">
-            <fmt:message bundle="${header}" key="books"/>
+            <fmt:message bundle="${book}" key="books"/>
         </a></li>
 
         <li>
             <a href="${pageContext.request.contextPath}/user/orders">
-                <fmt:message bundle="${header}" key="orders"/>
+                <fmt:message bundle="${book}" key="orders"/>
                 <div id="item-count-holder">
 
                     <c:set  scope="session" var="ordersSize" value="${fn:length(sessionScope.orderList.bookOrders)}"/>
@@ -49,7 +47,7 @@
         </li>
 
         <li class="right" ><a href="${pageContext.request.contextPath}/logout">
-            <fmt:message bundle="${header}" key="logout"/>
+            <fmt:message bundle="${book}" key="logout"/>
         </a></li>
         <li class="right" ><a href="?locale=RUS">rus</a></li>
         <li class="right" ><a href="?locale=UA">ua</a></li>

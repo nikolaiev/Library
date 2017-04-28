@@ -98,8 +98,7 @@
             //alert(but);
             $(buttons[i]).click(()=>{
                 $.get({
-                    //TODO rewrite
-                    url:"
+                    url:"admin/book/update"
                 })
             });
         }
