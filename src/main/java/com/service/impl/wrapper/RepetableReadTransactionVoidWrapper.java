@@ -11,6 +11,7 @@ public interface RepetableReadTransactionVoidWrapper {
     default void execute() {
         try (TransactionManager daoManager = TransactionManagerFactoryImpl
                 .getInstance().createTransactionManager()) {
+
             daoManager.beginRepeatableReadTransaction();
             processMethod(daoManager);
         }

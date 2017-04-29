@@ -12,9 +12,7 @@ public interface TransactionalWrapper <T>{
         try (TransactionManager daoManager = TransactionManagerFactoryImpl
                 .getInstance().createTransactionManager()) {
             daoManager.beginTransaction();
-            T result = processMethod(daoManager);
-            daoManager.commitTransaction();
-            return result;
+           return processMethod(daoManager);
         }
     }
 

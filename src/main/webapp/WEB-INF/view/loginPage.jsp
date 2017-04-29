@@ -30,19 +30,19 @@
 </head>
 
 <body>
+
+<div class="container buffer-bottom">
+    <a href="?locale=UA" class="local">ua</a>
+    <a href="?locale=RUS" class="local">ru</a>
+    <a href="?locale=ENG" class="local">eng</a>
+</div>
+
 <c:if test="${not empty validation_errors}" >
     <div class="alert alert-danger" align="center">
         <strong>Error!</strong>
         <td>${validation_errors}</td>
     </div>
 </c:if>
-<%--
-<c:if test="${not empty param.error}" >
-    <div class="alert alert-danger" align="center">
-        <strong>Error!</strong>
-        <td>${param.error}</td>
-    </div>
-</c:if>--%>
 
 <c:if test="${not empty param.success_message}" >
     <div class="alert alert-success" align="center">
@@ -50,6 +50,8 @@
         <td>${param.success_message}</td>
     </div>
 </c:if>
+
+
 
 <div class="container">
     <div class="row">
