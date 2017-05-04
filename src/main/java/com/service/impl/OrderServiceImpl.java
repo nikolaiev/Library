@@ -3,8 +3,6 @@ package com.service.impl;
 import com.controller.commands.dto.OrderItem;
 import com.controller.commands.dto.OrderItemList;
 import com.dao.BookDao;
-import com.dao.exception.DaoException;
-import com.exception.ApplicationException;
 import com.model.entity.book.Book;
 import com.model.entity.order.Order;
 import com.model.entity.order.OrderStatus;
@@ -138,7 +136,7 @@ public class OrderServiceImpl extends GenericService implements OrderService {
     }
 
     private boolean createOrder(int userId, int bookId, OrderType orderType) {
-        return executeInSerializableWrapper((daoManager)->{
+        return executeInRepeatableReadWrapper((daoManager)->{
 
             BookDao bookDao=daoManager.getBookDao();
 

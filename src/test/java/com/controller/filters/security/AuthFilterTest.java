@@ -1,6 +1,5 @@
 package com.controller.filters.security;
 
-import com.controller.commands.helper.RequestParamExtractor;
 import com.model.entity.user.UserRole;
 import org.junit.Before;
 import org.junit.Test;

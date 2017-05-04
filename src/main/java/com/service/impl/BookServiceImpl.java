@@ -49,7 +49,7 @@ public class BookServiceImpl extends GenericService implements BookService {
 
     @Override
     public boolean updateIfPossible(Book book) {
-        return executeInSerializableWrapper(transactionManager -> transactionManager.getBookDao().updateIfPossible(book));
+        return executeInRepeatableReadWrapper(transactionManager -> transactionManager.getBookDao().updateIfPossible(book));
     }
 
     @Override

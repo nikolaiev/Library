@@ -2,20 +2,59 @@ package com.dao.jdbc.helper;
 
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
+
 /**
  * Created by vlad on 18.04.17.
  */
 public class ConditionSelectQueryBuilderTest {
-    @Test
-    public void addFilterParam() throws Exception {
-    }
 
     @Test
     public void getPreparedStatement() throws Exception {
+        Connection mockConnection=mock(Connection.class);
+        PreparedStatement mockStatement = mock(PreparedStatement.class);
+        /*inject PrepareStatement mock*/
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
+
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(mockConnection);
+
+        Integer testObject= 1;
+        String testQueryClose="testField = ?";
+        String selectClose="SELECT * from testTable";
+
+
+        queryBuilder.addFilterParam(testObject,testQueryClose);
+        //exception here
+        queryBuilder.getPreparedStatement(selectClose);
+
+        int expectedTimes=1;
+        verify(mockConnection,times(expectedTimes)).prepareStatement(anyString());
+        verify(mockStatement,times(expectedTimes)).setInt(anyInt(),anyInt());
     }
 
-    @Test
-    public void getPreparedStatement1() throws Exception {
-    }
+    @Test(expected = ClassCastException.class)
+    public void getPreparedStatementException() throws Exception{
+        Connection mockConnection=mock(Connection.class);
+        PreparedStatement mockStatement = mock(PreparedStatement.class);
+        /*inject PrepareStatement mock*/
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStatement);
 
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(mockConnection);
+
+        Object testObject=new Object();
+        String testQueryClose="testField = ?";
+        String selectClose="SELECT * from testTable";
+
+
+        queryBuilder.addFilterParam(testObject,testQueryClose);
+        //exception here
+        queryBuilder.getPreparedStatement(selectClose);
+
+        int expectedTimes=1;
+        verify(mockConnection,times(expectedTimes)).prepareStatement(anyString());
+    }
 }

@@ -96,12 +96,12 @@ public class ConditionSelectQueryBuilder {
             resultStatement.setInt(index,(Integer)param);
         }
 
-        setLimitOffsetPreparedStatment(limit,offset);
+        setLimitOffsetPreparedStatement(limit,offset);
 
         return  resultStatement;
     }
 
-    private void setLimitOffsetPreparedStatment(Integer limit, Integer offset) throws SQLException {
+    private void setLimitOffsetPreparedStatement(Integer limit, Integer offset) throws SQLException {
          /*check if params passed*/
         boolean isLimit = limit!=null;
         boolean isOffset = offset!=null;

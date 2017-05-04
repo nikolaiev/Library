@@ -23,7 +23,7 @@ public class UserServiceImpl extends GenericService implements UserService {
 
     @Override
     public User create(User user) {
-        return  executeInSerializableWrapper(transactionManager ->
+        return  executeInRepeatableReadWrapper(transactionManager ->
                 transactionManager.getUserDao().insert(user)
         );
     }

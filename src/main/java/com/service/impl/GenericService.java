@@ -17,11 +17,11 @@ abstract class GenericService {
         return wrapper.execute();
     }
 
-    <T> T executeInSerializableWrapper(RepetableReadTransactionWrapper<T> wrapper){
+    <T> T executeInRepeatableReadWrapper(RepeatableReadTransactionWrapper<T> wrapper){
         return wrapper.execute();
     }
 
-    void executeInSerializableVoidWrapper(RepetableReadTransactionVoidWrapper wrapper){
+    void executeInRepeatableReadVoidWrapper(RepeatableReadTransactionVoidWrapper wrapper){
         wrapper.execute();
     }
 
