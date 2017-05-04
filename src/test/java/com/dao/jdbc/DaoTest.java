@@ -1,5 +1,6 @@
 package com.dao.jdbc;
 
+import com.dao.wrapper.NoTransactionalWrapper;
 import com.dao.wrapper.RollbackReadCommitedVoidTransaction;
 import com.dao.wrapper.RollbackRepeatableReadVoidTransaction;
 
@@ -13,6 +14,10 @@ public class DaoTest {
     }
 
     void executeInRepeatableReadVoidRollbackWrapper(RollbackRepeatableReadVoidTransaction wrapper){
+        wrapper.execute();
+    }
+
+    void executeInNoTransactionalWrapper(NoTransactionalWrapper wrapper){
         wrapper.execute();
     }
 }

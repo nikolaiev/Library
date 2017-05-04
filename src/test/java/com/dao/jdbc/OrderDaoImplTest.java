@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Created by vlad on 10.04.17.
  */
-public class OrderDaoImplTest {
+public class OrderDaoImplTest  extends DaoTest{
 
     @Test
     public void updateOrderStatus() throws Exception {
@@ -29,11 +29,7 @@ public class OrderDaoImplTest {
         OrderDao orderDao= DaoFactoryImpl.getInstance().getOrderDao(connection);
         List<Order> orders=orderDao.getAll();
 
-        assertNotNull(orders);
-    }
-
-    @Test
-    public void getOrdersByDate() throws Exception {
+        assertNotNull("Orders list must not be empty",orders);
     }
 
 }

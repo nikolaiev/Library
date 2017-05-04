@@ -10,13 +10,15 @@ public class Publisher  extends IdContainer{
 
     private String title;
 
+    public Publisher() {}
+
+    public Publisher(String publisherTitle) {
+        this.title=publisherTitle;
+    }
+
     public Publisher(int id, String title) {
         this.id = id;
         this.title = title;
-    }
-
-    public Publisher() {
-
     }
 
     public String getTitle() {

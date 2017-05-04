@@ -28,12 +28,14 @@ public class ConditionSelectQueryBuilderTest {
 
 
         queryBuilder.addFilterParam(testObject,testQueryClose);
+        queryBuilder.addFilterParam(testObject,testQueryClose);
         //exception here
         queryBuilder.getPreparedStatement(selectClose);
 
-        int expectedTimes=1;
-        verify(mockConnection,times(expectedTimes)).prepareStatement(anyString());
-        verify(mockStatement,times(expectedTimes)).setInt(anyInt(),anyInt());
+        int expectedPrepStatTimes=1;
+        int expectedSetValTimes=2;
+        verify(mockConnection,times(expectedPrepStatTimes)).prepareStatement(anyString());
+        verify(mockStatement,times(expectedSetValTimes)).setInt(anyInt(),anyInt());
     }
 
     @Test(expected = ClassCastException.class)
@@ -53,8 +55,5 @@ public class ConditionSelectQueryBuilderTest {
         queryBuilder.addFilterParam(testObject,testQueryClose);
         //exception here
         queryBuilder.getPreparedStatement(selectClose);
-
-        int expectedTimes=1;
-        verify(mockConnection,times(expectedTimes)).prepareStatement(anyString());
     }
 }

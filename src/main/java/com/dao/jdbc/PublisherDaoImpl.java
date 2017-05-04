@@ -4,10 +4,7 @@ import com.dao.PublisherDao;
 import com.dao.exception.DaoException;
 import com.model.entity.book.Publisher;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,7 +59,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     public Publisher insert(Publisher obj){
         checkForNull(obj);
         checkIsUnsaved(obj);
-        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_PUBLISHER)){
+        try(PreparedStatement statement=connection.get().prepareStatement(INSERT_PUBLISHER, Statement.RETURN_GENERATED_KEYS)){
             statement.setString(1,obj.getTitle());
             int id=executeInsertStatement(statement);
             obj.setId(id);

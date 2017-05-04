@@ -49,31 +49,33 @@ public class BookDaoImplTest extends DaoTest{
 
             int limit=1;
             int offset=0;
-            int bookId;
 
             Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
             logger.info("Instant is "+book.getInstant());
             book.setId(0);
             Book newBook=bookDao.insert(book);
-            assertNotNull(newBook);
+            assertNotNull("Returned book object must not be null",newBook);
+            assertNotEquals("Id must not be 0",newBook.getId(),0);
 
         }));
 
     }
     @Test
     public void getAll() throws Exception {
-        Connection connection= JdbcPooledDataSource.getInstance().getConnection();
-        BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
+        executeInNoTransactionalWrapper(transactionManager -> {
+            BookDao bookDao=transactionManager.getBookDao();
 
-        List<Book> books=bookDao.getAll();
+            List<Book> books=bookDao.getAll();
 
-        assertNotNull(books);
+            assertNotNull("Book list must not be null",books);
+
+        });
+
     }
 
     @Test
     public void removeById() throws Exception {
         executeInReadCommitedVoidRollbackWrapper((daoManager -> {
-            //TODO insert - remove
             BookDao bookDao=daoManager.getBookDao();
 
             int limit=1;
@@ -87,27 +89,26 @@ public class BookDaoImplTest extends DaoTest{
             bookId=book.getId();
             bookDao.removeById(book.getId());
 
-            Optional<Book> bookOpt=bookDao.getById(bookId);
+            Optional<Book> bookDeleted=bookDao.getById(bookId);
 
-            assertTrue(!bookOpt.isPresent());
-
+            assertTrue("Book must have been removed",!bookDeleted.isPresent());
         }));
     }
 
 
     @Test
     public void getCountAvailable() throws Exception {
-        Connection connection= JdbcPooledDataSource.getInstance().getConnection();
-        BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
+        executeInNoTransactionalWrapper(transactionManager -> {
+            BookDao bookDao=transactionManager.getBookDao();
+            int limit=1;
+            int offset=0;
+            Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
+            logger.info("Book id is "+book.getId());
+            logger.info("Book count is "+book.getCount());
 
-        int limit=1;
-        int offset=0;
-        Book book=bookDao.getAllLimitOffset(limit,offset).get(0);
-        logger.info("Book id is "+book.getId());
-        logger.info("Book count is "+book.getCount());
-
-        Integer countAvailable=bookDao.getCountAvailable(book.getId());
-        assertThat("count cant be less", countAvailable, greaterThanOrEqualTo(0));
+            Integer countAvailable=bookDao.getCountAvailable(book.getId());
+            assertThat("count cant be less", countAvailable, greaterThanOrEqualTo(0));
+        });
     }
 
     @Test
@@ -152,42 +153,44 @@ public class BookDaoImplTest extends DaoTest{
 
     @Test
     public void getAllLimitOffset() throws Exception {
-        Connection connection=JdbcPooledDataSource.getInstance().getConnection();
-        BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
+        executeInNoTransactionalWrapper(transactionManager -> {
+            BookDao bookDao=transactionManager.getBookDao();
 
-        List<Book> books=bookDao.getAllLimitOffset(2,0);
-        assertNotNull(books);
+            List<Book> books=bookDao.getAllLimitOffset(2,0);
+            assertNotNull(books);
+        });
     }
 
     @Test
     public void getBooksByParams() throws Exception {
-        Connection connection=JdbcPooledDataSource.getInstance().getConnection();
-        BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
+        executeInNoTransactionalWrapper(transactionManager -> {
+            BookDao bookDao=transactionManager.getBookDao();
+            int limit=100;
+            int offset=0;
+            BookLanguage language=BookLanguage.ENG;
 
-        int limit=100;
-        int offset=0;
-        BookLanguage language=BookLanguage.ENG;
+            List<Book> books=bookDao.getBooksByParams("book",null,null,
+                    language,null,limit,offset);
 
-        List<Book> books=bookDao.getBooksByParams("book",null,null,
-                language,null,limit,offset);
+            assertNotNull(books);
 
-        assertNotNull(books);
-
-        books.forEach(e->assertEquals(e.getLanguage(),language));
-
+            books.forEach(e->assertEquals(e.getLanguage(),language));
+        });
     }
 
     @Test
     public void getBooksCountByParams() throws Exception {
-        Connection connection=JdbcPooledDataSource.getInstance().getConnection();
-        BookDao bookDao= DaoFactoryImpl.getInstance().getBookDao(connection);
+        executeInNoTransactionalWrapper(transactionManager -> {
+            BookDao bookDao=transactionManager.getBookDao();
 
-        BookLanguage language=BookLanguage.ENG;
-        int minCount=0;
-        int count=bookDao.getBooksCountByParams("book",null,null,
-                language,null);
-        logger.info("count is "+count);
-        assertThat("count must be greater than 0",count,greaterThanOrEqualTo(0));
+            BookLanguage language=BookLanguage.ENG;
+            int count=bookDao.getBooksCountByParams("book",null,null,
+                    language,null);
+            logger.info("count is "+count);
+            assertThat("count must be greater than 0",count,greaterThanOrEqualTo(0));
+        });
+
+
 
     }
 
@@ -213,7 +216,6 @@ public class BookDaoImplTest extends DaoTest{
             if(isUpdated){
                 assertEquals(book.getTitle(),newTitle );
             }
-
         }));
     }
 
