@@ -11,7 +11,7 @@ public final class JspPathsConst {
     private static final String USER="/user";
     private static final String ADMIN="/admin";
     private static final String BOOKS="/books";
-    private static final String PUBLISHERS="/publisher";
+    private static final String PUBLISHERS="/publishers";
     private static final String ORDERS="/orders";
     private static final String AUTHORS="/authors";
     private static final String VIEW_EXTENSION=".jsp";

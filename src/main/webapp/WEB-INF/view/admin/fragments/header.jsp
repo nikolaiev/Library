@@ -34,6 +34,10 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            <li class="right" ><a href="?locale=ENG">eng</a></li>
+            <li class="right" ><a href="?locale=UA">ua</a></li>
+            <li class="right" ><a href="?locale=RUS">rus</a></li>
+
             <li class="right"><a href="${pageContext.request.contextPath}/logout" >Logout</a></li>
         </ul>
     </div>

@@ -44,8 +44,8 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
 
     @Override
     public void deleteById(int id) {
-        //TODO implement
-        throw new UnsupportedOperationException();
-
+        executeInNonTransactionalVoidWrapper(transactionManager ->
+            transactionManager.getPublisherDao().removeById(id)
+        );
     }
 }
