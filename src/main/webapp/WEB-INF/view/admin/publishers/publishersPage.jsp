@@ -37,20 +37,20 @@
                 <th></th>
             </tr>
 
-            <c:forEach items="${publishers}" var="publ">
-                <tr id='${publ.id}_row'>
+            <c:forEach items="${publishers}" var="author">
+                <tr id='${author.id}_row'>
                     <form action="/admin/publishers/update" method="post">
                         <td>
-                            <input  hidden name="publisher_id" value="${publ.id}">
-                            <input class="form-control" id='${publ.id}_title' name="publisher_title" value="${publ.title}" type="text" pattern="${RegExConst.PUBLISHER_TITLE_REG_EX}">
+                            <input  hidden name="publisher_id" value="${author.id}">
+                            <input class="form-control" id='${author.id}_title' name="publisher_title" value="${author.title}" type="text" pattern="${RegExConst.PUBLISHER_TITLE_REG_EX}">
                         </td>
                         <td>
-                            <button type="submit" class="update-button btn btn-info" id='${publ.id}_update'>update</button>
+                            <button type="submit" class="update-button btn btn-info" id='${author.id}_update'>update</button>
                         </td>
                     </form>
 
                     <td>
-                        <button class="remove-button btn btn-danger" id='${publ.id}_remove'>remove</button>
+                        <button class="remove-button btn btn-danger" id='${author.id}_remove'>remove</button>
                     </td>
 
                 </tr>
