@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
  * Created by vlad on 09.04.17.
  */
 public class CharacterEncodingFilter implements Filter {
-    private static final String ENCODING = "utf-8";
+    private static final String ENCODING = "UTF-8";
     private static final Logger logger = Logger.getLogger(CharacterEncodingFilter.class);
 
     @Override

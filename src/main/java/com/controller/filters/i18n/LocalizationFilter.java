@@ -19,17 +19,15 @@ public class LocalizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request=(HttpServletRequest)servletRequest;
-        HttpSession session=request.getSession();
-
-        /*check if locale is already defined*/
+        //check if locale is already defined
         Optional<ProgramLocale> newLocale=Optional.ofNullable(getLocaleOrDefaultFromRequest(servletRequest));
 
         if(newLocale.isPresent()) {
+            HttpServletRequest request=(HttpServletRequest)servletRequest;
+            HttpSession session=request.getSession();
             logger.info("Requested locale "+newLocale.get());
             session.setAttribute("locale", newLocale.get().getLocale());
         }
-
 
         filterChain.doFilter(servletRequest,servletResponse);
     }

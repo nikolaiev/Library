@@ -15,6 +15,7 @@ import com.controller.commands.admin.order.AdminChangeOrderStatusCommand;
 import com.controller.commands.admin.publisher.AdminPublisherCommand;
 import com.controller.commands.admin.publisher.AdminRemovePublisherCommand;
 import com.controller.commands.GetStaticFileCommand;
+import com.controller.commands.admin.publisher.AdminUpdatePublishersCommand;
 import com.controller.commands.login.LoginCommand;
 import com.controller.commands.login.LoginSubmitCommand;
 import com.controller.commands.login.LogoutCommand;
@@ -135,5 +136,6 @@ public class CommandFabric {
         /*publisher*/
         commands.put(POST_PATH + ADMIN_PUBLISHERS_ADD,new AdminAddPublisherCommand());
         commands.put(POST_PATH + ADMIN_PUBLISHERS_REMOVE,new AdminRemovePublisherCommand());
+        commands.put(POST_PATH + ADMIN_PUBLISHERS_UPDATE,new AdminUpdatePublishersCommand());
     }
 }

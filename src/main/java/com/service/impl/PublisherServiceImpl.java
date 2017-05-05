@@ -22,10 +22,17 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
     }
 
     @Override
-    public Publisher create(Publisher publisher) {
+    public Optional<Publisher> getByTitle(String title) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+            transactionManager.getPublisherDao().getPublisherByTitle(title)
+        );
+    }
 
-        //TODO implement
-        throw new UnsupportedOperationException();
+    @Override
+    public Publisher create(Publisher publisher) {
+        return executeInNonTransactionalWrapper(transactionManager->
+            transactionManager.getPublisherDao().insert(publisher)
+        );
     }
 
     @Override
@@ -37,8 +44,9 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
 
     @Override
     public void update(Publisher publisher) {
-        //TODO implement
-        throw new UnsupportedOperationException();
+        executeInTransactionalVoidWrapper(transactionManager->
+            transactionManager.getPublisherDao().update(publisher)
+        );
 
     }
 

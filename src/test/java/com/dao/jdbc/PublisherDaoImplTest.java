@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class PublisherDaoImplTest extends  DaoTest{
     @Test
-    public void insert() throws Exception {
+    public void insertChangeId() throws Exception {
         executeInReadCommitedVoidRollbackWrapper(transactionManager -> {
             PublisherDao publisherDao=transactionManager.getPublisherDao();
             String publisherTitle="Test publisher";
@@ -25,6 +25,21 @@ public class PublisherDaoImplTest extends  DaoTest{
 
             assertNotEquals("Inserted obj id must not be 0",0,publisher.getId());
             assertEquals("Titles must be equals",publisherTitle,publisher.getTitle());
+        });
+    }
+
+    @Test
+    public void insertChangeCount() throws Exception {
+        executeInReadCommitedVoidRollbackWrapper(transactionManager -> {
+            PublisherDao publisherDao=transactionManager.getPublisherDao();
+            int beginCount=publisherDao.getAll().size();
+            String publisherTitle="Test publisher";
+            Publisher publisher=new Publisher(publisherTitle);
+
+            publisherDao.insert(publisher);
+            int endCount=publisherDao.getAll().size();
+
+            assertEquals("Object was not inserted",beginCount+1,endCount);
         });
     }
 

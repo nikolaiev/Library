@@ -44,6 +44,7 @@ public class ValidationErrorViewDispatcher implements Dispatcher {
         else{
             request.setAttribute("validation_errors", singleErrorMessage);
         }
+
         request.getRequestDispatcher(VIEW).forward(request,response);
     }
 

@@ -9,5 +9,5 @@ import java.util.Optional;
  * Created by vlad on 20.03.17.
  */
 public interface PublisherDao extends GenericDao<Publisher>{
-    List<Publisher> getPublishersByTitle(String title);
+    Optional<Publisher> getPublisherByTitle(String title);
 }

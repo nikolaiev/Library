@@ -48,7 +48,7 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         /*find possible user duplicate*/
         Optional<User> userDuplicate =service.getUserByLogin(registrationData.getLogin());
 
-        /*check password*/
+        /*check login availability*/
         if(userDuplicate.isPresent()){
             //redirect to login page with error message
             request.setAttribute("isRegistrationAttempt",true);
@@ -57,31 +57,23 @@ public class RegistrationSubmitCommand extends CommandWrapper implements Command
         }
 
         String password=registrationData.getPassword();
-        String confPassword=registrationData.getPasswordConfirm();
+        /*creating new User*/
+        User user=new User.Builder()
+                .setLogin(registrationData.getLogin())
+                .setName(registrationData.getName())
+                .setSoname(registrationData.getSoname())
+                .setPassword(password)
+                .setRole(UserRole.USER)
+                .build();
 
-        if(!password.equals(confPassword)){
-            return new RedirectDispatcher(LOGIN);
-        }
-        else {
-            /*creating new User*/
-            User user=new User.Builder()
-                    .setLogin(registrationData.getLogin())
-                    .setName(registrationData.getName())
-                    .setSoname(registrationData.getSoname())
-                    .setPassword(password)
-                    .setRole(UserRole.USER)
-                    .build();
+        service.create(user);
 
-            service.create(user);
-            //TODO pass message to page
-            return new RedirectDispatcher(LOGIN)
-                    .addGetParam("success_message","Registration was successful!");
-        }
+        return new RedirectDispatcher(LOGIN)
+                .addGetParam("success_message","Registration was successful!");
+
     }
 
     private RegistrationData getRegistrationDataFromReq(HttpServletRequest request) {
-        ParamExtractor paramExtractor=new RequestParamExtractor();
-
         String name = paramExtractor.getStringParam(request,"name");
         String soname = paramExtractor.getStringParam(request,"soname");
         String password = paramExtractor.getStringParam(request,"password");

@@ -63,7 +63,7 @@
         $(returnButtons[i]).click(()=>{
 
             $.post({
-                url: "/admin/orders/update",
+                url: "${pageContext.request.contextPath}/admin/orders/update",
                 data: {id:but},
 
                 success:()=>{

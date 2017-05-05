@@ -2,7 +2,9 @@ package com.dao.jdbc;
 
 import com.dao.PublisherDao;
 import com.dao.exception.DaoException;
+import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.Publisher;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,13 +15,11 @@ import java.util.Optional;
  * Created by vlad on 20.03.17.
  */
 public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
+    private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_TITLE="Db error while getting publisher by title";
     private static final String SELECT_ALL="SELECT id, title" +
             "  FROM public.publisher";
 
     private static final String SELECT_PUBLISHER_BY_ID=SELECT_ALL+" WHERE id =?";
-    private static final String SELECT_PUBLISHER_BY_TITLE=SELECT_ALL+" WHERE title =?";
-
-    private static final String DELETE_PUBLISHER_BY_ID="DELETE FROM publisher WHERE id=?";
 
     private static final String UPDATE_PUBLISHER_BY_ID="UPDATE public.publisher" +
             "   SET title=?" +
@@ -29,6 +29,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
             " public.publisher(title)" +
             "    VALUES (?)";
 
+    private static final String BY_TITLE_FILTER=" lower(title) = lower('%'||?||'%') ";
     private static final String ID_FIELD="id";
     private static final String TITLE_FIELD="title";
     private static final String TABLE="publisher";
@@ -48,12 +49,6 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     }*/
 
     private PublisherDaoImpl(){}
-
-    /*@Override
-    public Publisher create(){
-        return null;
-    }
-   */
 
     @Override
     public Publisher insert(Publisher obj){
@@ -127,8 +122,24 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
     }
 
     @Override
-    public List<Publisher> getPublishersByTitle(String title) {
-        return null;
+    public Optional<Publisher> getPublisherByTitle(String title) {
+        ConditionSelectQueryBuilder queryBuilder=new ConditionSelectQueryBuilder(connection.get());
+
+        queryBuilder.addFilterParam(title,BY_TITLE_FILTER);
+        int limit=1;
+
+        try(PreparedStatement statement=queryBuilder.getPreparedStatementLimit(SELECT_ALL,limit)){
+            List<Publisher> publishers=parseResultSet(statement.executeQuery());
+
+            if(publishers.isEmpty())
+                return Optional.empty();
+            else
+                return Optional.of(publishers.get(0));
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_TITLE);
+        }
     }
 
     private List<Publisher> parseResultSet(ResultSet resultSet) throws SQLException {

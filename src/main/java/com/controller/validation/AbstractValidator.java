@@ -8,9 +8,9 @@ import java.util.List;
  */
 public abstract  class AbstractValidator <T> implements Validator<T>{
 
-    List<String> errors;
+    private List<String> errors;
 
-    public AbstractValidator(){
+    AbstractValidator(){
         errors=new ArrayList<>();
     }
 
