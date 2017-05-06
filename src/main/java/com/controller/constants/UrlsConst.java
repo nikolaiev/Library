@@ -52,6 +52,7 @@ public final class  UrlsConst {
     public static final String ADMIN_AUTHORS = ADMIN+AUTHORS;
     public static final String ADMIN_AUTHORS_ADD = ADMIN+AUTHORS+ADD;
     public static final String ADMIN_AUTHORS_REMOVE = ADMIN+AUTHORS+REMOVE;
+    public static final String ADMIN_AUTHORS_UPDATE= ADMIN+AUTHORS+UPDATE;
 
     //publishers
     public static final String ADMIN_PUBLISHERS = ADMIN+PUBLISHERS;

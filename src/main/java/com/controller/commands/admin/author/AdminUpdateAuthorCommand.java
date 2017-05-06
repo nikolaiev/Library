@@ -7,10 +7,10 @@ import com.controller.responce.RedirectDispatcher;
 import com.controller.responce.ValidationErrorViewDispatcher;
 import com.controller.validation.AuthorValidator;
 import com.model.entity.book.Author;
-import com.model.entity.book.Publisher;
 import com.service.AuthorService;
 import com.service.impl.ServiceFactory;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,15 +22,16 @@ import static com.controller.constants.JspPathsConst.ADMIN_PUBLISHER_VIEW;
 import static com.controller.constants.UrlsConst.ADMIN_AUTHORS;
 
 /**
- * Created by vlad on 03.04.17.
+ * Created by vlad on 05.05.17.
  */
 //TODO add validator
-public class AdminAddAuthorCommand extends CommandWrapper implements Command{
+public class AdminUpdateAuthorCommand extends CommandWrapper implements Command {
     @Override
-    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String name=request.getParameter("author_name");
         String soname=request.getParameter("author_soname");
-        Author author=new Author(name,soname);
+        int authorId=paramExtractor.getIntParam(request,"author_id");
+        Author author=new Author(authorId,name,soname);
         AuthorValidator validator=new AuthorValidator();
 
 
@@ -39,25 +40,17 @@ public class AdminAddAuthorCommand extends CommandWrapper implements Command{
             return new ValidationErrorViewDispatcher(ADMIN_AUTHOR_VIEW,validator);
         }
 
-        //check possible duplication
         AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
-        Optional<Author> authorCopy=authorService.getByNameSoname(name,soname);
+        authorService.update(author);
 
-        //TODO localization!
-        if(authorCopy.isPresent()) {
-            placeViewData(request);
-            return new ValidationErrorViewDispatcher(ADMIN_AUTHOR_VIEW, "Author already exists");
-        }
-
-        authorService.create(author);
         return new RedirectDispatcher(ADMIN_AUTHORS)
-                .addGetParam("success_message","Author was successfully added");
+                .addGetParam("success_message","Author was successfully updated");
     }
 
-    private void placeViewData(HttpServletRequest request){
+    private void placeViewData(HttpServletRequest req){
         AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
 
         List<Author> authors=authorService.getAll();
-        request.setAttribute("authors",authors);
+        req.setAttribute("authors",authors);
     }
 }

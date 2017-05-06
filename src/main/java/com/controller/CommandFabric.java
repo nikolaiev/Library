@@ -5,6 +5,7 @@ import com.controller.commands.FindBookCommand;
 import com.controller.commands.admin.author.AdminAddAuthorCommand;
 import com.controller.commands.admin.author.AdminAuthorCommand;
 import com.controller.commands.admin.author.AdminRemoveAuthorCommand;
+import com.controller.commands.admin.author.AdminUpdateAuthorCommand;
 import com.controller.commands.admin.book.AdminAddBookCommand;
 import com.controller.commands.admin.book.AdminAddBookSubmitCommand;
 import com.controller.commands.admin.book.AdminUpdateBookCommand;
@@ -123,6 +124,7 @@ public class CommandFabric {
         /*author*/
         commands.put(POST_PATH + ADMIN_AUTHORS_ADD,new AdminAddAuthorCommand());
         commands.put(POST_PATH + ADMIN_AUTHORS_REMOVE,new AdminRemoveAuthorCommand());
+        commands.put(POST_PATH + ADMIN_AUTHORS_UPDATE,new AdminUpdateAuthorCommand());
 
         /*books*/
         commands.put(GET_PATH + ADMIN_BOOK_ADD,new AdminAddBookCommand());

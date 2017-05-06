@@ -29,9 +29,9 @@ public class AdminRemovePublisherCommand extends CommandWrapper implements Comma
         int publisherId=paramExtractor.getIntParam(request,"publisher_id");
 
         /*find books, which have requested publisher*/
-        int relativeBooksCount=bookService.getBooksCountByParams(null,null,null,null,publisherId);
+        int relatedBooksCount=bookService.getBooksCountByParams(null,null,null,null,publisherId);
 
-        if(relativeBooksCount>0){
+        if(relatedBooksCount>0){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new EmptyDispatcher();
         }

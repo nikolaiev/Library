@@ -27,13 +27,13 @@
             <select name="author_id" class="selectpicker" data-width="170px">
                 <option value="" disabled selected><fmt:message bundle="${book}" key="all"/></option>
 
-                <c:forEach items="${authors}" var="author">
-                    <option value="<c:out value="${author.id}"/>"
-                            <c:if test="${author.id==param.author_id}">
+                <c:forEach items="${authors}" var="publ">
+                    <option value="<c:out value="${publ.id}"/>"
+                            <c:if test="${publ.id==param.author_id}">
                                 selected
                             </c:if>
                     >
-                        <c:out value="${author.name}"/> <c:out value="${author.soname}"/></option>
+                        <c:out value="${publ.name}"/> <c:out value="${publ.soname}"/></option>
                 </c:forEach>
 
             </select>

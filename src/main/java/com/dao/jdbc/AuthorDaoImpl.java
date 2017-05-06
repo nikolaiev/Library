@@ -14,13 +14,13 @@ import java.util.Optional;
  */
 public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
     private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME ="Database error while getting by name ";
-    
+    private static final String LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME_SONAME ="Database error while getting by name soname ";
+
     private static final String SELECT_ALL="SELECT id, name, soname" +
             "  FROM public.author";
     private static final String SELECT_AUTHOR_BY_ID=SELECT_ALL+" WHERE id =?";
     private static final String SELECT_AUTHOR_BY_NAME=SELECT_ALL+" WHERE name LIKE '%'||?||'%'";
-
-    private static final String DELETE_AUTHOR_BY_ID="DELETE FROM author WHERE id=?";
+    private static final String SELECT_AUTHOR_BY_NAME_SONAME=SELECT_ALL+" WHERE lower(name)= lower(?)  and lower(soname)= lower(?) LIMIT 1";
 
     private static final String UPDATE_AUTHOR_BY_ID="UPDATE public.author" +
             "   SET name=?, soname=?" +
@@ -46,6 +46,25 @@ public class AuthorDaoImpl extends AbstractDao implements AuthorDao{
         catch (SQLException e){
             throw new DaoException(e)
                     .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME + name);
+        }
+    }
+
+    @Override
+    public Optional<Author> getAuthorByNameSoname(String name, String soname) {
+        try(PreparedStatement statement=connection.get().prepareStatement(SELECT_AUTHOR_BY_NAME_SONAME)){
+            statement.setString(1,name);
+            statement.setString(2,soname);
+            try (ResultSet resultSet=statement.executeQuery()){
+                List<Author> list=parseResultSet(resultSet);
+                checkSingleResult(list);
+                return list.isEmpty() ?
+                        Optional.empty()
+                        : Optional.of(list.get(0));
+            }
+        }
+        catch (SQLException e){
+            throw new DaoException(e)
+                    .addLogMessage(LOG_MESSAGE_DB_ERROR_WHILE_GETTING_BY_NAME_SONAME + name+ " "+ soname);
         }
     }
 

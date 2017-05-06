@@ -32,17 +32,16 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
         PublisherService publisherService= ServiceFactory.getInstance().getPublisherService();
 
         if(!validator.isValid(newPublisher)){
-            List<Publisher> publishers=publisherService.getAll();
-            request.setAttribute("publishers",publishers);
+            placeViewData(request);
             return new ValidationErrorViewDispatcher(ADMIN_PUBLISHER_VIEW,validator);
         }
 
         //check possible duplication
         Optional<Publisher> publisherCopy=publisherService.getByTitle(publisherTitle);
         //TODO localization!
+
         if(publisherCopy.isPresent()){
-            List<Publisher> publishers=publisherService.getAll();
-            request.setAttribute("publishers",publishers);
+            placeViewData(request);
             return new ValidationErrorViewDispatcher(ADMIN_PUBLISHER_VIEW,"Publisher already exists");
         }
 
@@ -52,5 +51,12 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
         //TODO replace with success code - LOCALIZATION!
         return new RedirectDispatcher(ADMIN_PUBLISHERS)
                 .addGetParam("success_message","Publisher was successfully added");
+    }
+
+    private void placeViewData(HttpServletRequest request){
+        PublisherService publisherService= ServiceFactory.getInstance().getPublisherService();
+        List<Publisher> publishers=publisherService.getAll();
+        request.setAttribute("publishers",publishers);
+
     }
 }

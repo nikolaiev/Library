@@ -1,6 +1,5 @@
 package com.service.impl;
 
-import com.dao.jdbc.AuthorDaoImpl;
 import com.model.entity.book.Author;
 import com.service.AuthorService;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
  * Created by vlad on 30.03.17.
  */
 public class AuthorServiceImpl extends GenericService implements AuthorService {
-    protected AuthorServiceImpl() {
+    AuthorServiceImpl() {
     }
 
     @Override
@@ -21,8 +20,17 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
     }
 
     @Override
+    public Optional<Author> getByNameSoname(String name, String soname) {
+        return executeInNonTransactionalWrapper(transactionManager ->
+            transactionManager.getAuthorDao().getAuthorByNameSoname(name,soname)
+        );
+    }
+
+    @Override
     public Author create(Author author) {
-        throw new UnsupportedOperationException();
+        return  executeInTransactionalWrapper(transactionManager ->
+                transactionManager.getAuthorDao().insert(author)
+        );
     }
 
     @Override
@@ -33,16 +41,16 @@ public class AuthorServiceImpl extends GenericService implements AuthorService {
 
     @Override
     public void update(Author author) {
-        //TODO implement
-        throw new UnsupportedOperationException();
-
+        executeInTransactionalVoidWrapper(transactionManager ->
+                transactionManager.getAuthorDao().update(author)
+        );
     }
 
 
     @Override
-    public void deleteById(int id) {
-        //TODO implement
-        throw new UnsupportedOperationException();
-
+    public void deleteById(int authorId) {
+        executeInNonTransactionalVoidWrapper(transactionManager -> {
+            transactionManager.getAuthorDao().removeById(authorId);
+        });
     }
 }

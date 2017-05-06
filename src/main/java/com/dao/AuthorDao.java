@@ -10,4 +10,5 @@ import java.util.Optional;
  */
 public interface AuthorDao extends  GenericDao<Author>{
     List<Author> getAuthorsByName(String name);
+    Optional<Author> getAuthorByNameSoname(String name, String soname);
 }

@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
  * Created by vlad on 15.04.17.
  */
 public class AuthorDaoImplTest  extends DaoTest{
+
+
     Logger logger= Logger.getLogger(AuthorDaoImplTest.class);
     @Test
     public void getAll() throws Exception {
@@ -93,6 +95,42 @@ public class AuthorDaoImplTest  extends DaoTest{
             else
                 assertFalse("Unexpected error occurred",true);
         });
+    }
+
+    @Test
+    public void getAuthorByNameSoname() throws Exception {
+        executeInReadCommitedVoidRollbackWrapper(transactionManager -> {
+            AuthorDao authorDao=transactionManager.getAuthorDao();
+            String testName="asdklfjadgslf";
+            String testSoname="asdklfjadgslf";
+
+            Author author=new Author(testName,testSoname);
+
+            authorDao.insert(author);
+
+            Optional<Author> authorOpt=authorDao.getAuthorByNameSoname(testName,testSoname);
+
+            assertTrue("Author was not found",authorOpt.isPresent());
+        });
+
+    }
+
+    @Test
+    public void getAuthorByNameSonameNull() throws Exception {
+        executeInReadCommitedVoidRollbackWrapper(transactionManager -> {
+            AuthorDao authorDao=transactionManager.getAuthorDao();
+            String testName="asdklfjadgslf";
+            String testSoname="asdklfjadgslf";
+
+            Author author=new Author(testName,testSoname);
+
+            authorDao.insert(author);
+
+            Optional<Author> authorOpt=authorDao.getAuthorByNameSoname(testName+"asd",testSoname+"asd");
+
+            assertFalse("Author was found",authorOpt.isPresent());
+        });
+
     }
 
 }
