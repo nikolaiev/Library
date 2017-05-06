@@ -34,7 +34,7 @@ public class ProfileCommand extends CommandWrapper implements Command {
         HttpSession session=request.getSession();
         int userId= (int) session.getAttribute("userId");
 
-        String bookTitle = paramExtractor.getStringParamOrNull(request,"title");
+        String bookTitle = paramExtractor.getStringParamOrNull(request, "table_title");
 
         OrderStatus orderStatus = paramExtractor.getEnumParamOrNull(request,"status",OrderStatus.class);
         OrderType orderType = paramExtractor.getEnumParamOrNull(request,"type",OrderType.class);

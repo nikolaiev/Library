@@ -34,7 +34,7 @@ public class FindBookCommand extends CommandWrapper implements Command {
         Integer authorId = paramExtractor.getIntParamOrNull(request,"author_id");
         Integer publisherId = paramExtractor.getIntParamOrNull(request,"publisher_id");
 
-        String title = paramExtractor.getStringParamOrNull(request,"title");
+        String title = paramExtractor.getStringParamOrNull(request, "table_title");
         BookGenre genre = paramExtractor.getEnumParamOrNull(request,"genre",BookGenre.class);
         BookLanguage language = paramExtractor.getEnumParamOrNull(request,"language",BookLanguage.class);
 

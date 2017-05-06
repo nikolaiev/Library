@@ -7,6 +7,7 @@
 <fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="i18n/bookFilter" var="book"/>
+<fmt:setBundle basename="i18n/genres" var="genres_fmt"/>
 
 
 <%--FILTERS--%>
@@ -17,7 +18,7 @@
                 <fmt:message bundle="${book}" key="title"/>
             </label>
             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"
-                   name="title" placeholder="book title" value="<c:out value="${param.title}"/>"/>
+                   name="title" placeholder=<fmt:message bundle="${book}" key="book_title_placeholder" /> value="<c:out value="${param.title}"/>"/>
         </div>
 
 
@@ -49,9 +50,10 @@
                     <option value="<c:out value="${genre}"/>"
                             <c:if test="${genre==param.genre}">
                                 selected
-                            </c:if>
-                    >
-                        <c:out value="${genre}"/> </option>
+                            </c:if> >
+
+                        <fmt:message bundle="${genres_fmt}" key="${genre}"/>
+                    </option>
                 </c:forEach>
 
             </select>

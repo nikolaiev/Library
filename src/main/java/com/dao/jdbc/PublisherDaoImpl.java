@@ -4,7 +4,6 @@ import com.dao.PublisherDao;
 import com.dao.exception.DaoException;
 import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
 import com.model.entity.book.Publisher;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
 
     private static final String BY_TITLE_FILTER=" lower(title) = lower('%'||?||'%') ";
     private static final String ID_FIELD="id";
-    private static final String TITLE_FIELD="title";
+    private static final String TITLE_FIELD= "title";
     private static final String TABLE="publisher";
 
     private static class InstanceHolder{

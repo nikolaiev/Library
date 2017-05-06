@@ -34,7 +34,7 @@ public class AdminOrderCommand extends CommandWrapper implements Command {
 
         Integer userId= paramExtractor.getIntParamOrNull(request,"user_id");
 
-        String bookTitle = paramExtractor.getStringParamOrNull(request,"title");
+        String bookTitle = paramExtractor.getStringParamOrNull(request, "table_title");
 
         OrderStatus orderStatus = paramExtractor.getEnumParamOrNull(request,"status",OrderStatus.class);
         OrderType orderType = paramExtractor.getEnumParamOrNull(request,"type",OrderType.class);

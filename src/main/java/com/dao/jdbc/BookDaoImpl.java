@@ -7,7 +7,6 @@ import com.model.entity.book.*;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -78,7 +77,7 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public static final String ID_FIELD_BOOK="id";
     public static final String LANG_FIELD_BOOK="lang";
     public static final String GENRE_FIELD_BOOK="genre";
-    public static final String TITLE_FIELD_BOOL="title";
+    public static final String TITLE_FIELD_BOOL= "title";
     public static final String PUBLISH_DATE_FIELD_BOOK="pdate";
     public static final String IMAGE_PATH_FIELD_BOOK="image";
     public static final String COUNT_FIELD="count";

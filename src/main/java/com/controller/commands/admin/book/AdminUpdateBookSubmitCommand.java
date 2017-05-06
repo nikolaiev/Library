@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
@@ -40,7 +37,7 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
 
 
         Integer count=paramExtractor.getIntParamOrNull(request,"count");
-        String title=paramExtractor.getStringParamOrNull(request,"title");
+        String title=paramExtractor.getStringParamOrNull(request, "table_title");
         Instant publishInstant=paramExtractor.getInstantParamOrNull(request,"publish_date");
 
         Integer authorId=paramExtractor.getIntParamOrNull(request,"author_id");

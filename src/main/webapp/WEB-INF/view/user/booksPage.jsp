@@ -1,17 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vlad
-  Date: 03.04.17
-  Time: 2:46
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://mytags.com/jsp/mytags" prefix="m" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/books" var="books_fmt"/>
+<fmt:setBundle basename="i18n/header" var="titles"/>
+<fmt:setBundle basename="i18n/genres" var="genres_fmt"/>
 
 <html>
 <head>
-    <title>Books</title>
+    <title><fmt:message bundle="${titles}" key="books"/></title>
 </head>
 <jsp:include page="/WEB-INF/view/user/fragments/header.jsp" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-select.css"/>
@@ -24,8 +24,11 @@
 
 <%--BOOKS TABLE--%>
 <div class="container top-buffer">
-    <h2>Books library</h2>
-    <p class="info-text">Books found :
+    <h2>
+        <fmt:message bundle="${books_fmt}" key="table_title"/>
+    </h2>
+
+    <p class="info-text"><fmt:message bundle="${books_fmt}" key="books_found"/> :
         <c:out value="${totalCount}"/>
     </p>
     <br>
@@ -33,10 +36,10 @@
 
     <table class="table table-hover">
         <tr>
-            <th>image</th>
-            <th>title</th>
-            <th>author</th>
-            <th>genre</th>
+            <th><fmt:message bundle="${books_fmt}" key="image"/></th>
+            <th><fmt:message bundle="${books_fmt}" key="title"/></th>
+            <th><fmt:message bundle="${books_fmt}" key="author"/></th>
+            <th><fmt:message bundle="${books_fmt}" key="genre"/></th>
             <th></th>
             <th></th>
         </tr>
@@ -59,19 +62,19 @@
 
             <td>
                 <a href="${pageContext.request.contextPath}/user/books?genre=<c:out value="${book.genre}"/>">
-                    <c:out value="${book.genre}"/>
+                    <fmt:message bundle="${genres_fmt}" key="${book.genre}"/>
                 </a>
 
 
             <td>
                 <button id="<c:out value="${book.id}_home"/>" class="order-button-home btn btn-default">
-                    Take home
+                    <fmt:message bundle="${books_fmt}" key="take_home"/>
                 </button>
             </td>
 
             <td>
                 <button id="<c:out value="${book.id}_read"/>" class="order-button-read btn btn-info">
-                    Take read hall
+                    <fmt:message bundle="${books_fmt}" key="take_library"/>
                 </button>
             </td>
 
@@ -108,10 +111,10 @@
                     success: function(data){
                         $(buttons[i]).attr("disabled",true);
                         $('#item-count-holder').load(' #item-count');
-                        alertify.success('Book was successfully added');
+                        alertify.success('<fmt:message bundle="${books_fmt}" key="book_was_added"/>');
                     },
                     error:function () {
-                        alertify.error("Can't request book");
+                        alertify.error('<fmt:message bundle="${books_fmt}" key="book_wan_not_added"/>');
                     }
                 });
             })
