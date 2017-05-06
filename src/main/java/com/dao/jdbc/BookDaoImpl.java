@@ -254,7 +254,8 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     @Override
     public void update(Book book) {
         checkForNull(book);
-            checkIsSaved(book);
+        checkIsSaved(book);
+
         try(PreparedStatement statement=connection.get().prepareStatement(UPDATE_BOOK_BY_ID)) {
             //aid=?, pid=?, genre=?, lang=?, pdate=?, title=? ,image=? , count=?" +
             //" WHERE id=?

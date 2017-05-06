@@ -86,7 +86,7 @@ public class AdminUpdateBookSubmitCommand extends AbstractAdminBookCommand {
             book.setLanguage(language);
         }
 
-        if(filePart!=null){
+        if(filePart.getSize()!=0){
             String extension=getFileExtension(filePart);
             String uniqueName = UUID.randomUUID().toString().replace("-","_")+"."+extension;
             file= new File(request.getServletContext().getInitParameter("upload.location")+uniqueName);

@@ -17,6 +17,7 @@ import static com.controller.constants.JspPathsConst.ADMIN_ADD_BOOK_VIEW;
 
 
 /**
+ * Get command
  * Created by vlad on 03.04.17.
  */
 public class AdminAddBookCommand implements Command {
