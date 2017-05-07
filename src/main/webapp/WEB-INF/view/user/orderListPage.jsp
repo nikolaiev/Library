@@ -1,15 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: vlad
-  Date: 10.04.17
-  Time: 1:59
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/header" var="titles"/>
+<fmt:setBundle basename="i18n/userOrders" var="user_orders_fmt"/>
+<fmt:setBundle basename="i18n/orderStatus" var="order_status_fmt"/>
+<fmt:setBundle basename="i18n/orderType" var="order_type_fmt"/>
+
 <html>
 <head>
-    <title>Order list</title>
+    <title>
+        <fmt:message bundle="${titles}" key="orders"/>
+    </title>
 
     <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js" ></script>
 
@@ -24,16 +28,23 @@
 
 <div class="container top-buffer">
     <c:if test="${not empty bookOrders}">
-        <h2>Your orders</h2>
-        <p>The .table-hover class enables a hover state on table rows:</p>
-        <br>
+        <h2>
+            <fmt:message bundle="${user_orders_fmt}" key="your_orders"/>
+        </h2>
 
+        <br>
 
         <table class="table table-hover">
             <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Order type</th>
+                <th>
+                    <fmt:message bundle="${user_orders_fmt}" key="title"/>
+                </th>
+                <th>
+                    <fmt:message bundle="${user_orders_fmt}" key="status"/>
+                </th>
+                <th>
+                    <fmt:message bundle="${user_orders_fmt}" key="order_type"/>
+                </th>
                 <th></th>
             </tr>
 
@@ -48,11 +59,15 @@
                         </a>
                     </td>
 
-                    <td><c:out value="${orderItem.orderStatus}"/></td>
-                    <td><c:out value="${orderItem.orderType}"/></td>
+                    <td>
+                        <fmt:message bundle="${order_status_fmt}" key="${orderItem.orderStatus}"/>
+                    </td>
+                    <td>
+                        <fmt:message bundle="${order_type_fmt}" key="${orderItem.orderType}"/>
+                    </td>
                     <td>
                         <button id="<c:out value="${book.id}"/>" class="remove-button btn btn-danger">
-                            remove from orders
+                            <fmt:message bundle="${user_orders_fmt}" key="remove_from_orders"/>
                         </button>
                     </td>
 
@@ -65,7 +80,7 @@
                 <form action="${pageContext.request.contextPath}/user/process" method="post">
 
                     <button type="submit" id="submit-button"  class="remove-button btn btn-success" value="Process order list">
-                        Submit orders
+                        <fmt:message bundle="${user_orders_fmt}" key="submit_orders"/>
                     </button>
 
                 </form>
@@ -75,12 +90,12 @@
     <%--else--%>
 
     <c:if test="${empty bookOrders}">
-        <h2>Empty order list</h2>
+        <h2>
+            <fmt:message bundle="${user_orders_fmt}" key="empty_list"/>
+        </h2>
 
         <p>
-            You can
-            <a href="${pageContext.request.contextPath}/user/books">choose some books </a>
-            to order them
+            <fmt:message bundle="${user_orders_fmt}" key="suggesting"/>
         </p>
     </c:if>
 </div>
@@ -99,10 +114,10 @@
                 data: {id:but},
                 success: ()=>{
                     updatePageElements(removeButtons[i]);
-                    alertify.success('Book was successfuly removed');
+                    alertify.success('<fmt:message bundle="${user_orders_fmt}" key="book_was_removed"/>');
                 },
                 error:()=>{
-                    alertify.error("Book can'n be removed");
+                    alertify.error('<fmt:message bundle="${user_orders_fmt}" key="book_was_not_removed"/>');
                 }
             });
         })

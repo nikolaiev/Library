@@ -114,7 +114,7 @@
                         alertify.success('<fmt:message bundle="${books_fmt}" key="book_was_added"/>');
                     },
                     error:function () {
-                        alertify.error('<fmt:message bundle="${books_fmt}" key="book_wan_not_added"/>');
+                        alertify.error("<fmt:message bundle="${books_fmt}" key='book_wan_not_added'/>");
                     }
                 });
             })
