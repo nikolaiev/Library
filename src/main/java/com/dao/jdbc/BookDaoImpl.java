@@ -1,5 +1,6 @@
 package com.dao.jdbc;
 
+import com.controller.exception.ControllerException;
 import com.dao.BookDao;
 import com.dao.exception.DaoException;
 import com.dao.jdbc.helper.ConditionSelectQueryBuilder;
@@ -201,7 +202,9 @@ public class BookDaoImpl extends  AbstractDao implements BookDao{
     public boolean updateIfPossible(Book newBook) {
         int bookId=newBook.getId();
 
-        Book oldBook=getById(bookId).get();
+        Book oldBook=getById(bookId).orElseThrow(()->
+                new DaoException().addMessageKey("Unexpected error occurred")
+        );
 
         /*check if new book count
             is not less than books count in use*/

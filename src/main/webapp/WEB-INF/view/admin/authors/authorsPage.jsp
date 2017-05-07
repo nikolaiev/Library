@@ -1,13 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.controller.constants.RegExConst" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/adminAuthors" var="authors_fmt"/>
+<fmt:setBundle basename="i18n/header" var="title"/>
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Authors</title>
+    <title>
+        <fmt:message bundle="${title}" key="authors"/>
+    </title>
 </head>
 
 <jsp:include page="../fragments/header.jsp"/>
@@ -15,7 +23,6 @@
     <body>
     <c:if test="${not empty validation_errors}" >
         <div class="alert alert-danger" align="center">
-            <strong>Error!</strong>
             <td>${validation_errors}</td>
         </div>
     </c:if>
@@ -28,11 +35,13 @@
 
 
     <div  class="container top-buffer">
-        <h2>Authors list</h2>
+        <h2>
+            <fmt:message bundle="${authors_fmt}" key="authors_list"/>
+        </h2>
         <br>
         <table class="table table-hover">
             <tr>
-                <th>Title</th>
+                <th><fmt:message bundle="${authors_fmt}" key="title"/></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -52,12 +61,16 @@
                             </div>
                         </td>
                         <td>
-                            <button type="submit" class="update-button btn btn-info" id='${author.id}_update'>update</button>
+                            <button type="submit" class="update-button btn btn-info" id='${author.id}_update'>
+                                <fmt:message bundle="${authors_fmt}" key="update"/>
+                            </button>
                         </td>
                     </form>
 
                     <td>
-                        <button class="remove-button btn btn-danger" id='${author.id}_remove'>remove</button>
+                        <button class="remove-button btn btn-danger" id='${author.id}_remove'>
+                            <fmt:message bundle="${authors_fmt}" key="remove"/>
+                        </button>
                     </td>
 
                 </tr>
@@ -67,19 +80,25 @@
 
 
     <div class="container top-buffer">
-        <h4>Add new author</h4>
+        <h4><fmt:message bundle="${authors_fmt}" key="add_new_author"/></h4>
 
             <form method="post" action="/admin/authors/add" >
                 <%--TODO localize--%>
                 <div class="form-group row">
                     <div class="col-xs-3">
-                        <input required type="text" class="form-control" name="author_name" placeholder="name" pattern="${RegExConst.NAME_SONAME_REG_EX}"/>
+                        <input required type="text" class="form-control" name="author_name"
+                               placeholder='<fmt:message bundle="${authors_fmt}" key="name"/>'
+                               pattern="${RegExConst.NAME_SONAME_REG_EX}"/>
                     </div>
 
                     <div class="col-xs-3">
-                        <input required type="text" class="form-control" name="author_soname" placeholder="soname" pattern="${RegExConst.NAME_SONAME_REG_EX}"/>
+                        <input required type="text" class="form-control" name="author_soname"
+                               placeholder='<fmt:message bundle="${authors_fmt}" key="soname"/>'
+                               pattern="${RegExConst.NAME_SONAME_REG_EX}"/>
                     </div>
-                    <button type="submit" class="btn btn-info">add</button>
+                    <button type="submit" class="btn btn-info">
+                        <fmt:message bundle="${authors_fmt}" key="add"/>
+                    </button>
                 </div>
 
 
@@ -105,10 +124,10 @@
                     url:"/admin/authors/remove",
                     success:()=>{
                         $('#'+authorId+'_row').remove();
-                        alertify.success("Author was removed");
+                        alertify.success('<fmt:message bundle="${authors_fmt}" key="author_was_removed"/>');
                     },
                     error:()=>{
-                        alertify.error("Author can not be removed");
+                        alertify.error('<fmt:message bundle="${authors_fmt}" key="author_not_removed"/>');
                     }
                 })
             });
