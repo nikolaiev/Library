@@ -2,10 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="m" uri="/WEB-INF/tlds/paginator.tld" %>
 <%@ taglib prefix="f" uri="/WEB-INF/tlds/dateFormatter.tld" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/profile" var="order_fmt"/>
+<fmt:setBundle basename="i18n/header" var="titles_fmt"/>
+<fmt:setBundle basename="i18n/orderStatus" var="order_status_fmt"/>
 
 <html>
 <head>
-    <title>Orders</title>
+    <title><fmt:message bundle="${titles_fmt}" key="orders"/></title>
 </head>
 
 <jsp:include page="../fragments/header.jsp"/>
@@ -16,14 +23,23 @@
 
 <br>
 <div class="container top-buffer">
-    <h2>Orders list</h2>
+    <h2>
+        <fmt:message bundle="${titles_fmt}" key="orders"/>
+    </h2>
     <br>
+
     <table class="table table-hover">
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Order date</th>
-            <th>Status</th>
+            <th><fmt:message bundle="${order_fmt}" key="book"/></th>
+            <th>
+                <fmt:message bundle="${order_fmt}" key="author"/>
+            </th>
+            <th>
+                <fmt:message bundle="${order_fmt}" key="date"/>
+            </th>
+            <th>
+                <fmt:message bundle="${order_fmt}" key="status"/>
+            </th>
             <th></th>
             <th></th>
         </tr>
@@ -35,12 +51,14 @@
                 <td>${f:formatInstantToLocale(order.instant, 'dd.MM.yyyy ,hh:mm a')}</td>
                 <td>
                     <span id='status_${order.id}'>
-                        ${order.status}
+                        <fmt:message bundle="${order_status_fmt}" key="${order.status}"/>
                     </span>
                 </td>
                 <td>
                     <c:if test="${order.status ne 'RETURNED'}">
-                        <button class="return-button btn btn-info" id='${order.id}'>RETURN BOOK</button>
+                        <button class="return-button btn btn-info" id='${order.id}'>
+                            <fmt:message bundle="${order_fmt}" key="return_book"/>
+                        </button>
                     </c:if>
                 </td>
 
@@ -68,12 +86,11 @@
 
                 success:()=>{
                     $('#'+but).remove();
-                    //TODO localize!!!
-                    $('#status_'+but).html("RETURNED");
-                    alertify.success('Status changed')
+                    $('#status_'+but).html('<fmt:message bundle="${order_status_fmt}" key="RETURNED"/>');
+                    alertify.success('<fmt:message bundle="${order_fmt}" key="status_changed"/>')
                 },
                 error:()=>{
-                    alertify.danger("Book can't be returned")
+                    alertify.error('<fmt:message bundle="${order_fmt}" key="book_not_returned"/>');
                 }
             });
         })
