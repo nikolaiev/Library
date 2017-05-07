@@ -1,17 +1,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="m" uri="http://mytags.com/jsp/mytags" %>
 <%@ taglib prefix="f" uri="http://mytags.com/jsp/myfuncs"  %>
-<%--
-  Created by IntelliJ IDEA.
-  User: vlad
-  Date: 12.04.17
-  Time: 19:17
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:requestEncoding value="UTF-8" />
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="i18n/header" var="titles"/>
+<fmt:setBundle basename="i18n/profile" var="profile_fmt"/>
+<fmt:setBundle basename="i18n/orderType" var="order_type_fmt"/>
+<fmt:setBundle basename="i18n/orderStatus" var="order_status_fmt"/>
+
+
+
 <html>
 <head>
-    <title>Profile</title>
+    <title><fmt:message bundle="${titles}" key="profile"/></title>
 
     <jsp:include page="/WEB-INF/view/user/fragments/header.jsp" />
 
@@ -24,14 +28,14 @@
 <%--TABLE--%>
 <div class="container top-buffer">
 
-    <h2>User name :
+    <h2><fmt:message bundle="${profile_fmt}" key="user_name"/> :
         <span id="user-name">
             <c:out value="${user.name}"/>
             <c:out value="${user.soname}"/>
         </span>
     </h2>
 
-    <h2>Profile id :
+    <h2><fmt:message bundle="${profile_fmt}" key="profile_id"/> :
         <span id="profile-id">
             <c:out value="${sessionScope.userId}"/>
         </span>
@@ -40,30 +44,34 @@
     
     <c:if test="${not empty orders}">
         
-        <h2>Processed books' orders</h2>
-        <p  class="info-text">Orders found :
+        <h2><fmt:message bundle="${profile_fmt}" key="processed_user_order"/></h2>
+        <p  class="info-text"><fmt:message bundle="${profile_fmt}" key="orders_found"/> :
             <c:out value="${totalCount}"/>
         </p>
         <br>
         <table class="table table-hover">
             <tr>
-                <th>Date</th>
-                <th>Book</th>
-                <th>Type</th>
-                <th>Status</th>
+                <th><fmt:message bundle="${profile_fmt}" key="date"/></th>
+                <th><fmt:message bundle="${profile_fmt}" key="book"/></th>
+                <th><fmt:message bundle="${profile_fmt}" key="type"/></th>
+                <th><fmt:message bundle="${profile_fmt}" key="status"/></th>
                 <th></th>
             </tr>
 
             <c:forEach items="${orders}" var="order">
                 <tr>
                     <td>
-                        <p>Date is: ${f:formatInstantToLocale(order.instant, 'dd.MM.yyyy ,hh:mm a')}</p>
+                        <p>${f:formatInstantToLocale(order.instant, 'dd.MM.yyyy ,hh:mm a')}</p>
 
                     </td>
 
                     <td><c:out value="${order.book.title}"/></td>
-                    <td><c:out value="${order.type}"/></td>
-                    <td><c:out value="${order.status}"/></td>
+                    <td>
+                        <fmt:message bundle="${order_type_fmt}" key="${order.type}"/>
+                    </td>
+                    <td>
+                        <fmt:message bundle="${order_status_fmt}" key="${order.status}"/>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
@@ -71,12 +79,13 @@
     </c:if>
 
     <c:if test="${empty orders}">
-        <h2>Empty history</h2>
+        <h2><fmt:message bundle="${profile_fmt}" key="empty_history"/></h2>
 
         <p>
-            You can
+            <%--You can
             <a href="/user/books">choose some books </a>
-            to order them
+            to order them--%>
+                <fmt:message bundle="${profile_fmt}" key="suggesting"/>
         </p>
     </c:if>
 </div>
