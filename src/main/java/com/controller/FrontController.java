@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class FrontController extends HttpServlet {
     private static final Logger logger=Logger.getLogger(FrontController.class);
-    private String deployPath;
+    private static String deployPath;
 
     @Override
     public void init(){

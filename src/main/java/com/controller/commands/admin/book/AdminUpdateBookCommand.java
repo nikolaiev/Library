@@ -2,6 +2,7 @@ package com.controller.commands.admin.book;
 
 import com.controller.commands.Command;
 import com.controller.commands.CommandWrapper;
+import com.controller.exception.ControllerException;
 import com.controller.responce.Dispatcher;
 import com.controller.responce.ForwardViewDispatcher;
 import com.model.entity.book.*;
@@ -41,7 +42,9 @@ public class AdminUpdateBookCommand extends CommandWrapper implements Command {
         request.setAttribute("languages", BookLanguage.values());
         request.setAttribute("genres", BookGenre.values());
 
-        request.setAttribute("book",book.get());
+        request.setAttribute("book",book.orElseThrow(()->
+            new ControllerException().addMessageKey("Unexpected error occurred")
+        ));
         return new ForwardViewDispatcher(ADMIN_EDIT_BOOK_VIEW);
     }
 }
