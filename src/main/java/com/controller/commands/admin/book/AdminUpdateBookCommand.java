@@ -27,7 +27,9 @@ public class AdminUpdateBookCommand extends CommandWrapper implements Command {
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
          //throws exception if no such param
-        int bookId=paramExtractor.getIntParam(request,"id");
+
+        int bookId=getMappedIntParamFromRequest(request);
+
         BookService service= ServiceFactory.getInstance().getBookService();
         AuthorService authorService= ServiceFactory.getInstance().getAuthorService();
         PublisherService publisherService= ServiceFactory.getInstance().getPublisherService();

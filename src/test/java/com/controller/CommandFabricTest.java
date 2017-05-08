@@ -4,6 +4,7 @@ import com.controller.commands.Command;
 import com.controller.commands.FindBookCommand;
 import com.controller.commands.GetStaticFileCommand;
 import com.controller.commands.GoInvalidUrlCommand;
+import com.controller.commands.admin.book.AdminUpdateBookCommand;
 import com.controller.commands.admin.book.AdminUpdateBookSubmitCommand;
 import com.controller.commands.login.LoginCommand;
 import com.controller.commands.login.LoginSubmitCommand;
@@ -39,6 +40,7 @@ public class CommandFabricTest {
                 { POST_PATH+"/user/process", new ProcessOrderListCommand()},
                 { GET_PATH+"/user/books?language=UKR", new FindBookCommand(USER_BOOKS_VIEW)},
                 { POST_PATH+"/admin/book/update?param=1", new AdminUpdateBookSubmitCommand()},
+                { GET_PATH+"/admin/book/123", new AdminUpdateBookCommand()},
                 { GET_PATH+"/static/some_image.png", new GetStaticFileCommand()},
                 { GET_PATH+"/wrong_url", new GoInvalidUrlCommand()},
                 { POST_PATH+"/wrong_url", new GoInvalidUrlCommand()}

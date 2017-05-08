@@ -27,7 +27,8 @@
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
      <form method="post" action="${pageContext.request.contextPath}/admin/book/update" enctype="multipart/form-data">
-         <input type="hidden" name="id" value="${param.id}"/>
+
+         <input type="hidden" name="id" value="${book.id}"/>
 
          <div class="form-group">
              <label>
@@ -36,10 +37,7 @@
              <label class="label label-info">${book.title}</label>
              <input type="text" class="form-control" name="title"
                     placeholder='<fmt:message bundle="${page_fmt}" key="book_title_placeholder"/>'/>
-             <%--<small class="form-text text-muted">We'll never share your email with anyone else.</small>--%>
          </div>
-
-
 
          <div class="form-group">
              <label>

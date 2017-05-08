@@ -1,0 +1,1 @@
+for %%f in (*.properties) do native2ascii -encoding UTF-8 %%f %%f

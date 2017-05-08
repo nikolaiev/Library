@@ -12,7 +12,7 @@ public final class  UrlsConst {
     public static final String LOGIN="/login";
     public static final String REGISTER="/register";
     public static final String LOGOUT="/logout";
-    public static final String STATIC="/static/";
+    public static final String MAPPED_STATIC="/static/{path}";
 
 
     private static final String BOOKS="/books";
@@ -40,11 +40,12 @@ public final class  UrlsConst {
     private static final String ADD="/add";
     private static final String REMOVE="/remove";
     private static final String UPDATE="/update";
+    private static final String MAPPED_ID="/{id}";
 
     //books
     public static final String ADMIN_BOOKS = ADMIN+BOOKS;
     public static final String ADMIN_BOOK_ADD = ADMIN+BOOK+ADD;
-    public static final String ADMIN_BOOK= ADMIN+BOOK;
+    public static final String ADMIN_BOOK= ADMIN+BOOK+MAPPED_ID;
     public static final String ADMIN_BOOK_UPDATE = ADMIN+BOOK+UPDATE;
     //public static final String ADMIN_BOOKS_UPDATE = ADMIN+BOOKS+UPDATE;
 

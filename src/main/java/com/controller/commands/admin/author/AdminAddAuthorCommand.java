@@ -24,7 +24,6 @@ import static com.controller.constants.UrlsConst.ADMIN_AUTHORS;
 /**
  * Created by vlad on 03.04.17.
  */
-//TODO add validator
 public class AdminAddAuthorCommand extends CommandWrapper implements Command{
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException {

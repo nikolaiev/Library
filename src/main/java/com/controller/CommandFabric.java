@@ -26,6 +26,9 @@ import com.controller.commands.GoInvalidUrlCommand;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.controller.constants.JspPathsConst.ADMIN_BOOKS_VIEW;
 import static com.controller.constants.JspPathsConst.USER_BOOKS_VIEW;
@@ -41,6 +44,7 @@ public class CommandFabric {
     private final static String POST_PATH="POST:";
     private final Command invalidUrlCommand;
     private final Map<String,Command> commands;
+    private final Map<String,Command> mappedCommands;
 
     /**
      * Must be private
@@ -48,7 +52,9 @@ public class CommandFabric {
     private CommandFabric(){
         this.invalidUrlCommand =new GoInvalidUrlCommand();
         commands=new HashMap<>();
-        init();
+        mappedCommands=new HashMap<>();
+        initRegularCommand();
+        initMappedCommand();
     }
 
     /**
@@ -72,38 +78,32 @@ public class CommandFabric {
      * @return appropriate Command object
      */
     Command getCommand(String url){
-
-        Command command=commands.get(url);
+        //get not mapped command
+        Command command=getSimpleCommand(url);
 
         if(command!=null)
             return command;
 
-        //check static mapped file request URL
-        if(url.startsWith(GET_PATH + STATIC))
-            return new GetStaticFileCommand();
+        //get mapped command
+        command=getMappedCommand(url);
+
+        if(command!=null)
+            return command;
 
         //possible GET params passed
-        return commands.entrySet().stream()
-                .filter(e->{
-                    String urlPattern=e.getKey();
-                    return url.startsWith(urlPattern+"?");
-                })
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .orElse(invalidUrlCommand);
+        return invalidUrlCommand;
     }
 
     /**
      * Initialize CommandFabric object
      */
-    private void init(){
+    private void initRegularCommand(){
         /*COMMON COMMANDS*/
         /*login logout commands*/
         commands.put(GET_PATH + LOGIN ,new LoginCommand());
         commands.put(GET_PATH + LOGOUT,new LogoutCommand());
         commands.put(POST_PATH + LOGIN,new LoginSubmitCommand());
         commands.put(POST_PATH + REGISTER,new RegistrationSubmitCommand());
-        commands.put(GET_PATH + STATIC,new GetStaticFileCommand());
 
         /*USER COMMAND*/
         /*book commands*/
@@ -130,7 +130,7 @@ public class CommandFabric {
         commands.put(GET_PATH + ADMIN_BOOK_ADD,new AdminAddBookCommand());
         commands.put(POST_PATH + ADMIN_BOOK_ADD,new AdminAddBookSubmitCommand());
         commands.put(POST_PATH + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
-        commands.put(GET_PATH+ ADMIN_BOOK,new AdminUpdateBookCommand());
+
 
         /*order*/
         commands.put(POST_PATH + ADMIN_ORDERS_UPDATE,new AdminChangeOrderStatusCommand());
@@ -139,5 +139,28 @@ public class CommandFabric {
         commands.put(POST_PATH + ADMIN_PUBLISHERS_ADD,new AdminAddPublisherCommand());
         commands.put(POST_PATH + ADMIN_PUBLISHERS_REMOVE,new AdminRemovePublisherCommand());
         commands.put(POST_PATH + ADMIN_PUBLISHERS_UPDATE,new AdminUpdatePublishersCommand());
+    }
+
+    /**
+     * Initialize CommandFabric object
+     */
+    private void initMappedCommand() {
+        //mappedCommands.put(POST_PATH + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
+        mappedCommands.put(GET_PATH + ADMIN_BOOK,new AdminUpdateBookCommand());
+        mappedCommands.put(GET_PATH + MAPPED_STATIC,new GetStaticFileCommand());
+    }
+
+    private Command getSimpleCommand(String url){
+        return commands.get(url.split("\\?")[0]);
+    }
+
+    private Command getMappedCommand(String url){
+        Set<String> mappedCommandsKeys=mappedCommands.keySet();
+        String nakedUrl=url.split("\\?")[0];
+
+        return mappedCommandsKeys.parallelStream()
+                .filter(commandKey->nakedUrl.matches(commandKey.replaceAll("\\{.*}", ".*")))
+                .findAny()
+                .map(mappedCommands::get).orElse(null);
     }
 }

@@ -72,7 +72,7 @@
 
 
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/book?id=<c:out value="${book.id}"/>" role="button"
+                    <a href="${pageContext.request.contextPath}/admin/book/<c:out value="${book.id}"/>" role="button"
                        class="edit-button btn btn-warning"><fmt:message bundle="${books_fmt}" key="edit_book"/></a>
                 </td>
 

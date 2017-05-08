@@ -5,6 +5,7 @@ import com.model.entity.book.Book;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.controller.constants.RegExConst.BOOK_TITLE_REG_EX;
 import static com.controller.constants.RegExConst.NAME_SONAME_REG_EX;
 
 /**
@@ -38,7 +39,7 @@ public class BookValidator extends AbstractValidator<Book> {
 
     private boolean isValidTitle(Book book) {
         String title=book.getTitle();
-        Pattern validLoginPattern=Pattern.compile(NAME_SONAME_REG_EX,Pattern.CASE_INSENSITIVE);
+        Pattern validLoginPattern=Pattern.compile(BOOK_TITLE_REG_EX,Pattern.CASE_INSENSITIVE);
         Matcher matcher = validLoginPattern.matcher(title);
         return matcher.find();
     }

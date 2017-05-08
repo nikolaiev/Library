@@ -2,6 +2,7 @@ package com.controller.commands;
 
 import com.controller.commands.helper.ParamExtractor;
 import com.controller.commands.helper.RequestParamExtractor;
+import com.controller.exception.ControllerException;
 import com.controller.responce.ErrorViewDispatcher;
 import com.controller.responce.Dispatcher;
 import com.exception.ApplicationException;
@@ -22,6 +23,7 @@ import static com.controller.constants.JspPathsConst.ERROR_VIEW;
 public abstract class CommandWrapper implements Command {
 
     protected ParamExtractor paramExtractor=new RequestParamExtractor();
+    protected ParamExtractor mappedParamExtractor=new RequestParamExtractor();
 
     private final static Dispatcher DEFAULT_ERROR_DISPATCHER =
             new ErrorViewDispatcher(ERROR_VIEW);
@@ -67,6 +69,28 @@ public abstract class CommandWrapper implements Command {
     protected int getLimitFromRequest(HttpServletRequest request,String limitParamName,int defaultLimitValue) {
         return Optional.ofNullable(paramExtractor.getIntParamOrNull(request,limitParamName))
                 .orElse(defaultLimitValue);
+    }
+
+    /**
+     * Returns int value from URI (param is last "/{param} "at URI )
+     * @param request request Object
+     * @return paramValue
+     */
+    protected int getMappedIntParamFromRequest(HttpServletRequest request){
+        final String LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT
+                = "Can't parse Integer parameter";
+
+        String tempParts[]=request.getRequestURI().split("\\?")[0].split("/");
+        String intVal=tempParts[tempParts.length-1];
+
+        try {
+            return Integer.parseInt(intVal);
+
+        }catch (NumberFormatException e){
+            throw new ControllerException()
+                    .addMessageKey(LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT)
+                    .addLogMessage(LOG_MESSAGE_PARSING_ERROR_INTEGER_PARAMETER_FORMAT);
+        }
     }
 
     private void processException(Exception e, HttpServletRequest request ) {
