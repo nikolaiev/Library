@@ -12,6 +12,7 @@ abstract class GenericService {
     <T> T executeInNonTransactionalWrapper(NoTransactionalWrapper<T> wrapper){
         return wrapper.execute();
     }
+
     <T> T executeInTransactionalWrapper(TransactionalWrapper<T> wrapper){
         return wrapper.execute();
     }

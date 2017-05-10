@@ -48,7 +48,7 @@
 
             <c:forEach items="${authors}" var="author">
                 <tr id='${author.id}_row'>
-                    <form action="/admin/authors/update" method="post">
+                    <form action="${pageContext.request.contextPath}/admin/authors/update" method="post">
                         <td>
                             <input  hidden name="author_id" value="${author.id}">
                             <div class="form-group row">
@@ -82,7 +82,7 @@
     <div class="container top-buffer">
         <h4><fmt:message bundle="${authors_fmt}" key="add_new_author"/></h4>
 
-            <form method="post" action="/admin/authors/add" >
+            <form method="post" action="${pageContext.request.contextPath}/admin/authors/add" >
                 <%--TODO localize--%>
                 <div class="form-group row">
                     <div class="col-xs-3">
@@ -121,7 +121,7 @@
                     data:{
                         author_id:authorId
                     },
-                    url:"/admin/authors/remove",
+                    url:"${pageContext.request.contextPath}/admin/authors/remove",
                     success:()=>{
                         $('#'+authorId+'_row').remove();
                         alertify.success('<fmt:message bundle="${authors_fmt}" key="author_was_removed"/>');

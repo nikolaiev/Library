@@ -102,7 +102,7 @@
             //alert(but);
             $(buttons[i]).click(()=>{
                 $.get({
-                    url:"admin/book/update"
+                    url:"${pageContext.request.contextPath}/admin/book/update"
                 })
             });
         }

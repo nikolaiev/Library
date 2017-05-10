@@ -43,8 +43,7 @@ public final class Dates {
     public static String formatInstantToLocale(Instant instant,String pattern){
         if(instant!=null) {
             DateTimeFormatter formatter =
-                    DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
-                            .withLocale( Locale.UK )
+                    DateTimeFormatter.ofPattern(pattern )
                             .withZone( ZoneId.systemDefault() );
             logger.info("formatter: " + formatter + " with zone: " + formatter.getZone() + " and Locale: " + formatter.getLocale());
             return formatter.format( instant );

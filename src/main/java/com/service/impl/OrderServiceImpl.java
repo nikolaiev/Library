@@ -109,8 +109,6 @@ public class OrderServiceImpl extends GenericService implements OrderService {
 
     @Override
     public Order create(Order order) {
-
-        //TODO implement
         throw new UnsupportedOperationException();
     }
 
@@ -123,8 +121,6 @@ public class OrderServiceImpl extends GenericService implements OrderService {
 
     @Override
     public void update(Order order) {
-
-        //TODO implement
         throw new UnsupportedOperationException();
 
     }

@@ -46,7 +46,7 @@
 
             <c:forEach items="${publishers}" var="publ">
                 <tr id='${publ.id}_row'>
-                    <form action="/admin/publishers/update" method="post">
+                    <form action="${pageContext.request.contextPath}/admin/publishers/update" method="post">
                         <td>
                             <input  hidden name="publisher_id" value="${publ.id}">
                             <input required class="form-control" id='${publ.id}_title' name="publisher_title" value="${publ.title}" type="text" pattern="${RegExConst.PUBLISHER_TITLE_REG_EX}">
@@ -77,7 +77,7 @@
 
         <div class="row">
 
-            <form method="post" action="/admin/publishers/add" >
+            <form method="post" action="${pageContext.request.contextPath}/admin/publishers/add" >
 
                 <div class="col-xs-6">
                     <input required type="text" class="form-control" name="publisher_title"
@@ -104,7 +104,7 @@
                         data:{
                             publisher_id:publId
                         },
-                        url:"/admin/publishers/remove",
+                        url:"${pageContext.request.contextPath}/admin/publishers/remove",
                         success:()=>{
                             $('#'+publId+'_row').remove();
                             alertify.success('<fmt:message bundle="${page_fmt}" key="publ_removed"/>');

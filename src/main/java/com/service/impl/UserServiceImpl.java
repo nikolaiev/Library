@@ -37,18 +37,11 @@ public class UserServiceImpl extends GenericService implements UserService {
 
     @Override
     public void update(User user) {
-
-        //TODO implement
         throw new UnsupportedOperationException();
-
-
     }
 
     @Override
     public void deleteById(int id) {
-
-        //TODO implement
         throw new UnsupportedOperationException();
-
     }
 }

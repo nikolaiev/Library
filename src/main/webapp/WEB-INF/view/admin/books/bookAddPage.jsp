@@ -35,10 +35,7 @@
                     <fmt:message bundle="${page_fmt}" key="book_title"/>
                 </label>
                 <input required type="text" class="form-control" name="title" placeholder="book title"/>
-                <%--<small class="form-text text-muted">We'll never share your email with anyone else.</small>--%>
             </div>
-
-
 
             <div class="form-group">
                 <label>

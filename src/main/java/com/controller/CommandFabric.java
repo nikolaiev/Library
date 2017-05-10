@@ -145,7 +145,6 @@ public class CommandFabric {
      * Initialize CommandFabric object
      */
     private void initMappedCommand() {
-        //mappedCommands.put(POST_PATH + ADMIN_BOOK_UPDATE,new AdminUpdateBookSubmitCommand());
         mappedCommands.put(GET_PATH + ADMIN_BOOK,new AdminUpdateBookCommand());
         mappedCommands.put(GET_PATH + MAPPED_STATIC,new GetStaticFileCommand());
     }

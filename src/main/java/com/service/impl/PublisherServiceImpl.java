@@ -37,7 +37,6 @@ public class PublisherServiceImpl extends GenericService implements PublisherSer
 
     @Override
     public Optional<Publisher> getById(int id) {
-        //TODO implement
         throw new UnsupportedOperationException();
     }
 
