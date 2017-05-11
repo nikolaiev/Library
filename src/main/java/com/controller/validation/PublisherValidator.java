@@ -12,7 +12,6 @@ import static com.controller.constants.RegExConst.PUBLISHER_TITLE_REG_EX;
  * Created by Vladyslav_Nikolaiev on 05-May-17.
  */
 public class PublisherValidator extends AbstractValidator<Publisher> {
-    //TODO replace with code error (Localization)
 
     private static final String TITLE_IS_NOT_VALID="Publisher title is not valid";
 
