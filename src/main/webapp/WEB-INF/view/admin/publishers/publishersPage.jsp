@@ -27,11 +27,11 @@
         </div>
     </c:if>
 
-    <c:if test="${not empty param.success_message}" >
-        <div class="alert alert-success" align="center">
-            <td>${param.success_message}</td>
-        </div>
-    </c:if>
+    <%--<c:if test="${not empty param.success_message}" >--%>
+        <%--<div class="alert alert-success" align="center">--%>
+            <%--<td>${param.success_message}</td>--%>
+        <%--</div>--%>
+    <%--</c:if>--%>
 
 
     <div  class="container top-buffer">
@@ -77,7 +77,7 @@
 
         <div class="row">
 
-            <form method="post" action="${pageContext.request.contextPath}/admin/publishers/add" >
+            <form id="form-add-publisher" method="post" action="${pageContext.request.contextPath}/admin/publishers/add" >
 
                 <div class="col-xs-6">
                     <input required type="text" class="form-control" name="publisher_title"
@@ -94,7 +94,40 @@
     </div>
 
     </body>
+
     <script type="text/javascript">
+
+        <c:if test="${not empty param.success_message}" >
+            alertify.success('${param.success_message}');
+        </c:if>
+
+        /*let addPublisher=function (){
+            let data=$('#form-add-publisher').serializeArray()[0];
+            let dto={};
+            dto[data.name]=data.value;
+
+            $.post({
+                url:'\${pageContext.request.contextPath}/admin/publishers/add',
+                data:dto,
+                success:()=>{
+                    //alertify.success('<!fmt:message bundle="\${page_fmt}" key="publ_removed"/>');
+                    alertify.success('publisher added');
+                },
+                error:(e)=>{
+                    alertify.error('Publisher cannot be added!');
+                }
+            });
+
+
+        };
+
+        $('#form-add-publisher').submit((e)=>{
+            addPublisher();
+            return false;
+        });*/
+
+
+
         let bindRemoveButtons=(buttons)=>{
             for(let i=0; i<buttons.length; i++){
                 let publId=buttons[i].id.split('_')[0];
@@ -122,5 +155,4 @@
         bindRemoveButtons(removeButtons);
 
     </script>
-</body>
 </html>

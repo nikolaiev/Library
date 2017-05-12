@@ -27,13 +27,6 @@
         </div>
     </c:if>
 
-    <c:if test="${not empty param.success_message}" >
-        <div class="alert alert-success" align="center">
-            <td>${param.success_message}</td>
-        </div>
-    </c:if>
-
-
     <div  class="container top-buffer">
         <h2>
             <fmt:message bundle="${authors_fmt}" key="authors_list"/>
@@ -112,6 +105,13 @@
 </html>
 
 <script type="text/javascript">
+
+    <c:if test="${not empty param.success_message}" >
+
+        alertify.success('${param.success_message}');
+
+    </c:if>
+
     let bindRemoveButtons=(buttons)=>{
         for(let i=0; i<buttons.length; i++){
             let authorId=buttons[i].id.split('_')[0];

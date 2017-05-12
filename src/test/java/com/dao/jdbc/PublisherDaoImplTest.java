@@ -5,6 +5,7 @@ import com.model.entity.book.Publisher;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,9 +84,20 @@ public class PublisherDaoImplTest extends  DaoTest{
         });
     }
 
-    @Ignore
     @Test
     public void getPublisherByTitle() throws Exception {
+        executeInReadCommitedVoidRollbackWrapper(transactionManager -> {
+
+            PublisherDao publisherDao = transactionManager.getPublisherDao();
+            String publisherTitle = "Test publisher";
+
+            Publisher publisher = new Publisher(publisherTitle);
+            publisherDao.insert(publisher);
+
+            Optional<Publisher> publisherOptional=transactionManager.getPublisherDao().getPublisherByTitle(publisherTitle);
+            assertEquals(publisher.getTitle() ,publisherOptional.get().getTitle());
+        });
+
     }
 
 }

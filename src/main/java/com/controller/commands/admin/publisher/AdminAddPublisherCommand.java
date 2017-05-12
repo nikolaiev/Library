@@ -38,7 +38,6 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
 
         //check possible duplication
         Optional<Publisher> publisherCopy=publisherService.getByTitle(publisherTitle);
-        //TODO localization!
 
         if(publisherCopy.isPresent()){
             placeViewData(request);
@@ -48,7 +47,6 @@ public class AdminAddPublisherCommand extends CommandWrapper implements Command 
         //persisting object
         publisherService.create(newPublisher);
 
-        //TODO replace with success code - LOCALIZATION!
         return new RedirectDispatcher(ADMIN_PUBLISHERS)
                 .addGetParam("success_message","Publisher was successfully added");
     }

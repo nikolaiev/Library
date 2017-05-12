@@ -28,7 +28,7 @@ public class PublisherDaoImpl extends AbstractDao implements PublisherDao {
             " public.publisher(title)" +
             "    VALUES (?)";
 
-    private static final String BY_TITLE_FILTER=" lower(title) = lower('%'||?||'%') ";
+    private static final String BY_TITLE_FILTER=" title = ? ";
     private static final String ID_FIELD="id";
     private static final String TITLE_FIELD= "title";
     private static final String TABLE="publisher";
