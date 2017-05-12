@@ -29,8 +29,6 @@ import static com.controller.constants.UrlsConst.LOGIN;
  */
 public class RegistrationSubmitCommand extends CommandWrapper implements Command {
     private static final String LOG_ERROR_USER_ALREADY_EXISTS="User already exists";
-    private static final String SUCCESSFUL_REGISTRATION="Registration was successful";
-    private static final String LOG_ERROR_REGISTRATION_VALIDATION_ERROR="Registration data is not valid";
 
     @Override
     protected Dispatcher processExecute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
